@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [\App\Http\Controllers\DashboardController::class,'index']);
+
+Route::group(['prefix'=>'/react'],function(){
+    Route::get('/{any?}', [\App\Http\Controllers\DashboardController::class,'index']);
 });
