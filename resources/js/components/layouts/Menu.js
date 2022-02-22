@@ -3,6 +3,7 @@ import { Navbar, Container, Nav, Row } from 'react-bootstrap';
 import {BrowserRouter,Link,Routes,Route } from 'react-router-dom';
 import Dashboard from '../pages/Dashboard';
 import Radars from '../pages/Radars';
+import { RadarProvider } from '../contexts/RadarContext';
 import WeatherStations from '../pages/WeatherStations';
 
 function Menu() {
@@ -23,7 +24,7 @@ function Menu() {
             </Navbar>
             <Routes>
                 <Route exact path="/" element={<Dashboard/>}/>
-                <Route exact path="/react/radar" element={<Radars/>}/>
+                    <Route exact path="/react/radar" element={<Radars/>}/>
                 <Route exact path="/react/aws" element={<WeatherStations/>}/>
             </Routes>      
         </BrowserRouter>
