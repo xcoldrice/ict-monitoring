@@ -31,7 +31,8 @@ function Radars() {
     const render_data_icons = (values) => {
         return <>
             {values.map(({type,time,file})=>{
-                return <Icon key={time} time={time} file={file}>{type}</Icon>
+                let key_ = `${type}_${time}_${file}`;
+                return <Icon key={key_} time={time} file={file}>{type}</Icon>
             })}
         </>
     }
