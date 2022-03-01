@@ -52,6 +52,7 @@ export const RadarProvider = (props) => {
     let [radars, dispatch] = useReducer(reducer, [  
                                                     {
                                                         'name':'tagaytay',
+                                                        'type':'eec',
                                                         'status':2,
                                                         'remarks':'asdasdasdasd',
                                                         'data':{
@@ -64,7 +65,31 @@ export const RadarProvider = (props) => {
                                                             'asti':[],
                                                             'api':[],
                                                         }
-                                                    }   
+                                                    },
+                                                    {
+                                                        'name':'subic',
+                                                        'type':'eec',
+                                                        'status':2,
+                                                        'remarks':'asdasdasdasd',
+                                                        'data':{
+                                                            'dic':[
+                                                                {'type':'z','time':1645511911839,'file':'test.jpg'},
+                                                                {'type':'v','time':1645511911839,'file':'test.jpg'},
+                                                                {'type':'kml','time':1645511911839,'file':'test.jpg'}
+                                                            ],
+                                                            'ftp5':[],
+                                                            'mdsi':[
+                                                                {'type':'v','time':1645511911839,'file':'test.jpg'},
+                                                                {'type':'kml','time':1645511911839,'file':'test.jpg'}
+                                                            ],
+                                                            'pumis':[],
+                                                            'asti':[],
+                                                            'api':[],
+                                                        }
+                                                    }      
+                                                    
+
+
                                                 ]);
 
     useEffect(() => {

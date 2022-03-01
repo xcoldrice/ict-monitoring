@@ -63,8 +63,8 @@ function Radars() {
         return <>
             {radars.map(radar=> {
                 return <tr key={radar.name}>
-                            <td className='text-center text-capitalize'>
-                                <a href="#" onClick={()=>show_modal_handle(radar)} >{radar.name}</a>
+                            <td className='text-center'>
+                                <a href="#" className='text-reset text-decoration-none' onClick={()=>show_modal_handle(radar)} >{radar.name} - {radar.type}</a>
                             </td>
                             {check_radar_status(radar)}
                         </tr>
