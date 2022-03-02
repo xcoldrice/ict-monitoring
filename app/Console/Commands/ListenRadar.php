@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use Illuminate\Support\Facades\Redis;
 class ListenRadar extends Command
 {
     /**
@@ -11,14 +11,14 @@ class ListenRadar extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'radar:listen';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Listen to Radar Channel';
 
     /**
      * Create a new command instance.
@@ -37,6 +37,9 @@ class ListenRadar extends Command
      */
     public function handle()
     {
-        return 0;
+        Redis::psubscribe(['RADAR'],function($message,$channel){
+            var_dump($message);
+            // (new RadarParser(json_decode($message)))->process();
+        });
     }
 }
