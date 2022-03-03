@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Redis;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,4 +18,15 @@ Route::get('/', [\App\Http\Controllers\DashboardController::class,'index']);
 
 Route::group(['prefix'=>'/react'],function(){
     Route::get('/{any?}', [\App\Http\Controllers\DashboardController::class,'index']);
+});
+
+
+Route::get('/test', function(){
+    $redis = Redis::connection();
+    dd($redis);
+    Redis::psubscribe(['WEATHER-STATION'],function($message,$channel){
+        var_dump($message);
+        // (new RadarParser(json_decode($message)))->process();
+    });
+    
 });

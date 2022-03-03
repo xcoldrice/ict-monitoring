@@ -25,7 +25,6 @@ class RadarParser extends Model
 
         var_dump($message);
 
-
 		// $this->location  = $message->location;
 		// $this->radar 	 = $message->radar;
 		// $this->type 	 = $message->type;
