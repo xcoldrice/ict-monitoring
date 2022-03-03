@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Redis;
-
+use App\Models\Parsers\RadarParser;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,12 +20,14 @@ Route::group(['prefix'=>'/react'],function(){
 });
 
 
+Route::resource('/radars', \App\Http\Controllers\RadarController::class);
+
+
 Route::get('/test', function(){
-    $redis = Redis::connection();
-    dd($redis);
-    Redis::psubscribe(['WEATHER-STATION'],function($message,$channel){
-        var_dump($message);
-        // (new RadarParser(json_decode($message)))->process();
-    });
-    
+    $testData =  '{"radar":"bohol","file":"1860BOH20220303050618.vol","type":"vol","location":"dic"}';
+    $message = json_decode($testData);
+
+    (new RadarParser($message))->process();
+
+
 });

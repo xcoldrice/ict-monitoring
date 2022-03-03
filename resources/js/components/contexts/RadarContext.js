@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React,{createContext,useEffect,useState,useReducer} from 'react';
 import { Modal,Button } from 'react-bootstrap';
 
@@ -5,6 +6,7 @@ export const RadarContext = createContext();
 export const ACTIONS = {
     RADAR_DATA_UPDATE: 'radar-data-update',
     RADAR_STATUS_UPDATE:'radar-status-update',
+    RADAR_LOAD_ALL : 'radar-load-all',
 }
 
 
@@ -14,6 +16,10 @@ const reducer = (radars,action) => {
         case ACTIONS.RADAR_DATA_UPDATE:
             return radars.map((radar)=>{
                 if(radar.name == payload.name) {
+                    if(!radar.data[payload.recipient]) {
+                        radar.data[payload.recipient] = [];
+                        radar.data[payload.recipient].push(payload);
+                    }
                     radar.data[payload.recipient] = radar.data[payload.recipient].map((d)=>{
                         if(d.type == payload.type) {
                             d.time = payload.time;
@@ -24,6 +30,7 @@ const reducer = (radars,action) => {
                         }
                     })
                     return radar;
+
                 }else {
                     return radar;
                 }
@@ -40,6 +47,10 @@ const reducer = (radars,action) => {
                 }
             })    
             break;
+        case ACTIONS.RADAR_LOAD_ALL:
+            radars = payload;
+            return radars;
+            break;
         default:
             return radars;
             break;
@@ -49,48 +60,19 @@ const reducer = (radars,action) => {
 export const RadarProvider = (props) => {
 
     let recipients = ['dic','ftp5','mdsi','pumis','asti','api'];
-    let [radars, dispatch] = useReducer(reducer, [  
-                                                    {
-                                                        'name':'tagaytay',
-                                                        'type':'eec',
-                                                        'status':2,
-                                                        'remarks':'asdasdasdasd',
-                                                        'data':{
-                                                            'dic':[
-                                                                {'type':'z','time':1645511911839,'file':'test.jpg'}
-                                                            ],
-                                                            'ftp5':[],
-                                                            'mdsi':[],
-                                                            'pumis':[],
-                                                            'asti':[],
-                                                            'api':[],
-                                                        }
-                                                    },
-                                                    {
-                                                        'name':'subic',
-                                                        'type':'eec',
-                                                        'status':2,
-                                                        'remarks':'asdasdasdasd',
-                                                        'data':{
-                                                            'dic':[
-                                                                {'type':'z','time':1645511911839,'file':'test.jpg'},
-                                                                {'type':'v','time':1645511911839,'file':'test.jpg'},
-                                                                {'type':'kml','time':1645511911839,'file':'test.jpg'}
-                                                            ],
-                                                            'ftp5':[],
-                                                            'mdsi':[
-                                                                {'type':'v','time':1645511911839,'file':'test.jpg'},
-                                                                {'type':'kml','time':1645511911839,'file':'test.jpg'}
-                                                            ],
-                                                            'pumis':[],
-                                                            'asti':[],
-                                                            'api':[],
-                                                        }
-                                                    }      
-                                                    
+    let [radars, dispatch] = useReducer(reducer, []);
 
-
-                                                ]);
+    const getRadars = async () => {
+        await axios({ method: 'GET', url: '/radars' }).then((e) => {
+            dispatch({type:ACTIONS.RADAR_LOAD_ALL,payload:e.data});
+            console.log('RADARS LOADED!')
+        }).catch((e) => {
+            console.log('ERROR LOADING RADARS!')
+        })
+        
+    }
+                                                
+    useEffect(()=> getRadars() ,[]);
 
     useEffect(() => {
         try {

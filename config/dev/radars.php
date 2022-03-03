@@ -19,8 +19,11 @@
                                 'radars'=> [
                                     'baguio',
                                 ]
+                        ],
+                'iris' => [
+                            'radars' => [
+
+                            ]
+
                 ]
-
-
-
     ];

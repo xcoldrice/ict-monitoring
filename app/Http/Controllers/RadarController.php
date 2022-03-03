@@ -13,7 +13,30 @@ class RadarController extends Controller
      */
     public function index()
     {
-        //
+        $env = \App::Environment();
+
+        $radars = config($env.'.radars');
+
+        $tmp = [];
+
+        if($radars == null) return response()->json([]);
+
+        foreach($radars as $key => $value) {
+            $radarType = $key;
+            foreach($value['radars'] as $rad_) {
+                $radarName = $rad_;
+
+                $tmp[] = [
+                            'name'=> $radarName,
+                            'category'=> $radarType,
+                            'status' => 0,
+                            'remarks' => '',
+                            'data' => [],
+                ];
+            }
+        }
+
+        return response()->json($tmp);
     }
 
     /**
@@ -45,6 +68,8 @@ class RadarController extends Controller
      */
     public function show($id)
     {
+        // $radars = config();
+        // dd($radars);
         //
     }
 

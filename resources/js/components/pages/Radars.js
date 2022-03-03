@@ -1,5 +1,5 @@
 import React,{useContext, useEffect, useState} from 'react';
-import { Row,Col, Table,Button} from 'react-bootstrap';
+import { Row,Col, Table,Button,Badge} from 'react-bootstrap';
 import {RadarContext} from './../contexts/RadarContext';
 import { ACTIONS } from './../contexts/RadarContext';
 import RadarStatusModal from '../modals/RadarStatusModal';
@@ -47,10 +47,10 @@ function Radars() {
     const check_radar_status = (radar) => {
         switch (radar.status) {
             case 0:
-                return <td className='text-capitalize text-center' colSpan={recipients.length}>DOWN {radar.remarks?? ''} </td>
+                return <td className='text-capitalize text-center' colSpan={recipients.length}> <Badge bg='danger'>DOWN</Badge> {radar.remarks?? ''} </td>
                 break;
             case 2:
-                return <td className='text-capitalize text-center' colSpan={recipients.length}>UNDER DEVELOPMENT </td>
+                return <td className='text-capitalize text-center' colSpan={recipients.length}><Badge bg='secondary'>UNDER DEVELOPMENT</Badge></td>
                 break;
             default:
                 return render_data_fields(radar.data);
@@ -65,7 +65,7 @@ function Radars() {
             {radars.map(radar=> {
                 return <tr key={radar.name}>
                             <td className='text-center'>
-                                <a href="#" className='text-reset text-decoration-none' onClick={()=>show_modal_handle(radar)} >{radar.name} {radar.type}</a>
+                                <a href="#" className='text-reset text-decoration-none' onClick={()=>show_modal_handle(radar)} >{radar.name} {radar.category}</a>
                             </td>
                             {check_radar_status(radar)}
                         </tr>

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Redis;
+use \App\Models\Parsers\RadarParser;
 
 class ListenRadar extends Command
 {
@@ -40,7 +41,7 @@ class ListenRadar extends Command
     {
         Redis::psubscribe(['RADAR'],function($message,$channel){
             var_dump($message);
-            // (new RadarParser(json_decode($message)))->process();
+            (new \App\Models\Parsers\RadarParser(json_decode($message)))->process();
         });
     }
 }
