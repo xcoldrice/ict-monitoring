@@ -34,6 +34,6 @@ class PublishRadar implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('ict-tool-radar-channel');
+        return new Channel('ict-tool-channel');
     }
 }

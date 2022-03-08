@@ -6,6 +6,9 @@
                                 'tagaytay',
                                 'subic',
                                 'mactan',
+                                'bohol',
+                                'iloilo',
+                                'hinatuan',
                             ]
                         ],
                 'jrc' => [
@@ -18,6 +21,8 @@
                 'selex' => [
                                 'radars'=> [
                                     'baguio',
+                                    'baler'
+
                                 ]
                         ],
                 'iris' => [
@@ -25,5 +30,10 @@
 
                             ]
 
+                        ],
+                'mosaic' => [
+                    'radars' => [
+                        'mosaic'
+                    ]
                 ]
     ];

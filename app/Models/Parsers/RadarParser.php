@@ -17,6 +17,8 @@ class RadarParser extends Model
 	public $category;
 	public $unix;
 	public $config;
+	public $dateString;
+	public $key;
 
 	public function __construct($message){
 
@@ -25,20 +27,32 @@ class RadarParser extends Model
 		$this->radar 	 = $message->radar;
 		$this->type 	 = $message->type;
 		$this->file 	 = $message->file;
+		$this->category  = $message->category ?? false;
 		$this->config    = config(\App::Environment().'.radars');
-		// self::getRadarConfig();
-		// self::selectRadar();
-
+		self::getRadarCategory();
     }
     
     public function process() {
-		if($this->file != "") {
+		if($this->file != "" && $this->category) {
 			$this->getTimeFromFile();
+			$this->key = $this->radar . '-' . $this->category . '-' . $this->location. '-' . $this->type;
+			
+			// {'name':'tagaytay','type':'z','recipient':'dic','file':'sample.text','time':Date.now()}})}
+			$return = [
+						'name' => $this->radar,
+						'type' => $this->type,
+						'recipient' => $this->location,
+						'file' => $this->file,
+						'time' => $this->unix * 1000,
+						'category' => $this->category, 
+			];
 
 
+			// \Cache::forever($this->key,json_encode());
+			
+			event(new \App\Events\PublishRadar($return));
 
 		}
-
 
 		// $return = [
 		// 		'key'        => $this->key,
@@ -47,7 +61,6 @@ class RadarParser extends Model
 		// ];
 		
 		// 	\Cache::forever($this->key, $return);
-		// 	event(new \App\Events\PublishRadar($return));
 	}
 
 	private function getTimeFromFile() {
@@ -58,25 +71,24 @@ class RadarParser extends Model
 		if($this->type == 'com') $this->type = 'cappi';
 
 		if($this->type == 'kml'){
-			$this->unix = (int)explode("_",$this->file)[2];
+			$this->unix = (int)explode("_",$this->file)[3];
 			return;
 		}
 
-		if($this->type == "cappi" || $this->type == "cmax") {
+		if($this->type == "cappi" || $this->type == "cmax" || $this->category == 'jrc') {
 			$date_offset = 0;
 		}
 
 		if($this->type != "cappi" && $this->type != "cmax") {
-			if($this->rType == 'jrc') {
-				$date_offset = 0;
+			if($this->category == 'jrc') {
 				$date_string = substr($date_string,17,12);
-			}elseif($this->rType == 'rainbow') {
+			}elseif($this->category == 'selex') {
 				if ($this->radar == "baguio" || $this->radar == "baler") {
 					$date_string = substr($date_string, 0,12);
 				}else{
 					$date_string = $this->type == "netcdf" ? "20" . substr($date_string,2,10) : "20" . substr($date_string,0,10);
 				}
-			}elseif($this->rType == 'edge') {
+			}elseif($this->category == 'eec') {
 				if($this->radar == 'iloilo' || $this->radar == 'bohol') {
 					$date_string = substr($date_string,4,12);
 				}else{
@@ -85,38 +97,17 @@ class RadarParser extends Model
 			}
 
 		}
-
 		$dateandtime = date_create_from_format($date_format,substr($date_string,0,12))->format(DATE_ATOM);
-		$this->unix  = strtotime($dateandtime) + $date_offset;
+		$this->unix  = (strtotime($dateandtime) + $date_offset);
 	}
 
-	private function getType() {
-		
-	}
-
-	// public function selectRadar(){
-	// 	foreach($this->radars as $key => $radar) {
-	// 		if(in_array($this->radar,$radar['radars'])) {
-	// 			$this->key = $this->key . '-' . $key;
-	// 			$this->interval = $radar['interval'];
-	// 			$this->threshold = $radar['threshold'];
-	// 			$this->rType = $key;
-	// 		}
-	// 	}
-	// }
-
-	// public function getRadarConfig() {
-	// 	$config  	 = config('radar.radars');
-	// 	$this->radars = [
-	// 						'edge'     => $config['edge'],
-	// 						'jrc'  	   => $config['jrc'],
-	// 						'rainbow'  => $config['rainbow'],
-	// 						'mosaic'   => $config['mosaic'],
-	// 	];
-	// }
-
-
-
-
-    
+	private function getRadarCategory() {
+		if(!$this->category) {
+			foreach($this->config as $key => $value) {
+				if(in_array($this->radar,$value['radars'])) {
+					$this->category = $key;
+				}
+			}
+		}
+	}    
 }

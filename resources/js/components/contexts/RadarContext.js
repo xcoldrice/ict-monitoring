@@ -15,20 +15,17 @@ const reducer = (radars,action) => {
     switch (action.type) {
         case ACTIONS.RADAR_DATA_UPDATE:
             return radars.map((radar)=>{
-                if(radar.name == payload.name) {
+                if(radar.name == payload.name && radar.category == payload.category) {
                     if(!radar.data[payload.recipient]) {
                         radar.data[payload.recipient] = [];
-                        radar.data[payload.recipient].push(payload);
                     }
-                    radar.data[payload.recipient] = radar.data[payload.recipient].map((d)=>{
-                        if(d.type == payload.type) {
-                            d.time = payload.time;
-                            d.file = payload.file;
-                            return d;
-                        }else{
-                            return d;
-                        }
-                    })
+                    let index = radar.data[payload.recipient].findIndex((d)=> d.type == payload.type);
+
+                    if(index < 0) {
+                        radar.data[payload.recipient].push(payload);
+                    }else {
+                        radar.data[payload.recipient][index] = payload;
+                    }
                     return radar;
 
                 }else {
@@ -76,14 +73,14 @@ export const RadarProvider = (props) => {
 
     useEffect(() => {
         try {
-            window.ict_tool_echo.listen('NewMessage', (e) => {
-                console.log(e);
-
+            window.ict_tool_echo.listen('PublishRadar', (e) => {
+                console.log(e.data);
+                dispatch({type:ACTIONS.RADAR_DATA_UPDATE,payload:e.data});
             });
         } catch (error) {
         }
         return () => {
-            window.ict_tool_echo.stopListening('NewMessage');
+            window.ict_tool_echo.stopListening('PublishRadar');
         }
     });
 

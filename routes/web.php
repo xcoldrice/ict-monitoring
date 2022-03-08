@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Parsers\RadarParser;
+use App\Models\Parsers\RadarTransfer;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,10 +26,14 @@ Route::resource('/radars', \App\Http\Controllers\RadarController::class);
 
 
 Route::get('/test', function(){
-    $testData =  '{"radar":"bohol","file":"1860BOH20220303050618.vol","type":"vol","location":"dic"}';
+    // dd(phpinfo());
+    
+    $testData =    '{"radar":"iloilo","file":"1170ILO_ZH_1627549662_1646726230.kmz","type":"kml","location":"dic"}';
     $message = json_decode($testData);
-
     (new RadarParser($message))->process();
 
+
+    // (new \App\Models\Parsers\RadarTransfer())->process();
+    
 
 });

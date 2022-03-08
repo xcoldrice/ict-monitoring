@@ -25,7 +25,7 @@ export const AppProvider = (props) => {
                 disableStats: true,
                 enabledTransports: ['ws', 'wss'] // <- added this param
             });
-            window.ict_tool_echo = echo.channel('test');
+            window.ict_tool_echo = echo.channel('ict-tool-channel');
 
     },[])
 

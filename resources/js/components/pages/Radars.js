@@ -28,29 +28,33 @@ function Radars() {
             </tr>
     }
     
-    const render_data_icons = (values) => {
-        return <>
-            {values.map(({type,time,file})=>{
-                let key_ = `${type}_${time}_${file}`;
-                return <Icon key={key_} time={time} file={file}>{type}</Icon>
-            })}
-        </>
+    const render_data_icons  = (values) => {
+        let {type,time,file} = values;
+        
+        return <Icon {...values} />
     }
 
     const render_data_fields = data => {
-        let data_ = Object.entries(data);
         return <>
-            {data_.map((v) => <td key={v[0]}>{render_data_icons(v[1])}</td>) }
+
+            {recipients.map(r => {
+                let data_ = data[r]?? [];
+                return <td key={r}>
+                        {data_.map(d => <React.Fragment key={`${d.type}-${d.time}`}>{render_data_icons(d)}</React.Fragment> )}
+                    </td>
+            })}
+
+            {/* {data_.map((v) => <td key={v[0]}>{render_data_icons(v[1])}</td>) } */}
         </>
     }
 
     const check_radar_status = (radar) => {
         switch (radar.status) {
             case 0:
-                return <td className='text-capitalize text-center' colSpan={recipients.length}> <Badge bg='danger'>DOWN</Badge> {radar.remarks?? ''} </td>
+                return <td className='text-capitalize' colSpan={recipients.length}> <Badge bg='danger'>DOWN</Badge> {radar.remarks?? ''} </td>
                 break;
             case 2:
-                return <td className='text-capitalize text-center' colSpan={recipients.length}><Badge bg='secondary'>UNDER DEVELOPMENT</Badge></td>
+                return <td className='text-capitalize' colSpan={recipients.length}><Badge bg='secondary'>UNDER DEVELOPMENT</Badge></td>
                 break;
             default:
                 return render_data_fields(radar.data);
@@ -85,7 +89,9 @@ function Radars() {
                         {render_radars()}
                     </tbody>
                 </Table>
-                <Button onClick={()=>dispatch({type:ACTIONS.RADAR_DATA_UPDATE,payload:{'name':'tagaytay','type':'z','recipient':'dic','file':'sample.text','time':Date.now()}})}>test update</Button>
+                {/* <Button onClick={()=>dispatch({type:ACTIONS.RADAR_DATA_UPDATE,payload:{'name':'bohol','type':'z','recipient':'dic','file':'sample.text','time':Date.now()}})}>test update</Button> */}
+                {/* <Button onClick={()=>dispatch({type:ACTIONS.RADAR_DATA_UPDATE,payload:{'name':'bohol','type':'v','recipient':'dic','file':'sample.text','time':Date.now()}})}>test update</Button> */}
+
                 </Col>
             </Row>
     )

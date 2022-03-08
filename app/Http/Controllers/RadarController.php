@@ -29,7 +29,7 @@ class RadarController extends Controller
                 $tmp[] = [
                             'name'=> $radarName,
                             'category'=> $radarType,
-                            'status' => 0,
+                            'status' => 1,
                             'remarks' => '',
                             'data' => [],
                 ];
