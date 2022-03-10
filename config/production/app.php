@@ -6,7 +6,7 @@ return [
         'Tagaytay',
         'Subic',
         'Cebu',
-        'Hinatuan',
+        // 'Hinatuan',
         'Iloilo',
         'Tampakan',
         'Bohol'

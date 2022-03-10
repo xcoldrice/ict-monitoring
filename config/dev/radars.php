@@ -15,7 +15,7 @@
                                 'mactan',
                                 'bohol',
                                 'iloilo',
-                                'hinatuan',
+                                // 'hinatuan',
                                 'tampakan'
                             ]
                         ],
