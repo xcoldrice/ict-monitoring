@@ -15,7 +15,7 @@
                                 'mactan',
                                 'bohol',
                                 'iloilo',
-                                'hinatuan',
+                                // 'hinatuan',
                                 'tampakan'
                             ]
                         ],
@@ -26,7 +26,6 @@
                                     'daet',
                                     'subic',
                                     'hinatuan',
-
                                 ]
                         ],
                 'vaisala' => [
