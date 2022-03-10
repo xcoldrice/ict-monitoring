@@ -59,7 +59,7 @@ function Icon(props) {
     }
     
     return <>
-        <OverlayTrigger placement="auto" delay={{ show: 50, hide: 50 }} overlay={compute.popover}>
+        <OverlayTrigger placement="auto" overlay={compute.popover}>
             <Badge style={style} bg={compute.badge_color}>{type}</Badge>
         </OverlayTrigger>
     </>

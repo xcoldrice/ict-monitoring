@@ -22,11 +22,12 @@ export const AppProvider = (props) => {
                 forceTLS: false,
                 wsHost: window.location.hostname,
                 wsPort: 6001,
+                wssHost: window.location.hostname,
+                wssPort: 6001,
                 disableStats: true,
                 enabledTransports: ['ws', 'wss'] // <- added this param
             });
             window.ict_tool_echo = echo.channel('ict-tool-channel');
-
     },[])
 
 

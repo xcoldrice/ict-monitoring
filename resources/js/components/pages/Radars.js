@@ -67,7 +67,7 @@ function Radars() {
     const render_radars = () => {
         return <>
             {radars.map(radar=> {
-                return <tr key={radar.name}>
+                return <tr key={`${radar.name}-${radar.category}`}>
                             <td className='text-center'>
                                 <a href="#" className='text-reset text-decoration-none' onClick={()=>show_modal_handle(radar)} >{radar.name} {radar.category}</a>
                             </td>

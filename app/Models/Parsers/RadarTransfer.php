@@ -15,9 +15,11 @@ class RadarTransfer extends Model
     protected $radars;
 	protected $db;
 	protected $config;
+	protected $env;
 
 	public function __construct(){
-		$this->config = config(\App::Environment().'.app');
+		$this->env = \App::Environment();
+		$this->config = config($this->env.'.app');
 		$this->radars = $this->config['RADAR_EDGE_DATABASE'];
 
 	}
@@ -64,19 +66,10 @@ class RadarTransfer extends Model
 					'radar' => strtolower($radar),
 					'file' => $file,
 					'type' => self::getType($file),
-					'location' => strtolower($host)
+					'location' => strtolower($host),
+					'category' => 'eec',
 				];
-
-
-				// $data =  new \stdClass();
-				// $data->radar	= strtolower($radar);
-				// $data->type		= self::getType($file);
-				// $data->file		= $file;
-				// $data->location	= strtolower($host);
-				// $data->key 		= $data->radar . "-" . $data->location . "-" . $data->type;
-
-				// "{"radar":"bohol","file":"1860BOH20220308071000.uf","type":"uf","location":"dic"}";
-
+				
             	(New RadarParser((object)$data))->process();
 			}
 

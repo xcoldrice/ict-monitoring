@@ -1,6 +1,13 @@
 <?php
 
     return [
+                'jrc' => [
+                    'radars' => [
+                        'aparri',
+                        'virac',
+                        'guiuan',
+                    ]
+                ],
                 'eec' => [
                             'radars' => [
                                 'tagaytay',
@@ -9,25 +16,23 @@
                                 'bohol',
                                 'iloilo',
                                 'hinatuan',
-                            ]
-                        ],
-                'jrc' => [
-                            'radars' => [
-                                'aparri',
-                                'virac',
-                                'guiuan',
+                                'tampakan'
                             ]
                         ],
                 'selex' => [
                                 'radars'=> [
                                     'baguio',
-                                    'baler'
+                                    'baler',
+                                    'daet',
+                                    'subic',
+                                    'hinatuan',
 
                                 ]
                         ],
-                'iris' => [
+                'vaisala' => [
                             'radars' => [
-
+                                    'palawan',
+                                    'zamboanga'
                             ]
 
                         ],

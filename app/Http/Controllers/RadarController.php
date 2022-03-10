@@ -18,24 +18,21 @@ class RadarController extends Controller
         $radars = config($env.'.radars');
 
         $tmp = [];
-
         if($radars == null) return response()->json([]);
 
         foreach($radars as $key => $value) {
-            $radarType = $key;
-            foreach($value['radars'] as $rad_) {
-                $radarName = $rad_;
-
+            foreach($value['radars'] as $radar) {
+                $cackeKey = $radar.'-'.$key;
+                $data = \Cache::get($cackeKey) ?? [];
                 $tmp[] = [
-                            'name'=> $radarName,
-                            'category'=> $radarType,
+                            'name'=> $radar,
+                            'category'=> $key,
                             'status' => 1,
                             'remarks' => '',
-                            'data' => [],
+                            'data' => $data,
                 ];
             }
         }
-
         return response()->json($tmp);
     }
 

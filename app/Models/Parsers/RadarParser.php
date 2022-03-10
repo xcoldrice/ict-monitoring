@@ -17,8 +17,8 @@ class RadarParser extends Model
 	public $category;
 	public $unix;
 	public $config;
-	public $dateString;
 	public $key;
+	public $dataToCache;
 
 	public function __construct($message){
 
@@ -35,10 +35,10 @@ class RadarParser extends Model
     public function process() {
 		if($this->file != "" && $this->category) {
 			$this->getTimeFromFile();
+
 			$this->key = $this->radar . '-' . $this->category . '-' . $this->location. '-' . $this->type;
 			
-			// {'name':'tagaytay','type':'z','recipient':'dic','file':'sample.text','time':Date.now()}})}
-			$return = [
+			$this->dataToCache = [
 						'name' => $this->radar,
 						'type' => $this->type,
 						'recipient' => $this->location,
@@ -47,20 +47,11 @@ class RadarParser extends Model
 						'category' => $this->category, 
 			];
 
+			event(new \App\Events\PublishRadar($this->dataToCache));
 
-			// \Cache::forever($this->key,json_encode());
-			
-			event(new \App\Events\PublishRadar($return));
+			self::cacheData();
 
 		}
-
-		// $return = [
-		// 		'key'        => $this->key,
-		// 		'file' 		 => $this->file,
-		// 		'unix'       => $this->unix,
-		// ];
-		
-		// 	\Cache::forever($this->key, $return);
 	}
 
 	private function getTimeFromFile() {
@@ -82,17 +73,17 @@ class RadarParser extends Model
 		if($this->type != "cappi" && $this->type != "cmax") {
 			if($this->category == 'jrc') {
 				$date_string = substr($date_string,17,12);
-			}elseif($this->category == 'selex') {
-				if ($this->radar == "baguio" || $this->radar == "baler") {
-					$date_string = substr($date_string, 0,12);
-				}else{
-					$date_string = $this->type == "netcdf" ? "20" . substr($date_string,2,10) : "20" . substr($date_string,0,10);
-				}
 			}elseif($this->category == 'eec') {
 				if($this->radar == 'iloilo' || $this->radar == 'bohol') {
 					$date_string = substr($date_string,4,12);
 				}else{
 					$date_string = substr($date_string,0,12);
+				}
+			}elseif($this->category == 'selex') {
+				if ($this->radar == "baguio" || $this->radar == "baler") {
+					$date_string = substr($date_string, 0,12);
+				}else{
+					$date_string = $this->type == "netcdf" ? "20" . substr($date_string,2,10) : "20" . substr($date_string,0,10);
 				}
 			}
 
@@ -106,8 +97,30 @@ class RadarParser extends Model
 			foreach($this->config as $key => $value) {
 				if(in_array($this->radar,$value['radars'])) {
 					$this->category = $key;
+					return;
 				}
 			}
 		}
 	}    
+
+	private function cacheData() {
+		$cacheKey = $this->radar.'-'.$this->category;	
+		$data = \Cache::get($cacheKey) ?? [];
+		if(!empty($data)) {
+			if(isset($data[$this->location])) {
+				$key = array_search($this->type,array_column($data[$this->location],'type'));
+				if(gettype($key) == 'integer' && $data[$this->location][$key]) {
+					$data[$this->location][$key] = $this->dataToCache;
+				}else{
+					$data[$this->location][] = $this->dataToCache;
+				}
+			}else {
+				$data[$this->location][] = $this->dataToCache;
+			}
+		}else {
+			$data[$this->location][] = $this->dataToCache;
+		}
+		\Cache::forever($cacheKey,$data);
+	}
+
 }

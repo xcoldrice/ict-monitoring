@@ -28,9 +28,16 @@ Route::resource('/radars', \App\Http\Controllers\RadarController::class);
 Route::get('/test', function(){
     // dd(phpinfo());
     
-    $testData =    '{"radar":"iloilo","file":"1170ILO_ZH_1627549662_1646726230.kmz","type":"kml","location":"dic"}';
-    $message = json_decode($testData);
-    (new RadarParser($message))->process();
+
+    $ssss =    [
+                        '{"radar":"bohol","file":"1860BOH20220309151000.vol","type":"vol","location":"dic"}',
+
+                        '{"radar":"bohol","file":"1860BOH20220309151000.uf","type":"uf","location":"dic"}',
+                    ];
+    foreach($ssss as $testData) {
+        $message = json_decode($testData);
+        (new RadarParser($message))->process();
+    }
 
 
     // (new \App\Models\Parsers\RadarTransfer())->process();
