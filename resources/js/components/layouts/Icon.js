@@ -2,13 +2,7 @@ import React, { useContext, useEffect} from 'react';
 import { Badge, OverlayTrigger, Popover } from 'react-bootstrap';
 import { AppContext } from './../contexts/AppContext';
 
-const five_minutes = 5*60*1000;
-const ten_minutes = 10*60*1000;
-const fifteen_minutes = 15*60*1000;
-const one_hour = 60 * 60 * 1000;
-let interval = fifteen_minutes;
-let threshold = ten_minutes;
-let offset = interval + threshold;
+
 const months = [
                 "January",
                 "February",
@@ -24,7 +18,9 @@ const months = [
                 "December"
             ];
 
-const badge_color = (diff) => {
+const badge_color = (diff,offset) => {
+    let one_hour = 60 * 60 * 1000;
+        offset = offset.interval + offset.threshold;
     if (diff > (one_hour + offset)) {
         return 'danger';
     }else if(diff > offset) {
@@ -42,7 +38,7 @@ const parse_date = (dt) => {
     return `${months[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()} ${hours}:${(dt.getMinutes() < 10 ? '0' : '') + dt.getMinutes()} ${AMPM}`;
 }
 
-const calculate_time_difference = (timeNow, fileTime,file) => {
+const calculate_time_difference = (timeNow, fileTime,file,offset) => {
     let start = new Date(fileTime),
         end = new Date((timeNow));
     let diff = end.getTime() - start.getTime();
@@ -56,16 +52,17 @@ const calculate_time_difference = (timeNow, fileTime,file) => {
 
 
     return {
-                badge_color : badge_color(diff),
+                badge_color : badge_color(diff,offset),
                 popover
         }
 }
 
 function Icon(props) {
 
-    let {UNIXNOW} = useContext(AppContext),
-        {file,time,type} = props;
-    let compute = calculate_time_difference(UNIXNOW,time,file);
+    let {UNIXNOW, OFFSETS} = useContext(AppContext),
+        {file,time,type,category} = props;
+    let offset = OFFSETS[category]?? OFFSETS.default;
+    let compute = calculate_time_difference(UNIXNOW,time,file,offset);
     let style = {
         margin:'0px 2px',
     }

@@ -7,7 +7,32 @@ export const AppContext = createContext();
 export const AppProvider = (props) => {
     
     let [UNIXNOW,setUNIXNOW] = useState(Date.now());
-
+    const OFFSETS = {
+                            'eec' : {
+                                'interval' : 10 * 60 * 1000,
+                                'threshold' : 5 * 60 * 1000,
+                            },
+                            'jrc' : {
+                                'interval' : 15 * 60 * 1000,
+                                'threshold' : 5 * 60 * 1000,
+                            },
+                            'selex' : {
+                                'interval' : 10 * 60 * 1000,
+                                'threshold' : 5 * 60 * 1000,
+                            },
+                            'vaisala' : {
+                                'interval' : 10 * 60 * 1000,
+                                'threshold' : 5 * 60 * 1000,
+                            },
+                            'mosaic' : {
+                                'interval' : 15 * 60 * 1000,
+                                'threshold' : 10 * 60 * 1000,
+                            },
+                            'default' : {
+                                'interval' : 10 * 60 * 1000,
+                                'threshold' : 5 * 60 * 1000,
+                            }
+    };
     const auto_refresh = () => {
         setTimeout(() => setUNIXNOW(Date.now()) , 5000);
     }
@@ -33,7 +58,7 @@ export const AppProvider = (props) => {
 
     return (
 
-        <AppContext.Provider value={{UNIXNOW}}>
+        <AppContext.Provider value={{UNIXNOW,OFFSETS}}>
             <RadarProvider>
                 {props.children}
             </RadarProvider>

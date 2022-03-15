@@ -90,9 +90,8 @@ export const RadarProvider = (props) => {
     let values = {
                 radars,
                 recipients,
-                dispatch
+                dispatch,
     };
-
 
     return (
         <RadarContext.Provider value={values}>
