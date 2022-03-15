@@ -29,10 +29,11 @@ Route::get('/test', function(){
     // dd(phpinfo());
     
 
-    $ssss =    [
-                        '{"radar":"bohol","file":"1860BOH20220309151000.vol","type":"vol","location":"dic"}',
+    $ssss =    [        
+                        '{"radar":"quezon","file":"QUE220315081928.RAWEM5M","type":"vol","location":"dic"}'
+                        // '{"radar":"bohol","file":"1860BOH20220309151000.vol","type":"vol","location":"dic"}',
 
-                        '{"radar":"bohol","file":"1860BOH20220309151000.uf","type":"uf","location":"dic"}',
+                        // '{"radar":"bohol","file":"1860BOH20220309151000.uf","type":"uf","location":"dic"}',
                     ];
     foreach($ssss as $testData) {
         $message = json_decode($testData);

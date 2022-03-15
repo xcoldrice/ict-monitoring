@@ -85,9 +85,11 @@ class RadarParser extends Model
 				}else{
 					$date_string = $this->type == "netcdf" ? "20" . substr($date_string,2,10) : "20" . substr($date_string,0,10);
 				}
+			}elseif($this->category == 'vaisala') {
+				$date_string = "20".substr($date_string,0,12);
 			}
-
 		}
+
 		$dateandtime = date_create_from_format($date_format,substr($date_string,0,12))->format(DATE_ATOM);
 		$this->unix  = (strtotime($dateandtime) + $date_offset);
 	}
