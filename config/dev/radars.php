@@ -31,7 +31,7 @@
                         ],
                 'vaisala' => [
                             'radars' => [
-                                    'palawan',
+                                    'quezon',
                                     'zamboanga'
                             ]
 
