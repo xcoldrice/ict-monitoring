@@ -150,19 +150,23 @@ class RadarController extends Controller
 
     private function sortByStatus($radars) {
         
-        $active = array_filter($radars,function($radar) { return $radar['status'] == 1; });
+        $active = array_filter($radars,function($radar) { 
+            return $radar['status'] == 1 && $radar['name'] != 'mosaic';
+        });
 
-        sort($active);
+        $down = array_filter($radars,function($radar){ 
+            return $radar['status'] == 0 && $radar['name'] != 'mosaic'; 
+        });
 
-        $down = array_filter($radars,function($radar){ return $radar['status'] == 0; });
+        $underDevelopment = array_filter($radars,function($radar){ 
+            return $radar['status'] == 2 && $radar['name'] != 'mosaic'; 
+        });
 
-        sort($down);
+        $mosaic = array_filter($radars,function($radar){
+            return $radar['name'] == 'mosaic';
+        });
 
-        $underDevelopment = array_filter($radars,function($radar){ return $radar['status'] == 2; });
-
-        sort($underDevelopment);
-
-        return array_merge($active,$down,$underDevelopment);
+        return array_merge($active,$mosaic,$down,$underDevelopment);
     }
 
     /**
