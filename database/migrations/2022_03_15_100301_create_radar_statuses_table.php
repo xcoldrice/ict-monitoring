@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRadarsTable extends Migration
+class CreateRadarStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateRadarsTable extends Migration
      */
     public function up()
     {
-        Schema::create('radars', function (Blueprint $table) {
+        Schema::create('radar_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('category');
+            $table->integer('radar_id');
+            $table->integer('status');
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateRadarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('radars');
+        Schema::dropIfExists('radar_statuses');
     }
 }

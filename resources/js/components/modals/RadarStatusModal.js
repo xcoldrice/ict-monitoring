@@ -1,9 +1,24 @@
+import axios from 'axios';
 import React,{useState} from 'react';
 import {Modal,Button, Form, FloatingLabel} from 'react-bootstrap';
 function RadarStatusModal(props) {
-    const save_status = () => {
-        props.dispatch({type:props.action,payload:props.radar})
-        props.close()
+    const save_status = async () => {
+            
+        let data = new FormData();
+            data.append('name', props.radar.name);
+            data.append('category', props.radar.category)
+            data.append('status', props.radar.status);
+            data.append('remarks', props.radar.remarks);
+        await axios({method:'POST', url:'/radars',data}).then( response => {
+                if(response.data.success) { 
+                  console.log('Success Updating Radar Status!');
+                }else {
+                  console.log('Error Updating Radar Status!');
+                }
+              }).catch( error => {
+                console.log(error);
+              });
+              props.close() 
     }
 
     const radar_change = (e) => {

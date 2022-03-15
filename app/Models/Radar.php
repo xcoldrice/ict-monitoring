@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Radar extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+                            'name',
+                            'category',
+    ];
+
+    public function status() {
+        return $this->hasMany(\App\Models\RadarStatus::class);
+    }
+
+
+
+
+
 }

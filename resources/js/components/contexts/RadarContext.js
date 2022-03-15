@@ -35,9 +35,9 @@ const reducer = (radars,action) => {
             break;
         case ACTIONS.RADAR_STATUS_UPDATE:
             return radars.map(radar => {
-                if(radar.name == payload.name) {
+                if(radar.name == payload.name && radar.category == payload.category) {
                     radar.status = payload.status;
-                    radar.remarks = payload.remarks;
+                    radar.remarks = payload.remarks?? '';
                     return radar;
                 }else{
                     return radar;
@@ -76,11 +76,15 @@ export const RadarProvider = (props) => {
             window.ict_tool_echo.listen('PublishRadar', (e) => {
                 console.log(e.data);
                 dispatch({type:ACTIONS.RADAR_DATA_UPDATE,payload:e.data});
+            })
+            window.ict_tool_echo.listen('UpdateRadarStatus',(s)=>{
+                dispatch({type:ACTIONS.RADAR_STATUS_UPDATE,payload:s.data});
             });
         } catch (error) {
         }
         return () => {
             window.ict_tool_echo.stopListening('PublishRadar');
+            window.ict_tool_echo.stopListening('UpdateRadarStatus');
         }
     });
 

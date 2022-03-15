@@ -11,8 +11,8 @@ function Radars() {
 
     let [selectRadar,setSelectRadar] = useState({});
 
-    const show_modal_handle = ({name,status,remarks}) => {
-        setSelectRadar({name,remarks,status});
+    const show_modal_handle = ({name,status,remarks,category}) => {
+        setSelectRadar({name,remarks,status,category});
         setShowModal(true);
     }
 
