@@ -9,7 +9,6 @@ export const ACTIONS = {
     RADAR_LOAD_ALL : 'radar-load-all',
 }
 
-
 const reducer = (radars,action) => {
     let payload = action.payload;
     switch (action.type) {

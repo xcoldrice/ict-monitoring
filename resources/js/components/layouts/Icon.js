@@ -7,9 +7,22 @@ const ten_minutes = 10*60*1000;
 const fifteen_minutes = 15*60*1000;
 const one_hour = 60 * 60 * 1000;
 let interval = fifteen_minutes;
-let threshold = five_minutes;
+let threshold = ten_minutes;
 let offset = interval + threshold;
-const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const months = [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+            ];
 
 const badge_color = (diff) => {
     if (diff > (one_hour + offset)) {
@@ -52,7 +65,6 @@ function Icon(props) {
 
     let {UNIXNOW} = useContext(AppContext),
         {file,time,type} = props;
-        
     let compute = calculate_time_difference(UNIXNOW,time,file);
     let style = {
         margin:'0px 2px',
