@@ -19,10 +19,10 @@ function WeatherStations() {
 
         dataset.forEach((element,key) => {
             let  {time ,type , file } = element;
-            let icon = <Icon {...{time,type,file,key}} />
+            let icon = <Icon {...{time,type,file,key,category}} />
             
-            if(element.station == 'aws') aws.push(icon);
-            if(element.station == 'arg') arg.push(icon);
+            if(element.category == 'aws') aws.push(icon);
+            if(element.category == 'arg') arg.push(icon);
 
         });
 

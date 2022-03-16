@@ -28,7 +28,7 @@ class WeatherStationParser extends Model
     private function publish () {
 
         $toPublish = [
-                        'station'=>$this->station,  
+                        'category'=>$this->station,  
                         'file'=>$this->file,  
                         'type'=>$this->type,  
                         'time'=>$this->time,  
