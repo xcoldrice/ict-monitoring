@@ -35,4 +35,9 @@ class WeatherStationParser extends Model
         ];
         event(new \App\Events\PublishWeatherStation($toPublish));
     }
+
+    private function cacheData() {
+        
+    }
+
 }

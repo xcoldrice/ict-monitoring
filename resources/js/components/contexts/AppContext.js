@@ -8,30 +8,44 @@ export const AppContext = createContext();
 export const AppProvider = (props) => {
     
     let [UNIXNOW,setUNIXNOW] = useState(Date.now());
+
+    let ten_min = ten_min;
+    let fifteen_min = fifteen_min;
+    let five_min = five_min;
+
+
     const OFFSETS = {
                             'eec' : {
-                                'interval' : 10 * 60 * 1000,
-                                'threshold' : 5 * 60 * 1000,
+                                'interval' : ten_min,
+                                'threshold' : five_min,
                             },
                             'jrc' : {
-                                'interval' : 15 * 60 * 1000,
-                                'threshold' : 5 * 60 * 1000,
+                                'interval' : fifteen_min,
+                                'threshold' : five_min,
                             },
                             'selex' : {
-                                'interval' : 10 * 60 * 1000,
-                                'threshold' : 5 * 60 * 1000,
+                                'interval' : ten_min,
+                                'threshold' : five_min,
                             },
                             'vaisala' : {
-                                'interval' : 10 * 60 * 1000,
-                                'threshold' : 5 * 60 * 1000,
+                                'interval' : ten_min,
+                                'threshold' : five_min,
                             },
                             'mosaic' : {
-                                'interval' : 15 * 60 * 1000,
-                                'threshold' : 10 * 60 * 1000,
+                                'interval' : fifteen_min,
+                                'threshold' : ten_min,
+                            },
+                            'aws' : {
+                                'interval' : ten_min,
+                                'threshold' : ten_min,
+                            },
+                            'arg' : {
+                                'interval' : ten_min,
+                                'threshold' : ten_min,
                             },
                             'default' : {
-                                'interval' : 10 * 60 * 1000,
-                                'threshold' : 5 * 60 * 1000,
+                                'interval' : ten_min,
+                                'threshold' : five_min,
                             }
     };
     const auto_refresh = () => {
