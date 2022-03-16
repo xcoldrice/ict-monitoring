@@ -7,6 +7,7 @@ import Icon from './../layouts/Icon';
 
 function Radars() {
     let {radars,recipients,dispatch} = useContext(RadarContext);
+    
     let [showModal, setShowModal] = useState(false);
 
     let [selectRadar,setSelectRadar] = useState({});
@@ -36,15 +37,12 @@ function Radars() {
 
     const render_data_fields = data => {
         return <>
-
             {recipients.map(r => {
                 let data_ = data[r]?? [];
                 return <td key={r}>
                         {data_.map(d => <React.Fragment key={`${d.type}-${d.time}`}>{render_data_icons(d)}</React.Fragment> )}
                     </td>
             })}
-
-            {/* {data_.map((v) => <td key={v[0]}>{render_data_icons(v[1])}</td>) } */}
         </>
     }
 
@@ -60,8 +58,6 @@ function Radars() {
                 return render_data_fields(radar.data);
                 break;
         }
-
-
     }
 
     const render_radars = () => {
@@ -89,9 +85,6 @@ function Radars() {
                         {render_radars()}
                     </tbody>
                 </Table>
-                {/* <Button onClick={()=>dispatch({type:ACTIONS.RADAR_DATA_UPDATE,payload:{'name':'bohol','type':'z','recipient':'dic','file':'sample.text','time':Date.now()}})}>test update</Button> */}
-                {/* <Button onClick={()=>dispatch({type:ACTIONS.RADAR_DATA_UPDATE,payload:{'name':'bohol','type':'v','recipient':'dic','file':'sample.text','time':Date.now()}})}>test update</Button> */}
-
                 </Col>
             </Row>
     )

@@ -25,7 +25,7 @@ Route::group(['prefix'=>'/react'],function(){
 Route::resource('/radars', \App\Http\Controllers\RadarController::class);
 
 
-Route::get('/test', function(){
+Route::get('/radar-test', function(){
     // dd(phpinfo());
     
 
@@ -43,5 +43,19 @@ Route::get('/test', function(){
 
     // (new \App\Models\Parsers\RadarTransfer())->process();
     
+
+});
+
+Route::get('/aws-test',function(){
+    $ssss = [
+        '{"type":"arg","unix":1647412200,"station_id":"3001","location":"Mahaplag, Leyte"}',
+        '{"type":"aws","unix":1647412200,"station_id":5017,"location":"Batac,Ilocos Norte AWS"}'
+    ];
+
+    foreach($ssss as $data) {
+        $message = json_decode($data);
+        dd($message);
+    }
+
 
 });

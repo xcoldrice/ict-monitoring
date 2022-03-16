@@ -2,6 +2,7 @@ import React, {createContext,useEffect,useState} from 'react';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import { RadarProvider } from './RadarContext';
+import { WeatherStationProvider } from './WeatherStationContext';
 export const AppContext = createContext();
 
 export const AppProvider = (props) => {
@@ -60,7 +61,9 @@ export const AppProvider = (props) => {
 
         <AppContext.Provider value={{UNIXNOW,OFFSETS}}>
             <RadarProvider>
-                {props.children}
+                <WeatherStationProvider>
+                    {props.children}
+                </WeatherStationProvider>
             </RadarProvider>
         </AppContext.Provider>
     );
