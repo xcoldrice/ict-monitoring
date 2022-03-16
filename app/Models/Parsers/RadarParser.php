@@ -86,7 +86,11 @@ class RadarParser extends Model
 					$date_string = $this->type == "netcdf" ? "20" . substr($date_string,2,10) : "20" . substr($date_string,0,10);
 				}
 			}elseif($this->category == 'vaisala') {
-				$date_string = "20".substr($date_string,0,12);
+				if($this->type == 'netcdf') {
+					$date_string = "20".substr($date_string,2,12);
+				}else {
+					$date_string = "20".substr($date_string,0,12);
+				}
 			}
 		}
 
