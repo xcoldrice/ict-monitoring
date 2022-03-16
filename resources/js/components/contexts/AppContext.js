@@ -9,9 +9,9 @@ export const AppProvider = (props) => {
     
     let [UNIXNOW,setUNIXNOW] = useState(Date.now());
 
-    let ten_min = ten_min;
-    let fifteen_min = fifteen_min;
-    let five_min = five_min;
+    let ten_min = 10 * 60 * 1000;
+    let fifteen_min = 15 * 60 * 1000;
+    let five_min = 5 * 60 * 1000;
 
 
     const OFFSETS = {
