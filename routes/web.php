@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Parsers\RadarParser;
 use App\Models\Parsers\RadarTransfer;
-
+use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -62,4 +62,10 @@ Route::get('/aws-test',function(){
     }
 
 
+});
+
+
+Route::get('/db-test',function(){
+    $con = DB::connection('Mactan')->select("SELECT host,max(sourcefile) as File FROM transferlist where state ='Success' and host != '192.168.30.11' GROUP BY password,host,targetdir");
+    dd($con);
 });
