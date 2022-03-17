@@ -35,9 +35,15 @@ export const WeatherStationProvider = (props) => {
 
     let [dataset,dispatch] = useReducer(reducer,[]);
 
-    const getDataSet = () => {
-        let data = [];
-        dispatch({type:ACTIONS.WEATHER_STATION_LOAD_ALL,payload:data});
+    const getDataSet = async () => {
+        await axios({ method: 'GET', url: '/weather-stations' }).then((e) => {
+            dispatch({type:ACTIONS.WEATHER_STATION_LOAD_ALL,payload:e.data});
+            console.log('WEATHER STATIONS LOADED!')
+        }).catch((e) => {
+            console.log(e);
+            console.log('ERROR LOADING WEATHER STATIONS!')
+        })
+        
     }
 
 

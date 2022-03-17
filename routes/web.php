@@ -23,6 +23,7 @@ Route::group(['prefix'=>'/react'],function(){
 
 
 Route::resource('/radars', \App\Http\Controllers\RadarController::class);
+Route::resource('/weather-stations', \App\Http\Controllers\WeatherStationController::class);
 
 
 Route::get('/radar-test', function(){
@@ -49,12 +50,15 @@ Route::get('/radar-test', function(){
 Route::get('/aws-test',function(){
     $ssss = [
         '{"type":"arg","unix":1647412200,"station_id":"3001","location":"Mahaplag, Leyte"}',
-        '{"type":"aws","unix":1647412200,"station_id":5017,"location":"Batac,Ilocos Norte AWS"}'
+        '{"type":"aws","unix":1647412200,"station_id":5017,"location":"Batac,Ilocos Norte AWS"}',
+        '{"type":"aws","unix":1647487800,"station_id":5158,"location":"Tabuk, Kalinga"}'
     ];
 
     foreach($ssss as $data) {
         $message = json_decode($data);
-        dd($message);
+
+        (new \App\Models\Parsers\WeatherStationParser($message))->process();
+
     }
 
 
