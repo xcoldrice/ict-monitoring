@@ -131,7 +131,7 @@ return [
             'engine' => null,
         ],
 
-        'Cebu' => [
+        'Mactan' => [
             'driver' => 'mysql',
             'host' => '10.100.200.11',
             'port' => '3306',

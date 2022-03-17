@@ -5,7 +5,7 @@ return [
     "RADAR_EDGE_DATABASE" => [
         'Tagaytay',
         'Subic',
-        'Cebu',
+        'Mactan',
         // 'Hinatuan',
         'Iloilo',
         'Tampakan',
