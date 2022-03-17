@@ -30,7 +30,7 @@ Route::get('/radar-test', function(){
     
 
     $ssss =    [        
-                        '{"radar":"quezon","file":"Output19QUE220316010428.RAWELAU_sweep1.nc ","type":"netcdf","location":"ftp5"}'
+                        '{"radar":"mactan","file":"2043MAC20220317021000.vol","type":"vol","location":"dic","category":"eec"}'
                         // '{"radar":"bohol","file":"1860BOH20220309151000.vol","type":"vol","location":"dic"}',
 
                         // '{"radar":"bohol","file":"1860BOH20220309151000.uf","type":"uf","location":"dic"}',

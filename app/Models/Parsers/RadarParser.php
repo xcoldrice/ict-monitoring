@@ -55,6 +55,8 @@ class RadarParser extends Model
 	}
 
 	private function getTimeFromFile() {
+		$fourDigits = ['iloilo','bohol','mactan'];
+
 		$date_format = 'YmdHi';
 		$date_offset = 28800;
 		$date_string = preg_replace('/[^0-9]/s','',$this->file);
@@ -74,7 +76,7 @@ class RadarParser extends Model
 			if($this->category == 'jrc') {
 				$date_string = substr($date_string,17,12);
 			}elseif($this->category == 'eec') {
-				if($this->radar == 'iloilo' || $this->radar == 'bohol') {
+				if(in_array($this->radar,$fourDigits)) {
 					$date_string = substr($date_string,4,12);
 				}else{
 					$date_string = substr($date_string,0,12);
