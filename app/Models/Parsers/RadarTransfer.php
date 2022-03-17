@@ -25,14 +25,14 @@ class RadarTransfer extends Model
 	}
 
 	public function process() {
-		self::check('Mactan');
+		// self::check('Mactan');
 		// return;
     
 
-		// foreach ($this->radars as $key => $radar) {
-		// 	echo var_dump("Connecting to " . $radar . ".. . .");
-		// 	self::check($radar);
-		// }
+		foreach ($this->radars as $key => $radar) {
+			echo var_dump("Connecting to " . $radar . ".. . .");
+			self::check($radar);
+		}
 	}
 
 	private function check($radar){
