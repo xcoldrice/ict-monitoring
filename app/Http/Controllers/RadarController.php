@@ -18,7 +18,6 @@ class RadarController extends Controller
         $env = \App::Environment();
 
         $radarConfig = config($env.'.radars');
-
         $tmp = [];
         if($radarConfig == null) return response()->json($tmp);
 
