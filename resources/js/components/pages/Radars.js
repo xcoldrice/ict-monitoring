@@ -66,7 +66,7 @@ function Radars() {
                 return <tr key={`${radar.name}-${radar.category}`}>
                             <td>
                                 <div className='px-4'>
-                                    <a href='#' className='text-decoration-none text-reset px-2' onClick={()=>show_modal_handle(radar)}><i class="bi bi-pencil-square"></i></a>
+                                    <a href='#' className='text-decoration-none text-reset px-2' onClick={()=>show_modal_handle(radar)}><i className=''="bi bi-pencil-square"></i></a>
                                     <span>{radar.name} {radar.category} </span> 
                                 </div>
                             </td>
