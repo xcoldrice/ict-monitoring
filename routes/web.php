@@ -31,7 +31,7 @@ Route::get('/radar-test', function(){
     
 
     $ssss =    [        
-                        '{"radar":"mactan","file":"2043MAC20220317021000.vol","type":"vol","location":"dic","category":"eec"}'
+                        '{"radar":"daet","file":"20220318052037.uf ","type":"uf","location":"dic","category":"selex"}'
                         // '{"radar":"bohol","file":"1860BOH20220309151000.vol","type":"vol","location":"dic"}',
 
                         // '{"radar":"bohol","file":"1860BOH20220309151000.uf","type":"uf","location":"dic"}',

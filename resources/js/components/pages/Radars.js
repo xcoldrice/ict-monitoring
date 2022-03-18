@@ -52,7 +52,7 @@ function Radars() {
                 return <td className='text-capitalize' colSpan={recipients.length}> <Badge bg='danger'>DOWN</Badge> {radar.remarks?? ''} </td>
                 break;
             case 2:
-                return <td className='text-capitalize' colSpan={recipients.length}><Badge bg='secondary'>UNDER DEVELOPMENT</Badge></td>
+                return <td className='text-capitalize' colSpan={recipients.length}> <Badge bg='secondary'>UNDER DEVELOPMENT</Badge></td>
                 break;
             default:
                 return render_data_fields(radar.data);

@@ -82,11 +82,14 @@ class RadarParser extends Model
 					$date_string = substr($date_string,0,12);
 				}
 			}elseif($this->category == 'selex') {
-				if ($this->radar == "baguio" || $this->radar == "baler") {
+				
+				if ($this->radar == "baguio" || $this->radar == "baler" || $this->radar == 'daet') {
 					$date_string = substr($date_string, 0,12);
 				}else{
 					$date_string = $this->type == "netcdf" ? "20" . substr($date_string,2,10) : "20" . substr($date_string,0,10);
 				}
+
+
 			}elseif($this->category == 'vaisala') {
 				if($this->type == 'netcdf') {
 					$date_string = "20".substr($date_string,2,12);
