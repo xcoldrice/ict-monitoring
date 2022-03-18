@@ -3,7 +3,18 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import { RadarProvider } from './RadarContext';
 import { WeatherStationProvider } from './WeatherStationContext';
+import { ToastProvider} from 'react-toast-notifications';
+
 export const AppContext = createContext();
+
+export const ACTIONS = {
+    RADAR_DATA_UPDATE: 'radar-data-update',
+    RADAR_STATUS_UPDATE:'radar-status-update',
+    RADAR_LOAD_ALL : 'radar-load-all',
+    WEATHER_STATION_LOAD_ALL : 'weather-station-load-all',
+    UPDATE_STATION_DATA : 'update-station-data',
+}
+
 
 export const AppProvider = (props) => {
     
@@ -12,7 +23,6 @@ export const AppProvider = (props) => {
     let ten_min = 10 * 60 * 1000;
     let fifteen_min = 15 * 60 * 1000;
     let five_min = 5 * 60 * 1000;
-
 
     const OFFSETS = {
                             'eec' : {
@@ -72,14 +82,15 @@ export const AppProvider = (props) => {
 
 
     return (
-
-        <AppContext.Provider value={{UNIXNOW,OFFSETS}}>
-            <RadarProvider>
-                <WeatherStationProvider>
-                    {props.children}
-                </WeatherStationProvider>
-            </RadarProvider>
-        </AppContext.Provider>
+        <ToastProvider>
+            <AppContext.Provider value={{UNIXNOW,OFFSETS}}>
+                <RadarProvider>
+                    <WeatherStationProvider>
+                        {props.children}
+                    </WeatherStationProvider>
+                </RadarProvider>
+            </AppContext.Provider>
+        </ToastProvider>
     );
 }
 

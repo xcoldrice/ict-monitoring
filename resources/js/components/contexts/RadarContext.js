@@ -1,13 +1,9 @@
 import axios from 'axios';
-import React,{createContext,useEffect,useState,useReducer} from 'react';
-import { Modal,Button } from 'react-bootstrap';
+import React,{createContext,useEffect,useContext,useReducer} from 'react';
+import { ACTIONS } from './AppContext';
+import { useToasts } from 'react-toast-notifications';
 
 export const RadarContext = createContext();
-export const ACTIONS = {
-    RADAR_DATA_UPDATE: 'radar-data-update',
-    RADAR_STATUS_UPDATE:'radar-status-update',
-    RADAR_LOAD_ALL : 'radar-load-all',
-}
 
 const reducer = (radars,action) => {
     let payload = action.payload;
@@ -58,12 +54,14 @@ export const RadarProvider = (props) => {
     let recipients = ['dic','ftp5','mdsi','pumis','asti','api'];
     let [radars, dispatch] = useReducer(reducer, []);
 
+    let {addToast} = useToasts();
+
     const getRadars = async () => {
         await axios({ method: 'GET', url: '/radars' }).then((e) => {
             dispatch({type:ACTIONS.RADAR_LOAD_ALL,payload:e.data});
-            console.log('RADARS LOADED!')
+            addToast('Radars loaded!',{autoDismiss:true,appearance:'success'})
         }).catch((e) => {
-            console.log('ERROR LOADING RADARS!')
+            addToast('Error Loading Radars!',{appearance:'error',autoDismiss:true})
         })
         
     }
@@ -78,6 +76,7 @@ export const RadarProvider = (props) => {
             })
             window.ict_tool_echo.listen('UpdateRadarStatus',(s)=>{
                 dispatch({type:ACTIONS.RADAR_STATUS_UPDATE,payload:s.data});
+                addToast('Radar Status Updated!',{autoDismiss:true,appearance:'success'});
             });
         } catch (error) {
         }

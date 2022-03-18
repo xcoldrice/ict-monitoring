@@ -1,10 +1,8 @@
 import React, { createContext, useReducer, useEffect } from 'react';
+import { ACTIONS } from './AppContext';
+import { useToasts } from 'react-toast-notifications';
 
 export const WeatherStationContext = createContext();
-export const ACTIONS = {
-    WEATHER_STATION_LOAD_ALL : 'weather-station-load-all',
-    UPDATE_STATION_DATA : 'update-station-data',
-}
 
 const reducer = (dataset,action) => {
     let payload = action.payload;
@@ -34,14 +32,14 @@ const reducer = (dataset,action) => {
 export const WeatherStationProvider = (props) => { 
 
     let [dataset,dispatch] = useReducer(reducer,[]);
+    const {addToast} = useToasts();
 
     const getDataSet = async () => {
         await axios({ method: 'GET', url: '/weather-stations' }).then((e) => {
             dispatch({type:ACTIONS.WEATHER_STATION_LOAD_ALL,payload:e.data});
-            console.log('WEATHER STATIONS LOADED!')
+            addToast('Weather Stations Loaded!',{autoDismiss:true,appearance:'success'})
         }).catch((e) => {
-            console.log(e);
-            console.log('ERROR LOADING WEATHER STATIONS!')
+            addToast('Error Loading Weather Stations!',{autoDismiss:true,appearance:'error'});
         })
         
     }

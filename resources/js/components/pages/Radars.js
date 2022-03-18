@@ -1,7 +1,7 @@
 import React,{useContext, useEffect, useState} from 'react';
 import { Row,Col, Table,Button,Badge} from 'react-bootstrap';
 import {RadarContext} from './../contexts/RadarContext';
-import { ACTIONS } from './../contexts/RadarContext';
+import { ACTIONS } from './../contexts/AppContext';
 import RadarStatusModal from '../modals/RadarStatusModal';
 import Icon from './../layouts/Icon';
 

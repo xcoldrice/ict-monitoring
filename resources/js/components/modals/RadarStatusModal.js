@@ -1,22 +1,24 @@
 import axios from 'axios';
 import React,{useState} from 'react';
 import {Modal,Button, Form, FloatingLabel} from 'react-bootstrap';
+import {useToasts} from 'react-toast-notifications';
+
 function RadarStatusModal(props) {
+    const {addToast} = useToasts();
     const save_status = async () => {
-            
         let data = new FormData();
             data.append('name', props.radar.name);
             data.append('category', props.radar.category)
             data.append('status', props.radar.status);
             data.append('remarks', props.radar.remarks);
         await axios({method:'POST', url:'/radars',data}).then( response => {
-                if(response.data.success) { 
-                  console.log('Success Updating Radar Status!');
+                if(response.data.success) {
+                  console.log('Success Updating Radar Status');
                 }else {
-                  console.log('Error Updating Radar Status!');
+                  addToast('Error Updating Radar Status!',{autoDismiss:true,appearance:'error'});
                 }
               }).catch( error => {
-                console.log(error);
+                addToast('Error Updating Radar Status!',{autoDismiss:true,appearance:'error'});
               });
               props.close() 
     }
