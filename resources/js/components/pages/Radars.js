@@ -24,7 +24,7 @@ function Radars() {
 
     const render_headers = () => {
         return <tr>
-                <th className='text-center'>name</th>
+                <th className='text-center' style={{minWidth:"200px"}}>name</th>
                 {recipients.map(recipient => <th className='text-center' key={recipient}>{recipient}</th>)}  
             </tr>
     }
