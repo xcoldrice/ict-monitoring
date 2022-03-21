@@ -18,14 +18,11 @@ const reducer = (radars,action) => {
 
                     if(index < 0) {
                         radar.data[payload.recipient].push(payload);
-                    }else {
-                        radar.data[payload.recipient][index] = payload;
+                        return radar;
                     }
-                    return radar;
-
-                }else {
-                    return radar;
+                    radar.data[payload.recipient][index] = payload;
                 }
+                return radar;
             });
             break;
         case ACTIONS.RADAR_STATUS_UPDATE:
@@ -33,15 +30,12 @@ const reducer = (radars,action) => {
                 if(radar.name == payload.name && radar.category == payload.category) {
                     radar.status = payload.status;
                     radar.remarks = payload.remarks?? '';
-                    return radar;
-                }else{
-                    return radar;
                 }
+                return radar;
             })    
             break;
         case ACTIONS.RADAR_LOAD_ALL:
-            radars = payload;
-            return radars;
+            return payload;
             break;
         default:
             return radars;
