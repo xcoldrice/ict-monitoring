@@ -12,13 +12,15 @@ const reducer = (dataset,action) => {
             return dataset;
             break;
         case ACTIONS.UPDATE_STATION_DATA:
-            let tmp = [...dataset];
-            let index = tmp.findIndex((d)=> d.type == payload.type);
+            let tmp = [...dataset],
+                index = tmp.findIndex((d)=> d.type == payload.type);
             if(index < 0) {
                 tmp.push(payload);
-            }else {
-                tmp[index].time = payload.time; 
+                return tmp;
             }
+
+            tmp[index].time = payload.time; 
+            
             return tmp;
             break;
         default:

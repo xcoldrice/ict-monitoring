@@ -15,14 +15,13 @@ export const ACTIONS = {
     UPDATE_STATION_DATA : 'update-station-data',
 }
 
-
 export const AppProvider = (props) => {
     
     let [UNIXNOW,setUNIXNOW] = useState(Date.now());
 
-    let ten_min = 10 * 60 * 1000;
-    let fifteen_min = 15 * 60 * 1000;
-    let five_min = 5 * 60 * 1000;
+    let ten_min = 10 * 60 * 1000,
+        fifteen_min = 15 * 60 * 1000,
+        five_min = 5 * 60 * 1000;
 
     const OFFSETS = {
                             'eec' : {

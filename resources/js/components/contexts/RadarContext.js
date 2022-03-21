@@ -71,7 +71,6 @@ export const RadarProvider = (props) => {
     useEffect(() => {
         try {
             window.ict_tool_echo.listen('PublishRadar', (e) => {
-                console.log(e.data);
                 dispatch({type:ACTIONS.RADAR_DATA_UPDATE,payload:e.data});
             })
             window.ict_tool_echo.listen('UpdateRadarStatus',(s)=>{
