@@ -43,18 +43,26 @@ const calculate_time_difference = (timeNow, fileTime,file,offset) => {
         end = new Date((timeNow));
     let diff = end.getTime() - start.getTime();
     let date = parse_date(start);
-        date = fileTime == null? 'no data': date;
+    let badge = badge_color(diff,offset);
+    let text = 'light';
+        if(fileTime == null) {
+            date = 'no data';
+            badge = 'light';
+            text = 'secondary';
+        }
+
     let popover = <Popover style={{maxWidth:'500px'}}>
                         <Popover.Body>
                             {file} <br/> {date}
                         </Popover.Body>
                 </Popover>
 
-
+        
 
     return {
-                badge_color : badge_color(diff,offset),
-                popover
+                badge,
+                popover,
+                text,
         }
 }
 
@@ -70,7 +78,7 @@ function Icon(props) {
     
     return <>
         <OverlayTrigger placement="auto" overlay={compute.popover}>
-            <Badge style={style} bg={compute.badge_color}>{type}</Badge>
+            <Badge style={style} bg={compute.badge} text={compute.text}>{type}</Badge>
         </OverlayTrigger>
     </>
 }
