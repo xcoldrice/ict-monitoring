@@ -18,7 +18,7 @@ class WeatherStationController extends Controller
         $activeSites = \Cache::get('site-info') ?? [];
         if(empty($activeSites)) {
             $activeSites = DB::connection('dserv')->table('site_info')
-            ->where('siteType','like','A%')
+            ->where([['siteType','like','A%'],['siteID', '<' , 6000]])
             ->orderBy('siteID','ASC')
             ->get()
             ->toArray();
