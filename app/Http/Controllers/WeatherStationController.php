@@ -15,10 +15,14 @@ class WeatherStationController extends Controller
     public function index()
     {   
         // dd(\Cache::forget('site-info'));
+
         $activeSites = \Cache::get('site-info') ?? [];
         if(empty($activeSites)) {
             $activeSites = DB::connection('dserv')->table('site_info')
-            ->where([['siteType','like','A%'],['siteID', '<' , 6000]])
+            ->where([
+                    ['siteType','like','A%'],
+                    ['siteID', '<' , 6000]
+                ])
             ->orderBy('siteID','ASC')
             ->get()
             ->toArray();
@@ -26,8 +30,7 @@ class WeatherStationController extends Controller
         }
 
         $tmp = [];
-
-
+        $awsIgnore = ['70','71','72','79','81','95','96','113','117','121','124','138'];
         foreach($activeSites as $key => $site) {
             $category = strtolower($site->siteType);
             $cacheKey = $category . '-' . $site->siteID;
@@ -47,12 +50,12 @@ class WeatherStationController extends Controller
             $tmp[] = $data;
         } 
 
-        $arg = array_filter($tmp,function($d){
+        $arg = array_filter($tmp,function($d)  {
             return $d['category'] == 'arg';
         });
 
-        $aws = array_filter($tmp,function($d){
-            return $d['category'] == 'aws';
+        $aws = array_filter($tmp,function($d) use ($awsIgnore){
+            return $d['category'] == 'aws' && !in_array($d['type'],$awsIgnore);
         });
 
         return response()->json(array_merge($arg,$aws));
