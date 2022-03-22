@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\WeatherStation;
 use Illuminate\Http\Request;
-
+use DB;
 class WeatherStationController extends Controller
 {
     /**
@@ -13,26 +13,48 @@ class WeatherStationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $data = \Cache::get('weather-station-data');
+    {   
+        // dd(\Cache::forget('site-info'));
+        $activeSites = \Cache::get('site-info') ?? [];
+        if(empty($activeSites)) {
+            $activeSites = DB::connection('dserv')->table('site_info')
+            ->where('siteType','like','A%')
+            ->orderBy('siteID','ASC')
+            ->get()
+            ->toArray();
+            \Cache::forever('site-info',$activeSites);
+        }
+
         $tmp = [];
 
-        if(empty($data)) return response()->json($tmp);
 
-        $arg = array_filter($data,function($d){
+        foreach($activeSites as $key => $site) {
+            $category = strtolower($site->siteType);
+            $cacheKey = $category . '-' . $site->siteID;
+            $default = [
+                        'category' => $category,  
+                        'file'     => $site->siteName,  
+                        'type'     => $site->siteID,  
+                        'time'     => null,  
+            ];
+
+            $data = \Cache::get($cacheKey);
+
+            if($data == null) {
+                $tmp[] = $default;
+                continue;
+            }
+            $tmp[] = $data;
+        } 
+
+        $arg = array_filter($tmp,function($d){
             return $d['category'] == 'arg';
         });
-        usort($arg,function($a,$b){ return $a['type'] - $b['type']; });
 
-        $aws = array_filter($data,function($d){
+        $aws = array_filter($tmp,function($d){
             return $d['category'] == 'aws';
         });
 
-        usort($aws,function($a,$b){ return $a['type'] - $b['type']; });
-
-
         return response()->json(array_merge($arg,$aws));
-
-
     }
 }

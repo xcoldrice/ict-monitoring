@@ -43,6 +43,7 @@ const calculate_time_difference = (timeNow, fileTime,file,offset) => {
         end = new Date((timeNow));
     let diff = end.getTime() - start.getTime();
     let date = parse_date(start);
+        date = fileTime == null? 'no data': date;
     let popover = <Popover style={{maxWidth:'500px'}}>
                         <Popover.Body>
                             {file} <br/> {date}

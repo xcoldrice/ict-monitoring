@@ -35,7 +35,8 @@ class WeatherStationParser extends Model
         ];
 
         if($this->type != "0") {
-            self::cacheData();
+            // self::cacheData();
+            self::cacheEachSite();
             event(new \App\Events\PublishWeatherStation( $this->toPublish));
         }
     }
@@ -57,5 +58,11 @@ class WeatherStationParser extends Model
         }
         \Cache::forever($cachekey, $data);
     }
+
+    private function cacheEachSite() {
+        $cachekey = $this->station .'-'. $this->type;
+        \Cache::forever($cachekey,$this->toPublish);
+    }
+
 
 }
