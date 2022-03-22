@@ -32,7 +32,8 @@
                 'vaisala' => [
                             'radars' => [
                                     'quezon',
-                                    'zamboanga'
+                                    'zamboanga',
+                                    'basco'
                             ]
 
                         ],
