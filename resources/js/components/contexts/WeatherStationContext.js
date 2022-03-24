@@ -54,7 +54,6 @@ export const WeatherStationProvider = (props) => {
         try {
             window.ict_tool_echo.listen('PublishWeatherStation', (e) => {
                 dispatch({type:ACTIONS.UPDATE_STATION_DATA,payload:e.data});
-                $(`.${e.data.class}`).fadeOut().fadeIn();
             })
         } catch (error) {
         }

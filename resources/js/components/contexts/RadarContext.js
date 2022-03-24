@@ -66,7 +66,6 @@ export const RadarProvider = (props) => {
         try {
             window.ict_tool_echo.listen('PublishRadar', (e) => {
                 dispatch({type:ACTIONS.RADAR_DATA_UPDATE,payload:e.data});
-                // $(`.${e.data.class}`).fadeOut().fadeIn();
             })
             window.ict_tool_echo.listen('UpdateRadarStatus',(s)=>{
                 dispatch({type:ACTIONS.RADAR_STATUS_UPDATE,payload:s.data});

@@ -36,28 +36,9 @@ class WeatherStationParser extends Model
         ];
 
         if($this->type != "0") {
-            // self::cacheData();
             self::cacheEachSite();
             event(new \App\Events\PublishWeatherStation( $this->toPublish));
         }
-    }
-
-    private function cacheData() {
-        $cachekey = 'weather-station-data';
-
-        $data = \Cache::get($cachekey) ?? [];
-
-        if(!empty($data)) {
-            $key = array_search($this->type, array_column($data,'type'));
-            if(gettype($key) == 'integer' && $data[$key]) {
-                $data[$key] = $this->toPublish;
-            }else{
-                $data[] =  $this->toPublish;
-            }
-        }else {
-            $data[] =  $this->toPublish;
-        }
-        \Cache::forever($cachekey, $data);
     }
 
     private function cacheEachSite() {
