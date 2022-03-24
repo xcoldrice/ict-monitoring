@@ -45,6 +45,7 @@ class RadarTransfer extends Model
 				$sql="SELECT host,max(sourcefile) as File FROM transferlist where state ='Success' and host != '192.168.30.11' GROUP BY password,host,targetdir";
 			}
 			$tag = DB::connection($radar)->select($sql);
+			dd($tag);
 			$srv = $this->config['FTP_ADDRESS'];
 			foreach ($tag as $key => $value) {
 				if(in_array($radar,$inPostgres)){
