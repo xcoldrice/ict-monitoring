@@ -120,15 +120,20 @@ class RadarController extends Controller
             $status = array_map(function($stat){
 
                 $text = 'Active';
+                $remarks = '';
+                
                 $date = date('m-d-Y h:i a', strtotime($stat['created_at']));
 
                 if($stat['status'] == 2) $text = 'Under Development';
-                if($stat['status'] == 0) $text = 'Down';
-
+                if($stat['status'] == 0) { 
+                    $text = 'Down';
+                    $remarks = $stat['remarks'] == null? '': $stat['remarks'];
+                }
+            
                 return [
                         'date'    => $date,
                         'status'  => $text,
-                        'remarks' => $stat['remarks'] == null? '' : $stat['remarks']
+                        'remarks' => $remarks,
                 ];
 
             },$status);

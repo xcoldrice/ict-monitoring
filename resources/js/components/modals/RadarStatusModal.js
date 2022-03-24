@@ -81,8 +81,8 @@ function RadarStatusModal(props) {
                         {histories.map((history,index)=> {
                           let {status,remarks,date} = history,
                               bg = 'success';
-                              if(status == 0) bg = 'danger';
-                              if(status == 2) bg = 'secondary';
+                              if(status == 'Down') bg = 'danger';
+                              if(status == 'Under Development') bg = 'secondary';
                           return <tr key={index}>
                                     <td style={{width:'150px'}}><Badge bg={bg}>{status}</Badge></td>
                                     <td>{remarks}</td>
