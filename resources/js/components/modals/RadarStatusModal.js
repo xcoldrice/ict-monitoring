@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React,{useState} from 'react';
-import {Modal,Button, Form, ListGroup, Badge, ListGroupItem, Table} from 'react-bootstrap';
+import {Modal,Button, Form, Badge, Col, Table, Row} from 'react-bootstrap';
 import {useToasts} from 'react-toast-notifications';
 
 function RadarStatusModal(props) {
@@ -69,28 +69,32 @@ function RadarStatusModal(props) {
         case 'history':
           return <>
                   <Modal.Body>
-                    <Table striped bordered hover>
-                      <thead>
-                          <tr>
-                            <th>Status</th>
-                            <th>Remarks</th>
-                            <th>Date</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                        {histories.map((history,index)=> {
-                          let {status,remarks,date} = history,
-                              bg = 'success';
-                              if(status == 'Down') bg = 'danger';
-                              if(status == 'Under Development') bg = 'secondary';
-                          return <tr key={index}>
-                                    <td style={{width:'150px'}}><Badge bg={bg}>{status}</Badge></td>
-                                    <td>{remarks}</td>
-                                    <td style={{width:'170px'}}>{date}</td>
-                          </tr>
-                        })}
-                      </tbody>
-                    </Table>
+                    <Row>
+                      <Col>
+                        <Table striped bordered hover>
+                          <thead>
+                              <tr>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                                <th>Date</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            {histories.map((history,index)=> {
+                              let {status,remarks,date} = history,
+                                  bg = 'success';
+                                  if(status == 'Down') bg = 'danger';
+                                  if(status == 'Under Development') bg = 'secondary';
+                              return <tr key={index}>
+                                        <td style={{width:'150px'}}><Badge bg={bg}>{status}</Badge></td>
+                                        <td style={{width:'370px',wordBreak:'break-all'}}>{remarks}</td>
+                                        <td style={{width:'170px'}}>{date}</td>
+                              </tr>
+                            })}
+                          </tbody>
+                        </Table>
+                      </Col>
+                    </Row>
                   </Modal.Body>
                   <Modal.Footer>
                     <Button variant="secondary" onClick={()=>close()}>Close</Button>
