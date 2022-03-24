@@ -30,8 +30,6 @@ function Radars() {
     }
     
     const render_data_icons  = (values) => {
-        let {type,time,file} = values;
-        
         return <Icon {...values} />
     }
 

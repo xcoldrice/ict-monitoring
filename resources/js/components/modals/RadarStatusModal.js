@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React,{useState} from 'react';
-import {Modal,Button, Form, FloatingLabel} from 'react-bootstrap';
+import {Modal,Button, Form, ListGroup} from 'react-bootstrap';
 import {useToasts} from 'react-toast-notifications';
 
 function RadarStatusModal(props) {
@@ -17,7 +17,6 @@ function RadarStatusModal(props) {
               }).catch( error => {
                 addToast('Error Updating Radar Status!',{autoDismiss:true,appearance:'error'});
               });
-
               props.close() 
     }
 
@@ -39,15 +38,18 @@ function RadarStatusModal(props) {
           <Modal.Title className='text-capitalize'>update {props.radar.name} radar status</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Form.Group className="mb-3">
-            <Form.Label>Select Status</Form.Label>
-            <Form.Select defaultValue={props.radar.status} onChange={(e)=>radar_change(e)}>
-                <option className='text-capitalize' value={0}>down</option>
-                <option className='text-capitalize' value={1}>active</option>
-                <option className='text-capitalize' value={2}>under development</option>
-            </Form.Select>
-        </Form.Group>
-        <Form.Control as="textarea" placeholder="Leave a comment here" rows={3} onChange={(e)=>radar_change(e)} defaultValue={props.radar.remarks}/>
+          <Form.Group className="mb-3">
+              <Form.Label>Select Status</Form.Label>
+              <Form.Select defaultValue={props.radar.status} onChange={(e)=>radar_change(e)}>
+                  <option className='text-capitalize' value={0}>down</option>
+                  <option className='text-capitalize' value={1}>active</option>
+                  <option className='text-capitalize' value={2}>under development</option>
+              </Form.Select>
+          </Form.Group>
+          <Form.Group className='mb-3'>
+            <Form.Label>Remarks</Form.Label>
+            <Form.Control as="textarea" placeholder="Leave a comment here" rows={3} onChange={(e)=>radar_change(e)} defaultValue={props.radar.remarks}/>
+          </Form.Group>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={()=>props.close()}>

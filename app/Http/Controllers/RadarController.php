@@ -111,4 +111,34 @@ class RadarController extends Controller
         return array_merge($active,$mosaic,$down,$underDevelopment);
     }
 
+
+    public function logs($category,$name, $limit = null) {
+        try {
+            $radar = Radar::where([['name',$name],['category',$category]])->first();
+            $status = $radar->status()->orderBy('created_at','asc')->get()->toArray();
+
+            $status = array_map(function($stat){
+
+                $text = 'Active';
+                $date = date('F j, Y h:i:s a', strtotime($stat['created_at']));
+
+                if($stat['status'] == 0) $text = 'Down' .' '. $stat['remarks'];
+
+                if($stat['status'] == 2) $text = 'Under Development';
+
+                return [
+                        'status' => trim($text),
+                        'date'   => $date,
+                ];
+
+            },$status);
+
+            return response()->json(['sucess'=>true,'status'=>$status]);
+            
+        } catch (\Throwable $th) {
+            return response()->json(['success'=>false]);
+        }
+
+    }
+
 }

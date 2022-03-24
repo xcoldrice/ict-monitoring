@@ -32,6 +32,7 @@ class WeatherStationParser extends Model
                         'file'     => $this->file,  
                         'type'     => $this->type,  
                         'time'     => $this->time,  
+                        'class'    => $this->station.'-'.$this->type,
         ];
 
         if($this->type != "0") {

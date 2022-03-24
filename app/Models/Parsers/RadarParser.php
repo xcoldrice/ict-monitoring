@@ -39,12 +39,13 @@ class RadarParser extends Model
 			$this->key = $this->radar . '-' . $this->category . '-' . $this->location. '-' . $this->type;
 			
 			$this->dataToCache = [
-						'name' => $this->radar,
-						'type' => $this->type,
+						'name' 		=> $this->radar,
+						'type'      => $this->type,
 						'recipient' => $this->location,
-						'file' => $this->file,
-						'time' => $this->unix * 1000,
-						'category' => $this->category, 
+						'file'      => $this->file,
+						'time'      => $this->unix * 1000,
+						'category'  => $this->category,
+						'class'     => $this->radar .'-'.$this->category .'-'. $this->location . '-' . $this->type,
 			];
 
 			event(new \App\Events\PublishRadar($this->dataToCache));

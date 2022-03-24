@@ -78,7 +78,7 @@ function Icon(props) {
     
     return <>
         <OverlayTrigger placement="auto" overlay={compute.popover}>
-            <Badge style={style} bg={compute.badge} text={compute.text}>{type}</Badge>
+            <Badge className={props.class} style={style} bg={compute.badge} text={compute.text}>{type}</Badge>
         </OverlayTrigger>
     </>
 }
