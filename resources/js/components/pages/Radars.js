@@ -11,31 +11,17 @@ function Radars() {
 
     let [showModal, setShowModal] = useState(false);
 
-    let [selectRadar,setSelectRadar] = useState({histories:[]});
-
-    let [modalState,setModalState] = useState('update');
-
-    const get_status_history = async (name,category) => {
-        let url = `/radar/${category}/${name}`;
-        await axios({method:'GET',url}).then((response)=>{
-            if(response.data.success) setSelectRadar((prev)=> {return {...prev, histories:response.data.histories}});
-        }).catch((error)=>{
-            console.log('error fetching history')
-        })
-    }
-
+    let [selectRadar,setSelectRadar] = useState({});
 
     const show_modal_handle = (radar) => {
-        get_status_history(radar.name, radar.category);
-        setSelectRadar((prev)=>{return {...prev,...radar}});
+        setSelectRadar(radar);
         setShowModal(true);
     }
 
-    const hide_modal_handle = () => {
-        setSelectRadar({histories:[]});
-        setModalState('update');
-        setShowModal(false);
-    }
+    // const hide_modal_handle = () => {
+    //     setSelectRadar({});
+    //     setShowModal(false);
+    // }
 
     const render_headers = () => {
         return <tr>
@@ -112,11 +98,9 @@ function Radars() {
                 <Col>
                 <RadarStatusModal 
                     show={showModal} 
-                    close={hide_modal_handle} 
+                    setShow={setShowModal} 
                     radar={selectRadar} 
                     setRadar={setSelectRadar}
-                    state={modalState}
-                    setState={setModalState} 
                     dispatch={dispatch} action={ACTIONS.RADAR_STATUS_UPDATE}
                 />
                 <Table striped bordered hover>
