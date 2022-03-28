@@ -18,11 +18,6 @@ function Radars() {
         setShowModal(true);
     }
 
-    // const hide_modal_handle = () => {
-    //     setSelectRadar({});
-    //     setShowModal(false);
-    // }
-
     const render_headers = () => {
         return <tr>
                 <th className='text-center' style={{minWidth:"200px"}}>name</th>
@@ -57,7 +52,7 @@ function Radars() {
         let {status, remarks, data} = radar;
         switch (status) {
             case 0:
-                return <td className='text-capitalize' colSpan={recipients.length}> 
+                return <td className='text-capitalize' style={{wordBreak:'break-all'}} colSpan={recipients.length}> 
                             <Badge bg='danger'>DOWN</Badge> {remarks?? ''} 
                         </td>
                 break;

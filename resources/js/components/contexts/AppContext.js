@@ -4,7 +4,6 @@ import Pusher from 'pusher-js';
 import { RadarProvider } from './RadarContext';
 import { WeatherStationProvider } from './WeatherStationContext';
 import { ToastProvider} from 'react-toast-notifications';
-
 export const AppContext = createContext();
 
 export const ACTIONS = {
@@ -22,7 +21,7 @@ export const AppProvider = (props) => {
     let ten_min = 10 * 60 * 1000,
         fifteen_min = 15 * 60 * 1000,
         five_min = 5 * 60 * 1000;
-
+        
     const OFFSETS = {
                             'eec' : {
                                 'interval' : ten_min,
