@@ -4,6 +4,8 @@ import Pusher from 'pusher-js';
 import { RadarProvider } from './RadarContext';
 import { WeatherStationProvider } from './WeatherStationContext';
 import { ToastProvider} from 'react-toast-notifications';
+import Login from '../modals/LoginModal';
+
 export const AppContext = createContext();
 
 export const ACTIONS = {
@@ -18,10 +20,12 @@ export const AppProvider = (props) => {
     
     let [UNIXNOW,setUNIXNOW] = useState(Date.now());
 
+    let [showLogin,setShowLogin] = useState(false);
+
     let ten_min = 10 * 60 * 1000,
         fifteen_min = 15 * 60 * 1000,
         five_min = 5 * 60 * 1000;
-        
+
     const OFFSETS = {
                             'eec' : {
                                 'interval' : ten_min,
@@ -81,7 +85,8 @@ export const AppProvider = (props) => {
 
     return (
         <ToastProvider>
-            <AppContext.Provider value={{UNIXNOW,OFFSETS}}>
+            <AppContext.Provider value={{UNIXNOW,OFFSETS,setShowLogin}}>
+                <Login show={showLogin} setShow={setShowLogin}/>
                 <RadarProvider>
                     <WeatherStationProvider>
                         {props.children}
