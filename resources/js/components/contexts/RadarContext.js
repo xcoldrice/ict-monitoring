@@ -38,10 +38,17 @@ const reducer = (radars,action) => {
             let tmpRemoved = tmp.splice(index,1)[0];
                 tmpRemoved.status = status;
                 tmpRemoved.remarks = remarks?? '';
+            let lastIndexOfActive = tmp.map(r=>r.status).lastIndexOf(1);
 
-            let lastStatusIndex = tmp.map(r => r.status).lastIndexOf(status)
+            let lastStatusIndex = tmp.map(r => r.status).lastIndexOf(status);
 
-            tmp.splice(lastStatusIndex + 1,0,tmpRemoved);
+                lastStatusIndex = lastStatusIndex + 1;
+                
+            if(status == 1) lastStatusIndex = lastStatusIndex - 1;
+            console.log(lastStatusIndex);
+            if(lastStatusIndex == 0) lastStatusIndex = lastIndexOfActive + 1;
+
+            tmp.splice(lastStatusIndex,0,tmpRemoved);
 
             return tmp;
             break;
