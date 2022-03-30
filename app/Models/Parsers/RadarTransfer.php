@@ -55,8 +55,13 @@ class RadarTransfer extends Model
 					$file = basename($value->file);
 					
 					$code = substr($file,4,3);
+					
 
+					if($code == 'ILO') $radar = 'Iloilo';
 					if($code == 'BOH') $radar = 'Bohol';
+
+
+					var_dump($code .'-'. $radar.'-'. $file);
 
 				}else{
 					if(!isset($srv[$value->Host]))
