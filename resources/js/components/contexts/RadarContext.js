@@ -26,13 +26,24 @@ const reducer = (radars,action) => {
             });
             break;
         case ACTIONS.RADAR_STATUS_UPDATE:
-            return radars.map(radar => {
-                if(radar.name == payload.name && radar.category == payload.category) {
-                    radar.status = payload.status;
-                    radar.remarks = payload.remarks?? '';
-                }
-                return radar;
-            })    
+            let tmp = [...radars];
+            let {status,category,name, remarks} = payload;
+
+            let index = tmp.findIndex((t)=>(t.name == name && t.category == category));
+            if(tmp[index].status == status) {
+                tmp[index].remarks = remarks?? '';
+                return tmp;
+            }
+            
+            let tmpRemoved = tmp.splice(index,1)[0];
+                tmpRemoved.status = status;
+                tmpRemoved.remarks = remarks?? '';
+
+            let lastStatusIndex = tmp.map(r => r.status).lastIndexOf(status)
+
+            tmp.splice(lastStatusIndex + 1,0,tmpRemoved);
+
+            return tmp;
             break;
         case ACTIONS.RADAR_LOAD_ALL:
             return payload;
