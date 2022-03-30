@@ -61,7 +61,6 @@ class RadarTransfer extends Model
 					if($code == 'BOH') $radar = 'Bohol';
 
 
-					var_dump($code .'-'. $radar.'-'. $file);
 
 				}else{
 					if(!isset($srv[$value->Host]))

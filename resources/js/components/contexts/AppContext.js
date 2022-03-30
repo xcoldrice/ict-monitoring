@@ -82,6 +82,15 @@ export const AppProvider = (props) => {
             window.ict_tool_echo = echo.channel('ict-tool-channel');
     },[])
 
+    useEffect(()=>{
+        try {
+            window.ict_tool_echo.listen('TriggerReload', (e) => {
+                document.location.reload(true);
+            })
+        } catch (error) {
+            
+        }
+    });
 
     return (
         <ToastProvider>
