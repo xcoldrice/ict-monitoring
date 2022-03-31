@@ -75,7 +75,9 @@ function Icon(props) {
     let style = {
         margin:'0px 2px',
     }
-    
+
+    if(String(type).length < 4 && (category == 'aws' || category == 'arg')) style.width = '43.20px';
+
     return <>
         <OverlayTrigger placement="auto" overlay={compute.popover}>
             <Badge className={props.class} style={style} bg={compute.badge} text={compute.text}>{type}</Badge>
