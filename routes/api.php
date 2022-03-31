@@ -18,6 +18,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/reload', function(){
     event(new \App\Events\TriggerReload(true));
+    return 'success';
+});
+
+Route::get('/recache/site-info',function() {
+    Cache::forget('site-info');
+    return 'success';
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
