@@ -73,13 +73,21 @@ function Radars() {
                 let {name,category} = radar;
                 let key = `${name}-${category}`;
                 let rname = `${name} ${category}`;
+
+                let updateBtn = <a href='#' className='text-decoration-none text-reset px-2' onClick={()=>show_modal_handle(radar)}>
+                                    <i className="bi bi-pencil-square"></i>
+                                </a>
+                if (name == 'mosaic') {
+                    updateBtn = <a href='#' className='text-decoration-none text-reset px-2' style={{opacity:'0'}}>
+                                    <i className="bi bi-pencil-square"></i>
+                                </a>;
+                }
+
                 return <tr key={key}>
                             <td>
                                 <div className='px-2'>
-                                    <a href='#' className='text-decoration-none text-reset px-2' onClick={()=>show_modal_handle(radar)}>
-                                        <i className="bi bi-pencil-square"></i>
-                                    </a>
-                                    <span>{rname}</span> 
+                                    {updateBtn}
+                                    <span className='text-capitalize'>{rname}</span> 
                                 </div>
                             </td>
                             {check_radar_status(radar)}
@@ -98,7 +106,7 @@ function Radars() {
                     setRadar={setSelectRadar}
                     dispatch={dispatch} action={ACTIONS.RADAR_STATUS_UPDATE}
                 />
-                <Table striped bordered hover>
+                <Table striped bordered hover responsive size='sm'>
                     <thead>{render_headers()}</thead>
                     <tbody>{render_radars()}</tbody>
                 </Table>

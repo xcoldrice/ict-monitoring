@@ -63,7 +63,7 @@ const reducer = (radars,action) => {
 
 export const RadarProvider = (props) => {
 
-    let recipients = ['dic','ftp5','mdsi','pumis','asti','api'];
+    let recipients = ['dic','ftp5','mdsi','api'];
     let [radars, dispatch] = useReducer(reducer, []);
 
     let {addToast} = useToasts();

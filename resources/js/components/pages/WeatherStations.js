@@ -35,7 +35,7 @@ function WeatherStations() {
     return (
             <Row>
                 <Col>
-                <Table striped bordered hover>
+                <Table striped bordered hover responsive size='sm'>
                     <thead>
                         <tr>
                             <th className='text-center'>aws</th>

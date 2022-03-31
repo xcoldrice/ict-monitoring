@@ -2,16 +2,18 @@ import React,{useContext} from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { Container } from 'react-bootstrap';
+import { Row,Col } from 'react-bootstrap';
 import { AppProvider } from './contexts/AppContext';
 import Menu from './layouts/Menu';
 
 function App() {
     return (
         <AppProvider>
-            <Container fluid>
-                <Menu/>
-            </Container>
+            <Row>
+                <Col>
+                    <Menu/>
+                </Col>
+            </Row>
         </AppProvider>
     );
 }
