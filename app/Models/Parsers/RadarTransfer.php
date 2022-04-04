@@ -25,7 +25,7 @@ class RadarTransfer extends Model
 	}
 
 	public function process() {
-		// self::check('Mactan');
+		// self::check('Tagaytay');
 		// return;
     
 
@@ -36,7 +36,7 @@ class RadarTransfer extends Model
 	}
 
 	private function check($radar){
-		$inPostgres = ['Iloilo','Bohol','Mactan'];
+		$inPostgres = ['Iloilo','Bohol','Mactan','Tagaytay'];
 
 		\Log::warning("RADAR_TRANSFER: ". $radar);
 		try{
@@ -55,13 +55,9 @@ class RadarTransfer extends Model
 					$file = basename($value->file);
 					
 					$code = substr($file,4,3);
-					
 
 					if($code == 'ILO') $radar = 'Iloilo';
 					if($code == 'BOH') $radar = 'Bohol';
-
-
-
 				}else{
 					if(!isset($srv[$value->Host]))
 						continue;
