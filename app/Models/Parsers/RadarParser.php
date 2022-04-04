@@ -56,7 +56,7 @@ class RadarParser extends Model
 	}
 
 	private function getTimeFromFile() {
-		$fourDigits = ['iloilo','bohol','mactan'];
+		$fourDigits = ['iloilo','bohol','mactan', 'tagaytay'];
 
 		$date_format = 'YmdHi';
 		$date_offset = 28800;
