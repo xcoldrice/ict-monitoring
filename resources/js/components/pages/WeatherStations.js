@@ -9,27 +9,9 @@ function WeatherStations() {
 
     let {dataset} = useContext(WeatherStationContext);
 
-    const render_icons = (values) => {
-        return <Icon {...values}/>
-    }
-
-    const render_fields = () => {
-        let aws = [];
-        let arg = [];
-
-        dataset.forEach((element,key) => {
-            let icon = <Icon key={key} {...element} />
-            
-            if(element.category == 'aws') aws.push(icon);
-            if(element.category == 'arg') arg.push(icon);
-
-        });
-
-        return <>
-                    <td>{aws}</td>
-                    <td>{arg}</td>
-                </>
-
+    const render_fields = (type) => {
+        return dataset.filter(data => data.category == type)
+                    .map((data, index) => <Icon key={index} {...data}/>);
     }
 
     return (
@@ -44,7 +26,8 @@ function WeatherStations() {
                     </thead>
                     <tbody>
                         <tr>
-                            {render_fields()}
+                            <td>{render_fields('aws')}</td>
+                            <td>{render_fields('arg')}</td>
                         </tr>
                     </tbody>
                 </Table>

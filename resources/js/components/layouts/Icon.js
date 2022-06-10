@@ -23,10 +23,14 @@ const badge_color = (time, now, offset) => {
     return 'success';
 } 
 
-const render_popover = (file, time) => {
+const render_popover = ({file, time, category}) => {
+    let text = 'File: ';
+        if(category == 'aws' || category == 'arg') {
+            text = 'Site: '; 
+        }
     return <Popover style={{maxWidth:'500px'}}>
                     <Popover.Body>
-                        File: {file}<br/>
+                        {text}{file}<br/>
                         <Moment date={time} format="[Date:] MMMM DD, YYYY h:mm A"/><br/>
                     </Popover.Body>
             </Popover>
@@ -48,10 +52,12 @@ function Icon(props) {
         badgeColor = badge_color(time, UNIXNOW, offset);
     }
 
-    if(String(type).length < 4 && (category == 'aws' || category == 'arg')) style.width = '43.20px';
+    if(String(type).length < 4 && (category == 'aws' || category == 'arg')) {
+        style.width = '43.20px';
+    }
 
     return <>
-        <OverlayTrigger placement="auto" overlay={render_popover(file,time)}>
+        <OverlayTrigger placement="auto" overlay={render_popover(props)}>
             <Badge className={props.class} style={style} bg={badgeColor} text={textColor}>
                 {type}
             </Badge>
