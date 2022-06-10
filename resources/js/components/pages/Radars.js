@@ -1,10 +1,9 @@
 import React,{useContext, useEffect, useState} from 'react';
-import { Row,Col, Table,Button,Badge} from 'react-bootstrap';
+import { Row,Col, Table,Badge,} from 'react-bootstrap';
 import {RadarContext} from './../contexts/RadarContext';
 import { ACTIONS } from './../contexts/AppContext';
 import RadarStatusModal from '../modals/RadarStatusModal';
 import Icon from './../layouts/Icon';
-import axios from 'axios';
 
 function Radars() {
     let {radars,recipients,dispatch} = useContext(RadarContext);
@@ -28,10 +27,6 @@ function Radars() {
                 )}  
             </tr>
     }
-    
-    const render_data_icons  = (values) => {
-        return <Icon {...values} />
-    }
 
     const render_data_fields = data => {
         return <>
@@ -40,7 +35,7 @@ function Radars() {
                 return <td key={r}>
                         {data_.map(d => 
                             <React.Fragment key={`${d.type}-${d.time}`}>
-                                {render_data_icons(d)}
+                                <Icon {...d}/>
                             </React.Fragment> 
                         )}
                     </td>
@@ -53,12 +48,12 @@ function Radars() {
         switch (status) {
             case 0:
                 return <td className='text-capitalize' style={{wordBreak:'break-all'}} colSpan={recipients.length}> 
-                            <Badge bg='danger'>DOWN</Badge> {remarks?? ''} 
+                            <Badge bg='none' text='danger'>DOWN</Badge> {remarks?? ''} 
                         </td>
                 break;
             case 2:
                 return <td className='text-capitalize' colSpan={recipients.length}>
-                            <Badge bg='secondary'>UNDER DEVELOPMENT</Badge>
+                            <Badge bg="none" text='secondary'>UNDER DEVELOPMENT</Badge>
                         </td>
                 break;
             default:
