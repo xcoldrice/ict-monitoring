@@ -32,7 +32,10 @@ const render_popover = ({file, time, category}) => {
     return <Popover style={{maxWidth:'500px'}}>
                     <Popover.Body>
                         {text}{file}<br/>
-                        {typeof time === 'number'? <Moment date={time} format="[Date:] MMMM DD, YYYY h:mm A"/>:'No Data...'}
+                        {typeof time === 'number'
+                            ?<Moment date={time} format="[Date:] MMMM DD, YYYY h:mm A"/>
+                            :'No Data...'}<br/>
+                        Last Data: <Moment fromNow date={time}/>
                     </Popover.Body>
             </Popover>
 }
