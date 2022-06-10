@@ -25,13 +25,14 @@ const badge_color = (time, now, offset) => {
 
 const render_popover = ({file, time, category}) => {
     let text = 'File: ';
-        if(category == 'aws' || category == 'arg') {
-            text = 'Site: '; 
-        }
+    if(category == 'aws' || category == 'arg') {
+        text = 'Site: '; 
+    }
+
     return <Popover style={{maxWidth:'500px'}}>
                     <Popover.Body>
                         {text}{file}<br/>
-                        <Moment date={time} format="[Date:] MMMM DD, YYYY h:mm A"/><br/>
+                        {typeof time === 'number'? <Moment date={time} format="[Date:] MMMM DD, YYYY h:mm A"/>:'No Data...'}
                     </Popover.Body>
             </Popover>
 }
@@ -39,7 +40,7 @@ const render_popover = ({file, time, category}) => {
 function Icon(props) {
 
     let {UNIXNOW, OFFSETS} = useContext(AppContext),
-        {file,time,type,category} = props;
+        {time,type,category} = props;
 
     let offset = OFFSETS[category]?? OFFSETS.default;
     let style = {};
