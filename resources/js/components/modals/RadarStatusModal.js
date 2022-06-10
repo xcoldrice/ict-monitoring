@@ -2,7 +2,7 @@ import axios from 'axios';
 import React,{useState} from 'react';
 import {Modal,Button, Form, Badge, Table} from 'react-bootstrap';
 import {useToasts} from 'react-toast-notifications';
-
+import Moment from 'react-moment';
 function RadarStatusModal(props) {
 
     const {addToast} = useToasts();
@@ -60,26 +60,28 @@ function RadarStatusModal(props) {
       switch (modalState) {
         case 'history':
           return <Table striped bordered hover>
-                  <thead>
-                      <tr>
-                        <th>Status</th>
-                        <th>Remarks</th>
-                        <th>Date</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                    {histories.map((history,index)=> {
-                      let {status,remarks,date} = history,
-                          bg = 'success';
-                          if(status == 'Down') bg = 'danger';
-                          if(status == 'Under Development') bg = 'secondary';
-                          return <tr key={index}>
-                                    <td style={{width:'150px'}}><Badge bg={bg}>{status}</Badge></td>
-                                    <td style={{width:'370px',wordBreak:'break-all'}}>{remarks}</td>
-                                    <td style={{width:'170px'}}>{date}</td>
-                                  </tr>
-                    })}
-                  </tbody>
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Remarks</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {histories.map((history,index)=> {
+                        let {status,remarks,date} = history,
+                            bg = 'success';
+                            if(status == 'Down') bg = 'danger';
+                            if(status == 'Under Development') bg = 'secondary';
+                            return <tr key={index}>
+                                        <td style={{width:'150px'}}><Badge bg={bg}>{status}</Badge></td>
+                                        <td style={{width:'370px',wordBreak:'break-all'}}>{remarks}</td>
+                                        <td style={{width:'170px'}}>
+                                            <Moment date={new Date(date)} format="MMMM DD, YYYY h:mm A"/><br/>
+                                        </td>
+                                    </tr>
+                        })}
+                    </tbody>
                 </Table>
           break;
         default:
