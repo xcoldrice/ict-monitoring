@@ -25,17 +25,22 @@ const badge_color = (time, now, offset) => {
 
 const render_popover = ({file, time, category}) => {
     let text = 'File: ';
+    let timeDiff = '';
+    let dataTime = 'No Data...';
     if(category == 'aws' || category == 'arg') {
         text = 'Site: '; 
+    }
+
+    if(typeof time === 'number') {
+        dataTime = <Moment date={time} format="[Date:] MMMM DD, YYYY h:mm A"/>;
+        timeDiff = <Moment fromNow date={time}/>;
     }
 
     return <Popover style={{maxWidth:'500px'}}>
                     <Popover.Body>
                         {text}{file}<br/>
-                        {typeof time === 'number'
-                            ?<Moment date={time} format="[Date:] MMMM DD, YYYY h:mm A"/>
-                            :'No Data...'}<br/>
-                        Last Data: <Moment fromNow date={time}/>
+                        {dataTime}<br/>
+                        {timeDiff}
                     </Popover.Body>
             </Popover>
 }
