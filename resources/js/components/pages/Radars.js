@@ -18,7 +18,8 @@ function Radars() {
     }
 
     const render_headers = () => {
-        return <tr>
+        return <> 
+            <tr>
                 <th className='text-center' style={{minWidth:"200px"}}>name</th>
                 {recipients.map(recipient => 
                     <th className='text-center' key={recipient}>
@@ -26,17 +27,16 @@ function Radars() {
                     </th>
                 )}  
             </tr>
+        </>
     }
 
     const render_data_fields = data => {
         return <>
-            {recipients.map(r => {
-                let data_ = data[r]?? [];
-                return <td key={r}>
-                        {data_.map(d => 
-                            <React.Fragment key={`${d.type}-${d.time}`}>
-                                <Icon {...d}/>
-                            </React.Fragment> 
+            {recipients.map(recipient => {
+                let values = data[recipient]?? [];
+                return <td key={recipient}>
+                        {values.map(value => 
+                            <Icon key={`${value.type}-${value.time}`} {...value}/>
                         )}
                     </td>
             })}
@@ -45,44 +45,44 @@ function Radars() {
 
     const check_radar_status = (radar) => {
         let {status, remarks, data} = radar;
-        switch (status) {
-            case 0:
-                return <td className='text-capitalize' style={{wordBreak:'break-all'}} colSpan={recipients.length}> 
-                            <Badge bg='none' text='danger'>DOWN</Badge> {remarks?? ''} 
-                        </td>
-                break;
-            case 2:
-                return <td className='text-capitalize' colSpan={recipients.length}>
-                            <Badge bg="none" text='secondary'>UNDER DEVELOPMENT</Badge>
-                        </td>
-                break;
-            default:
-                return render_data_fields(data);
-                break;
+
+        if(status == 0) {
+            return <>
+                    <td className='text-capitalize' style={{wordBreak:'break-all'}} 
+                            colSpan={recipients.length}> 
+                        <Badge bg='none' text='danger'>DOWN</Badge> {remarks?? ''} 
+                    </td>
+            </>
         }
+        if(status == 2) {
+            return <>
+                <td className='text-capitalize' colSpan={recipients.length}>
+                    <Badge bg="none" text='secondary'>UNDER DEVELOPMENT</Badge>
+                </td>
+            </>
+        }
+        
+        return render_data_fields(data);
     }
 
     const render_radars = () => {
         return <>
             {radars.map(radar=> {
-                let {name,category} = radar;
-                let key = `${name}-${category}`;
-                let rname = `${name} ${category}`;
-
-                let updateBtn = <a href='#' className='text-decoration-none text-reset px-2' onClick={()=>show_modal_handle(radar)}>
+                let {name, category} = radar;
+                let updateBtn = "";
+                
+                if(name != 'mosaic') {
+                    updateBtn = <a href='#' className='text-decoration-none text-reset px-2' 
+                                        onClick={()=>show_modal_handle(radar)}>
                                     <i className="bi bi-pencil-square"></i>
                                 </a>
-                if (name == 'mosaic') {
-                    updateBtn = <a href='#' className='text-decoration-none text-reset px-2' style={{opacity:'0'}}>
-                                    <i className="bi bi-pencil-square"></i>
-                                </a>;
                 }
 
-                return <tr key={key}>
+                return <tr key={`${name}-${category}`}>
                             <td>
                                 <div className='px-2'>
                                     {window.user_name != 'Guest' && updateBtn}
-                                    <span className='text-capitalize'>{rname}</span> 
+                                    <span className='text-capitalize'>{`${name} ${category}`}</span> 
                                 </div>
                             </td>
                             {check_radar_status(radar)}
