@@ -81,7 +81,7 @@ function Radars() {
                 return <tr key={key}>
                             <td>
                                 <div className='px-2'>
-                                    {updateBtn}
+                                    {window.user_name != 'Guest' && updateBtn}
                                     <span className='text-capitalize'>{rname}</span> 
                                 </div>
                             </td>
