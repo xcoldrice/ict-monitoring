@@ -6,29 +6,29 @@ import { useToasts } from 'react-toast-notifications';
 export const RadarContext = createContext();
 
 const reducer = (radars,action) => {
-    let payload = action.payload;
+    let payload = action.payload,
+        {status, category, name, remarks, type, recipient} = payload;
+
     switch (action.type) {
         case ACTIONS.RADAR_DATA_UPDATE:
             return radars.map((radar)=>{
-                if(radar.name == payload.name && radar.category == payload.category) {
-                    if(!radar.data[payload.recipient]) {
-                        radar.data[payload.recipient] = [];
+                if(radar.name == name && radar.category == category) {
+                    if(!radar.data[recipient]) {
+                        radar.data[recipient] = [];
                     }
-                    let index = radar.data[payload.recipient].findIndex((d)=> d.type == payload.type);
+                    let index = radar.data[recipient].findIndex((d)=> d.type == type);
 
                     if(index < 0) {
-                        radar.data[payload.recipient].push(payload);
+                        radar.data[recipient].push(payload);
                         return radar;
                     }
-                    radar.data[payload.recipient][index] = payload;
+                    radar.data[recipient][index] = payload;
                 }
                 return radar;
             });
             break;
         case ACTIONS.RADAR_STATUS_UPDATE:
             let tmp = [...radars];
-            let {status,category,name, remarks} = payload;
-
             let index = tmp.findIndex((t)=>(t.name == name && t.category == category));
             if(tmp[index].status == status) {
                 tmp[index].remarks = remarks?? '';
