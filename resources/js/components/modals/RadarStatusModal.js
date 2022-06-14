@@ -57,77 +57,99 @@ function RadarStatusModal(props) {
     }
 
     const render_body = () => {
-      switch (modalState) {
-        case 'history':
-          return <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Status</th>
-                            <th>Remarks</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {histories.map((history,index)=> {
-                        let {status,remarks,date} = history,
-                            bg = 'success';
-                            if(status == 'Down') bg = 'danger';
-                            if(status == 'Under Development') bg = 'secondary';
-                            return <tr key={index}>
-                                        <td style={{width:'150px'}}><Badge bg={bg}>{status}</Badge></td>
-                                        <td style={{width:'370px',wordBreak:'break-all'}}>{remarks}</td>
-                                        <td style={{width:'170px'}}>
-                                            <Moment date={new Date(date)} format="MMMM DD, YYYY h:mm A"/><br/>
+
+        if(modalState == 'history') {
+            return <>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {histories.map((history,index)=> {
+                            let {status,remarks,date} = history,
+                                variant = 'success';
+
+                                if(status == 'Down') {
+                                    variant = 'danger';
+                                }
+
+                                if(status == 'Under Development') {
+                                    variant = 'secondary';
+                                }
+
+                                return <>
+                                    <tr key={index}>
+                                        <td style={{width:'10%'}}>
+                                            <Badge bg={variant}>{status}</Badge>
+                                        </td>
+                                        <td style={{width:'60%', wordBreak:'break-all'}}>
+                                            {remarks}
+                                        </td>
+                                        <td style={{width:'30%'}}>
+                                            <Moment date={new Date(date)} format="MMMM DD, YYYY h:mm A"/>
                                         </td>
                                     </tr>
-                        })}
-                    </tbody>
-                </Table>
-          break;
-        default:
-          return <>
-                  <Form.Group className="mb-3">
+                                </>
+                            })}
+                        </tbody>
+                    </Table>
+            </>
+        }
+
+        return <>
+                <Form.Group className="mb-3">
                     <Form.Label className='d-flex justify-content-between'>Select Status 
-                      <small>
-                        <a href="#" className='pull-right' onClick={()=>{setModalState('history'); get_status_history()}}>View Status History</a>
-                      </small>
+                        <small>
+                            <a href="#" className='pull-right' 
+                                onClick={()=>{setModalState('history'); get_status_history()}}>View Status History</a>
+                        </small>
                     </Form.Label>
                     <Form.Select defaultValue={status} onChange={(e)=>radar_change(e)}>
-                      <option className='text-capitalize' value={0}>down</option>
-                      <option className='text-capitalize' value={1}>active</option>
-                      <option className='text-capitalize' value={2}>under development</option>
+                        <option value="0">down</option>
+                        <option value="1">active</option>
+                        <option value="2">under development</option>
                     </Form.Select>
-                  </Form.Group>
-                  <Form.Group className='mb-3'>
+                </Form.Group>
+                < Form.Group className='mb-3'>
                     <Form.Label>Remarks</Form.Label>
-                    <Form.Control as="textarea" placeholder="Leave a comment here" rows={3} onChange={(e)=>radar_change(e)} defaultValue={remarks}/>
-                  </Form.Group>
-                </>
-          break;
-      }
+                    <Form.Control as="textarea" placeholder="Leave a comment here" rows={3} 
+                        onChange={(e)=>radar_change(e)} defaultValue={remarks}/>
+                </Form.Group>
+        </>
     }
 
-
     const render_footer = () => {
-      switch (modalState) {
-        case 'history':
-          return <Button variant="primary" onClick={()=>setModalState('update')}>Back</Button>
-          break;
-        default:
-          return <Button variant="primary" onClick={()=>save_status()}>Save Changes</Button>
-          break;
-      }
+        if(modalState == 'history') {
+            return <>
+                <Button variant="primary" onClick={()=>setModalState('update')}>
+                    Back
+                </Button>
+            </>
+        }
 
+        return <>
+            <Button variant="primary" onClick={()=>save_status()}>
+                Save Changes
+            </Button>
+        </>
     }
 
     return <>
             <Modal show={show} onHide={()=>closeModal()} size="lg">
                 <Modal.Header closeButton>
-                  <Modal.Title className='text-capitalize'>update {name} radar status</Modal.Title>
+                    <Modal.Title>
+                        update {name} radar status
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>{render_body()}</Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={()=>closeModal()}>Close</Button>
+                    <Button variant="secondary" onClick={()=>closeModal()}>
+                        Close
+                    </Button>
                     {render_footer()}
                 </Modal.Footer>
             </Modal>
