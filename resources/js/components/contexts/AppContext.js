@@ -4,7 +4,6 @@ import Pusher from 'pusher-js';
 import { RadarProvider } from './RadarContext';
 import { WeatherStationProvider } from './WeatherStationContext';
 import { ToastProvider} from 'react-toast-notifications';
-import Login from '../modals/LoginModal';
 
 export const AppContext = createContext();
 
@@ -84,7 +83,7 @@ export const AppProvider = (props) => {
 
     useEffect(()=>{
         try {
-            window.ict_tool_echo.listen('TriggerReload', (e) => {
+            window.ict_tool_echo.listen('TriggerReload', () => {
                 document.location.reload(true);
             })
         } catch (error) {
@@ -95,7 +94,6 @@ export const AppProvider = (props) => {
     return (
         <ToastProvider>
             <AppContext.Provider value={{UNIXNOW,OFFSETS,setShowLogin}}>
-                <Login show={showLogin} setShow={setShowLogin}/>
                 <RadarProvider>
                     <WeatherStationProvider>
                         {props.children}

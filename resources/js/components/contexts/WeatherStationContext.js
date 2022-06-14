@@ -4,24 +4,23 @@ import { useToasts } from 'react-toast-notifications';
 
 export const WeatherStationContext = createContext();
 
-const reducer = (dataset,action) => {
-    let payload = action.payload;
-    switch(action.type) {
+const reducer = (dataset, action) => {
+    let {payload, type} = action;
+    switch(type) {
         case ACTIONS.WEATHER_STATION_LOAD_ALL:
-            dataset = payload;
-            return dataset;
+            return payload;
             break;
         case ACTIONS.UPDATE_STATION_DATA:
-            let tmp = [...dataset],
-                index = tmp.findIndex((d)=> d.type == payload.type);
+            let temp = [...dataset],
+                index = temp.findIndex(data => data.type == payload.type);
             if(index < 0) {
-                tmp.push(payload);
-                return tmp;
+                temp.push(payload);
+                return temp;
             }
 
-            tmp[index].time = payload.time; 
+            temp[index].time = payload.time; 
             
-            return tmp;
+            return temp;
             break;
         default:
             return dataset;
@@ -32,15 +31,14 @@ const reducer = (dataset,action) => {
 
 
 export const WeatherStationProvider = (props) => { 
-
     let [dataset,dispatch] = useReducer(reducer,[]);
     const {addToast} = useToasts();
 
     const getDataSet = async () => {
-        await axios({ method: 'GET', url: '/weather-stations' }).then((e) => {
-            dispatch({type:ACTIONS.WEATHER_STATION_LOAD_ALL,payload:e.data});
-            addToast('Weather Stations Loaded!',{autoDismiss:true,appearance:'success'})
-        }).catch((e) => {
+        await axios({ method: 'GET', url: '/weather-stations' }).then(response => {
+            dispatch({type:ACTIONS.WEATHER_STATION_LOAD_ALL, payload:response.data});
+            addToast('Weather Stations Loaded!',{autoDismiss:true, appearance:'success'})
+        }).catch(() => {
             addToast('Error Loading Weather Stations!',{autoDismiss:true,appearance:'error'});
         })
         
@@ -48,12 +46,12 @@ export const WeatherStationProvider = (props) => {
 
 
 
-    useEffect(()=> getDataSet() ,[]);
+    useEffect(() => getDataSet() ,[]);
 
     useEffect(() => {
         try {
-            window.ict_tool_echo.listen('PublishWeatherStation', (e) => {
-                dispatch({type:ACTIONS.UPDATE_STATION_DATA,payload:e.data});
+            window.ict_tool_echo.listen('PublishWeatherStation', event => {
+                dispatch({type:ACTIONS.UPDATE_STATION_DATA,payload: event.data});
             })
         } catch (error) {
         }

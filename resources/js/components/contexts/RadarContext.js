@@ -32,6 +32,7 @@ const reducer = (radars,action) => {
             let index = tmp.findIndex((t)=>(t.name == name && t.category == category));
             if(tmp[index].status == status) {
                 tmp[index].remarks = remarks?? '';
+
                 return tmp;
             }
             
@@ -41,16 +42,20 @@ const reducer = (radars,action) => {
             let lastIndexOfActive = tmp.map(r=>r.status).lastIndexOf(1);
 
             let lastStatusIndex = tmp.map(r => r.status).lastIndexOf(status);
-
                 lastStatusIndex = lastStatusIndex + 1;
                 
-            if(status == 1) lastStatusIndex = lastStatusIndex - 1;
-            console.log(lastStatusIndex);
-            if(lastStatusIndex == 0) lastStatusIndex = lastIndexOfActive + 1;
+            if(status == 1) {
+                lastStatusIndex = lastStatusIndex - 1;
+            }
+
+            if(lastStatusIndex == 0) {
+                lastStatusIndex = lastIndexOfActive + 1; 
+            }
 
             tmp.splice(lastStatusIndex,0,tmpRemoved);
 
             return tmp;
+
             break;
         case ACTIONS.RADAR_LOAD_ALL:
             return payload;
@@ -69,11 +74,11 @@ export const RadarProvider = (props) => {
     let {addToast} = useToasts();
 
     const getRadars = async () => {
-        await axios({ method: 'GET', url: '/radars' }).then((e) => {
-            dispatch({type:ACTIONS.RADAR_LOAD_ALL,payload:e.data});
+        await axios({ method: 'GET', url: '/radars' }).then(response => {
+            dispatch({type:ACTIONS.RADAR_LOAD_ALL, payload:response.data});
             addToast('Radars loaded!',{autoDismiss:true,appearance:'success'})
-        }).catch((e) => {
-            addToast('Error Loading Radars!',{appearance:'error',autoDismiss:true})
+        }).catch(() => {
+            addToast('Error Loading Radars!',{appearance:'error', autoDismiss:true})
         })
         
     }
@@ -82,11 +87,11 @@ export const RadarProvider = (props) => {
 
     useEffect(() => {
         try {
-            window.ict_tool_echo.listen('PublishRadar', (e) => {
-                dispatch({type:ACTIONS.RADAR_DATA_UPDATE,payload:e.data});
+            window.ict_tool_echo.listen('PublishRadar', event => {
+                dispatch({type:ACTIONS.RADAR_DATA_UPDATE, payload:event.data});
             })
-            window.ict_tool_echo.listen('UpdateRadarStatus',(s)=>{
-                dispatch({type:ACTIONS.RADAR_STATUS_UPDATE,payload:s.data});
+            window.ict_tool_echo.listen('UpdateRadarStatus', event =>{
+                dispatch({type:ACTIONS.RADAR_STATUS_UPDATE, payload:event.data});
                 addToast('Radar Status Updated!',{autoDismiss:true,appearance:'success'});
             });
         } catch (error) {
