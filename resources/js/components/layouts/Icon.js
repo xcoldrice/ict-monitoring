@@ -54,11 +54,9 @@ function Icon(props) {
     let style = {};
         style.margin = '0px 2px';
     let textColor = 'secondary';
-    let badgeColor = 'light';
 
     if(typeof time === 'number') {
         textColor = 'light';
-        badgeColor = badge_color(time, UNIXNOW, offset);
     }
 
     if(String(type).length < 4 && (category == 'aws' || category == 'arg')) {
@@ -67,7 +65,12 @@ function Icon(props) {
 
     return <>
         <OverlayTrigger placement="auto" overlay={render_popover(props)}>
-            <Badge className={props.class} style={style} bg={badgeColor} text={textColor}>
+            <Badge 
+                className={props.class} 
+                style={style} 
+                bg={badge_color(time, UNIXNOW, offset)} 
+                text={textColor}
+            >
                 {type}
             </Badge>
         </OverlayTrigger>
