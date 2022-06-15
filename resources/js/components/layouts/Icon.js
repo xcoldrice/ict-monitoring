@@ -3,22 +3,17 @@ import { Badge, OverlayTrigger, Popover } from 'react-bootstrap';
 import { AppContext } from './../contexts/AppContext';
 import Moment from 'react-moment';
 
-const badge_color = (time, now, offset) => {
-    let start = new Date(time),
-        end = new Date(now),
-        diff = end.getTime() - start.getTime();
-    
-    offset = offset.interval + offset.threshold;
+const badge_color = (time, now, {interval, threshold}) => {
 
-    if(typeof time == 'object') {
-        return 'light'
-    }
-    if (diff > ((60 * 60 * 1000) + offset)) {
-        return 'danger';
-    }
-    if(diff > offset) {
-        return 'warning';
-    }
+    let diff = ((new Date(now).getTime()) - (new Date(time).getTime()));
+
+    let offset = interval + threshold;
+
+    if(typeof time == 'object') return 'light';
+
+    if(diff > ((60 * 60 * 1000) + offset)) return 'danger';
+
+    if(diff > offset) return 'warning';
 
     return 'success';
 } 
