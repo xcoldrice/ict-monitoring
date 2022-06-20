@@ -19,45 +19,43 @@ export const AppProvider = (props) => {
     
     let [UNIXNOW,setUNIXNOW] = useState(Date.now());
 
-    let [showLogin,setShowLogin] = useState(false);
-
     let ten_min = 10 * 60 * 1000,
         fifteen_min = 15 * 60 * 1000,
         five_min = 5 * 60 * 1000;
 
     const OFFSETS = {
-                            'eec' : {
-                                'interval' : ten_min,
-                                'threshold' : five_min,
-                            },
-                            'jrc' : {
-                                'interval' : fifteen_min,
-                                'threshold' : five_min,
-                            },
-                            'selex' : {
-                                'interval' : ten_min,
-                                'threshold' : five_min,
-                            },
-                            'vaisala' : {
-                                'interval' : ten_min,
-                                'threshold' : five_min,
-                            },
-                            'mosaic' : {
-                                'interval' : fifteen_min,
-                                'threshold' : ten_min,
-                            },
-                            'aws' : {
-                                'interval' : ten_min,
-                                'threshold' : ten_min,
-                            },
-                            'arg' : {
-                                'interval' : ten_min,
-                                'threshold' : ten_min,
-                            },
-                            'default' : {
-                                'interval' : ten_min,
-                                'threshold' : five_min,
-                            }
+                        'eec' : {
+                            'interval' : ten_min,
+                            'threshold' : five_min,
+                        },
+                        'jrc' : {
+                            'interval' : fifteen_min,
+                            'threshold' : five_min,
+                        },
+                        'selex' : {
+                            'interval' : ten_min,
+                            'threshold' : five_min,
+                        },
+                        'vaisala' : {
+                            'interval' : ten_min,
+                            'threshold' : five_min,
+                        },
+                        'mosaic' : {
+                            'interval' : fifteen_min,
+                            'threshold' : ten_min,
+                        },
+                        'aws' : {
+                            'interval' : ten_min,
+                            'threshold' : ten_min,
+                        },
+                        'arg' : {
+                            'interval' : ten_min,
+                            'threshold' : ten_min,
+                        },
+                        'default' : {
+                            'interval' : ten_min,
+                            'threshold' : five_min,
+                        }
     };
     const auto_refresh = () => {
         setTimeout(() => setUNIXNOW(Date.now()) , 5000);
@@ -93,7 +91,7 @@ export const AppProvider = (props) => {
 
     return (
         <ToastProvider>
-            <AppContext.Provider value={{UNIXNOW,OFFSETS,setShowLogin}}>
+            <AppContext.Provider value={{UNIXNOW,OFFSETS}}>
                 <RadarProvider>
                     <WeatherStationProvider>
                         {props.children}

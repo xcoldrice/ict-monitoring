@@ -1,4 +1,4 @@
-import React, { useContext, useEffect} from 'react';
+import React, { useContext } from 'react';
 import { Badge, OverlayTrigger, Popover } from 'react-bootstrap';
 import { AppContext } from './../contexts/AppContext';
 import Moment from 'react-moment';

@@ -1,7 +1,5 @@
-import { defaultsDeep, map } from 'lodash';
 import React, { useContext } from 'react';
 import { Row,Col, Table } from 'react-bootstrap';
-import { render } from 'react-dom';
 import Icon from '../layouts/Icon';
 import {WeatherStationContext} from './../contexts/WeatherStationContext';
 

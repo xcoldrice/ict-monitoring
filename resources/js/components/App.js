@@ -1,8 +1,7 @@
-import React,{useContext} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import { Row,Col } from 'react-bootstrap';
+import {Row, Col} from 'react-bootstrap';
 import { AppProvider } from './contexts/AppContext';
 import Menu from './layouts/Menu';
 

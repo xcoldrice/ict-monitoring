@@ -1,4 +1,4 @@
-import React,{useContext, useEffect, useState} from 'react';
+import React,{useContext, useState} from 'react';
 import { Row,Col, Table,Badge,} from 'react-bootstrap';
 import {RadarContext} from './../contexts/RadarContext';
 import { ACTIONS } from './../contexts/AppContext';
