@@ -9,8 +9,6 @@ import Moment from 'react-moment';
 function Menu() {
 
     const render_button = () => {
-        let logoutForm = document.getElementById('logout-form');
-
         if(window.user_name == "Guest") {
             return <>
                     <NavDropdown.Item onClick={() => window.location.href = '/login'}>
@@ -19,7 +17,7 @@ function Menu() {
             </>
         }
         return <>
-            <NavDropdown.Item onClick={() => logoutForm.submit()}>
+            <NavDropdown.Item onClick={() => document.getElementById('logout-form').submit()}>
                 Logout
             </NavDropdown.Item>
         </> 
