@@ -27,7 +27,16 @@ function Menu() {
         <BrowserRouter>
             <Navbar bg="dark" expand="lg" variant="dark">
                 <Container fluid>
-                    <Navbar.Brand href="#home">ICT Monitoring Tool</Navbar.Brand>
+                    <Navbar.Brand href="#home">
+                    <img
+                        alt=""
+                        src="https://pubfiles.pagasa.dost.gov.ph/pagasaweb/images/pagasa-logo.png"
+                        width="30"
+                        height="30"
+                        className="d-inline-block align-top"
+                        />{' '}
+                        ICT Monitoring Tool
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
@@ -49,7 +58,7 @@ function Menu() {
             </Navbar>
             <Routes>
                 <Route exact path="/" element={<Dashboard/>}/>
-                    <Route exact path="/react/radar" element={<Radars/>}/>
+                <Route exact path="/react/radar" element={<Radars/>}/>
                 <Route exact path="/react/aws" element={<WeatherStations/>}/>
             </Routes>      
         </BrowserRouter>
