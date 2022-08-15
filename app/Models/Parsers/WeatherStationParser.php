@@ -27,10 +27,6 @@ class WeatherStationParser extends Model
 
     private function publish () {
 
-        if($this->type == '4004') {
-            $this->station = 'Iligan, Lanao del Norte';
-        }
-
         $this->toPublish = [
                         'category' => $this->station,  
                         'file'     => $this->file,  
@@ -41,7 +37,7 @@ class WeatherStationParser extends Model
 
         if($this->type != "0") {
             self::cacheEachSite();
-            event(new \App\Events\PublishWeatherStation( $this->toPublish));
+            event(new \App\Events\PublishWeatherStation($this->toPublish));
         }
     }
 
