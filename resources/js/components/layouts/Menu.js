@@ -44,7 +44,7 @@ function Menu() {
                         <Nav.Link as={Link} to="/">Dashboard</Nav.Link>
                         <Nav.Link as={Link} to="/react/radar">Radars</Nav.Link>
                         <Nav.Link as={Link} to="/react/aws">Weather Stations</Nav.Link>
-                        <Nav.Link as={Link} to="/react/cms">Pagasa CMS Cache</Nav.Link>
+                        <Nav.Link as={Link} to="/react/cms">PAGASA CMS Data</Nav.Link>
 
                     </Nav>
                     <Navbar.Text>
