@@ -9,7 +9,17 @@ function WeatherStations() {
 
     const render_fields = (type) => {
         return dataset.filter(data => data.category == type)
-                    .map((data, index) => <Icon key={index} {...data}/>);
+                    .map((data, index) => { 
+                    return  <Icon 
+                            style={{width:'43.20px'}}
+                            key={index}
+                            tooltip={`Site: ${data.file}`}
+                            className={`${data.category}-${data.type}`}
+                            {...data}
+                        >
+                            {data.type}
+                    </Icon>
+        });
     }
 
     return (

@@ -17,6 +17,7 @@ class WeatherStationController extends Controller
         // dd(\Cache::forget('site-info'));
 
         $activeSites = \Cache::get('site-info') ?? [];
+        
         if(empty($activeSites)) {
             $activeSites = DB::connection('dserv')->table('site_info')
             ->where([
