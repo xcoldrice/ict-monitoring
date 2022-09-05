@@ -14,7 +14,6 @@ function WeatherStations() {
                             style={{width:'43.20px'}}
                             key={index}
                             tooltip={`Site: ${data.file}`}
-                            className={`${data.category}-${data.type}`}
                             {...data}
                         >
                             {data.type}

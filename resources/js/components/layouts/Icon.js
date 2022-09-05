@@ -4,7 +4,7 @@ import { AppContext } from './../contexts/AppContext';
 import Moment from 'react-moment';
 
 function Icon(props) {
-    let {children, tooltip, time, className, category, style}= props,
+    let {children, tooltip, time, class:className, category, style}= props,
         {UNIXNOW, OFFSETS} = useContext(AppContext),
         {interval, threshold} = OFFSETS[category]?? OFFSETS.default,
         dataTime = 'No Data.',

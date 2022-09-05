@@ -38,7 +38,6 @@ function Radars() {
             return <Icon 
                     key={index}
                     tooltip={tooltip}
-                    className={`${name}-${category}-${recipient}-${type}`}
                     {...item}
                 >
                     {type}

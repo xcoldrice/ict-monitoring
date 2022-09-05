@@ -47,7 +47,9 @@ function Cms() {
                 <tbody>
                     {models.map((model, index)=> {
                         return <tr key={index}>
-                            <td>{model.name}</td>
+                            <td>
+                                {model.name}
+                            </td>
                             <td className='text-capitalize'>{model.category}</td>
                             <td>{render_status(model.status)}</td>
                         </tr>
