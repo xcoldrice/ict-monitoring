@@ -1,5 +1,5 @@
 import React,{useContext, useState} from 'react';
-import { Row,Col, Table,Badge,} from 'react-bootstrap';
+import { Row, Col, Table, Badge,} from 'react-bootstrap';
 import {RadarContext} from './../contexts/RadarContext';
 import { ACTIONS } from './../contexts/AppContext';
 import RadarStatusModal from '../modals/RadarStatusModal';
@@ -64,7 +64,14 @@ function Radars() {
             return <>
                 <td className='text-capitalize' style={{wordBreak:'break-all'}} 
                         colSpan={recipients.length}> 
-                    <Badge bg='none' text='danger'>DOWN</Badge> {remarks?? ''} 
+                    <div style={{display:"flex", alignItems:"center"}}>
+                        <div>
+                            <Badge bg='none' text='danger'>DOWN</Badge> 
+                        </div>
+                        <div>
+                            {remarks?? ''}
+                        </div>
+                    </div>
                 </td>
             </>
         }
