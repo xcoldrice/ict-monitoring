@@ -38,7 +38,7 @@ function Icon(props) {
 
     const render_popover = () => {
 
-        return <Popover style={{maxWidth:'600px'}}>
+        return <Popover>
                 <Popover.Body>
                     {tooltip} <br/>
                     {dataTime} <br/>
