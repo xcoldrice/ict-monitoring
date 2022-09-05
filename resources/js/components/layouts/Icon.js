@@ -3,7 +3,7 @@ import { Badge,  OverlayTrigger, Popover } from 'react-bootstrap';
 import { AppContext } from './../contexts/AppContext';
 import Moment from 'react-moment';
 
-function Data(props) {
+function Icon(props) {
     let {children, tooltip, time, className, category, style}= props,
         {UNIXNOW, OFFSETS} = useContext(AppContext),
         {interval, threshold} = OFFSETS[category]?? OFFSETS.default,
@@ -61,4 +61,4 @@ function Data(props) {
     </> 
 }
 
-export default Data;
+export default Icon;
