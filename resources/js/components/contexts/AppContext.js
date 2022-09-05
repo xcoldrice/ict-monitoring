@@ -4,6 +4,7 @@ import Pusher from 'pusher-js';
 import { RadarProvider } from './RadarContext';
 import { WeatherStationProvider } from './WeatherStationContext';
 import { ToastProvider} from 'react-toast-notifications';
+import { CacheModelProvider } from './CacheModelContext';
 
 export const AppContext = createContext();
 
@@ -13,6 +14,11 @@ export const ACTIONS = {
     RADAR_LOAD_ALL : 'radar-load-all',
     WEATHER_STATION_LOAD_ALL : 'weather-station-load-all',
     UPDATE_STATION_DATA : 'update-station-data',
+    MODEL_LOAD_ALL : 'model-load-all',
+    MODEL_ADD: 'model-add',
+    MODEL_UPDATE: 'model-update',
+    MODEL_DELETE:'model-delete',
+    MODEL_STATUS_UPDATE: 'model-status-update',
 }
 
 export const AppProvider = (props) => {
@@ -94,7 +100,9 @@ export const AppProvider = (props) => {
             <AppContext.Provider value={{UNIXNOW,OFFSETS}}>
                 <RadarProvider>
                     <WeatherStationProvider>
-                        {props.children}
+                        <CacheModelProvider>
+                            {props.children}
+                        </CacheModelProvider>
                     </WeatherStationProvider>
                 </RadarProvider>
             </AppContext.Provider>

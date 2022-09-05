@@ -20,9 +20,9 @@ function Radars() {
     const render_headers = () => {
         return <> 
             <tr>
-                <th className='text-center' style={{minWidth:"200px"}}>name</th>
+                <th className='text-center' style={{minWidth:"200px"}}>Radar Name</th>
                 {recipients.map(recipient => 
-                    <th className='text-center' key={recipient}>
+                    <th className='text-center text-uppercase' key={recipient}>
                         {recipient}
                     </th>
                 )}  
@@ -94,6 +94,9 @@ function Radars() {
     return (
             <Row>
                 <Col>
+                <h4>
+                    <Badge bg="light" text="success">Radar Data</Badge>
+                </h4>
                 <RadarStatusModal 
                     show={showModal} 
                     setShow={setShowModal} 

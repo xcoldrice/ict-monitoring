@@ -7,11 +7,11 @@ function RadarStatusModal(props) {
 
     const {addToast} = useToasts();
 
-    let {radar:{name,category,status,remarks}, setShow, setRadar, show} = props;
+    let {radar:{name, category, status, remarks}, setShow, setRadar, show} = props;
     let [histories,setHistories] = useState([]);
     let [modalState, setModalState] = useState('update');
 
-    const closeModal = () => {
+    const close_modal = () => {
       setRadar({});
       setHistories([]);
       setShow(false);
@@ -31,7 +31,7 @@ function RadarStatusModal(props) {
               }).catch( error => {
                 addToast('Error Updating Radar Status!',{autoDismiss:true,appearance:'error'});
               });
-              closeModal() 
+              close_modal() 
     }
 
     
@@ -139,7 +139,7 @@ function RadarStatusModal(props) {
     }
 
     return <>
-            <Modal show={show} onHide={()=>closeModal()} size="lg">
+            <Modal show={show} onHide={()=>close_modal()} size="lg">
                 <Modal.Header closeButton>
                     <Modal.Title>
                         update {name} radar status
@@ -147,7 +147,7 @@ function RadarStatusModal(props) {
                 </Modal.Header>
                 <Modal.Body>{render_body()}</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={()=>closeModal()}>
+                    <Button variant="secondary" onClick={()=>close_modal()}>
                         Close
                     </Button>
                     {render_footer()}

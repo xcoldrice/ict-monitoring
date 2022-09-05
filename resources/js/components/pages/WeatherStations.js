@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Row,Col, Table } from 'react-bootstrap';
+import { Row,Col, Table, Badge } from 'react-bootstrap';
 import Icon from '../layouts/Icon';
 import {WeatherStationContext} from './../contexts/WeatherStationContext';
 
@@ -15,6 +15,9 @@ function WeatherStations() {
     return (
             <Row>
                 <Col>
+                <h4>
+                    <Badge bg="light" text="success">AWS & ARG Data</Badge>
+                </h4>
                 <Table striped bordered hover responsive size='sm'>
                     <thead>
                         <tr>
