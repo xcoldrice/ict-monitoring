@@ -61,7 +61,6 @@ class RadarParser extends Model
 		$date_format = 'YmdHi';
 		$date_offset = 28800;
 		$date_string = preg_replace('/[^0-9]/s','',$this->file);
-
 		if($this->type == 'com') $this->type = 'cappi';
 
 		if($this->type == 'kml'){
@@ -100,7 +99,12 @@ class RadarParser extends Model
 			}
 		}
 
+        if($this->type == 'cmax') {
+            $date_string = substr($date_string,1,12);
+        }
+
 		$dateandtime = date_create_from_format($date_format,substr($date_string,0,12))->format(DATE_ATOM);
+
 		$this->unix  = (strtotime($dateandtime) + $date_offset);
 	}
 
