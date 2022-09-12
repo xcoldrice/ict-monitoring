@@ -22,7 +22,7 @@ function ModelFormModal(props) {
         setShowModal(false);
         setModel(pre => ({
             ...pre, 
-            id:null, 
+            id:"", 
             name:'',
             category:'', 
             status:2, 

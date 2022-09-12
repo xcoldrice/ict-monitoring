@@ -49,12 +49,14 @@ export const CacheModelProvider = (props) => {
     useEffect(() => {
         try {
             window.ict_tool_echo.listen('AddNewModel', event => {
-                let message = 'Added New Model!';
-                let action = ACTIONS.MODEL_ADD;
+                let message = 'New Model Added!',
+                    action = ACTIONS.MODEL_ADD;
+
                 if(event.data.type == 'update') {
                     message = 'Model Updated!';
-                    action =ACTIONS.MODEL_UPDATE;
+                    action = ACTIONS.MODEL_UPDATE;
                 }
+
                 dispatch({type: action, payload: event.data.data});
                 addToast(message, {autoDismiss:true,appearance:'success'});
             })
