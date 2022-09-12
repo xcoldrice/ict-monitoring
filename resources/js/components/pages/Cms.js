@@ -10,9 +10,47 @@ function Cms() {
 
     let [showModal, setShowModal] = useState(false);
 
-    const render_status = (status) => {
-        let bg = 'success';  
-        return <Badge bg={bg}>ok</Badge>  
+    let [type, setType] = useState('create');
+
+    let [model, setModel] = useState({
+        id: "",
+        name: '',
+        category: '',
+        status: 2,
+        remarks: ""
+    });
+
+    const open_modal = (data) => {
+        let {status, remarks} = data.status;
+        remarks = remarks?? "";
+        
+        setModel(pre => ({...pre, ...data, status, remarks}));
+
+        setShowModal(true);
+    }
+
+    const render_status = ({status, remarks}) => {
+        if(status == 1) {
+            return <>
+                <Badge bg="success" text='light'>ok</Badge>
+            </>
+        }
+        
+        if(status == 0) {
+            return <>
+                <Badge bg="danger">down</Badge>
+            </> 
+        }
+
+        if(status == 2) {
+            return <>
+                <Badge bg="light" text={'secondary'}>
+                    UNDER DEVELOPMENT
+                </Badge>
+            </>
+        }
+
+        return remarks;
     }
 
     return <Row>
@@ -20,7 +58,9 @@ function Cms() {
             <ModelFormModal 
                 showModal={showModal} 
                 setShowModal={setShowModal} 
-                dispatch={dispatch} 
+                dispatch={dispatch}
+                model={model}
+                setModel={setModel}
             />
             <h4>
                 <Badge bg="light" text="success">PAGASA CMS Data</Badge>
@@ -48,10 +88,17 @@ function Cms() {
                     {models.map((model, index)=> {
                         return <tr key={index}>
                             <td>
+                                <a href='#' className='text-decoration-none text-reset px-2' 
+                                    onClick={() => open_modal(model)}
+                                >
+                                    <i className="bi bi-pencil-square"></i>
+                                </a>
                                 {model.name}
                             </td>
                             <td className='text-capitalize'>{model.category}</td>
-                            <td>{render_status(model.status)}</td>
+                            <td>
+                                {render_status(model.status)}
+                            </td>
                         </tr>
                     })}
                 </tbody>

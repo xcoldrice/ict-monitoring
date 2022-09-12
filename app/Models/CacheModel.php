@@ -18,4 +18,7 @@ class CacheModel extends Model
         return $this->hasMany(\App\Models\CacheModelStatus::class);
     }
 
+    public function latest() {
+        return $this->hasOne(\App\Models\CacheModelStatus::class)->latest();
+    }
 }

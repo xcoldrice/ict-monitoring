@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Row, Col} from 'react-bootstrap';
-import { ACTIONS } from '../contexts/AppContext';
 import { useToasts } from 'react-toast-notifications';
+import axios from 'axios';
 
 function ModelFormModal(props) {
+    const {addToast} = useToasts();
 
-    let { showModal, setShowModal, dispatch } = props;
+    let { showModal, setShowModal, model, setModel} = props;
 
-    let [data, setData] = useState({
-        name:'',
-        category:'',
-        status:0,
-    });
- 
+
+
     let categories = [
         'api',
         'data',
@@ -22,37 +19,45 @@ function ModelFormModal(props) {
         'receiver'
     ];
 
-    let {addToast} = useToasts();
-
 
     const close_modal = () => {
         setShowModal(false);
-        setData(pre => ({...pre, name:'',category:'', status:0}));
-    }
-
-
-    const handle_save = (e) => {       
-        let form = e.currentTarget; 
-        e.preventDefault();
-        e.stopPropagation();
-
-        if(!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-
-        dispatch({type:ACTIONS.MODEL_ADD, payload:data});
-
-        addToast('Added New Model!',{autoDismiss:true,appearance:'success'});
-
-        close_modal();
+        setModel(pre => ({...pre, id:null, name:'' ,category:'', status:2, remarks:""}));
     }
 
     const modal_change =(e) => {
         let key = e.target.name,
             value = e.target.value;
+        setModel((pre)=>({...pre,[key]:value}));
+    }
 
-        setData((pre)=>({...pre,[key]:value}));
+    const handle_save = async (e) => {
+        let form = e.currentTarget;
+            e.preventDefault();
+            e.stopPropagation();
+
+        if(!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }   
+
+        let data = new FormData();
+            data.append('id', model.id);
+            data.append('name', model.name);
+            data.append('category', model.category)
+            data.append('status', model.status);
+            data.append('remarks', model.remarks);
+
+        await axios({method:'POST', url:'/models', data})
+        .then(response => {
+            if(response.data.success) return;        
+            addToast('Error Adding new Model!',{autoDismiss:true,appearance:'error'});
+        })  
+        .catch(error => {
+            addToast('Error Adding new Model!',{autoDismiss:true,appearance:'error'});
+        });
+
+        close_modal();
     }
 
 
@@ -72,7 +77,7 @@ function ModelFormModal(props) {
                                 type='text' 
                                 name='name' 
                                 onChange={(e)=> modal_change(e)} 
-                                value={data.name} 
+                                value={model.name}
                                 required
                             />
                         </Form.Group>
@@ -83,7 +88,7 @@ function ModelFormModal(props) {
                             <Form.Select 
                                 name='category' 
                                 onChange={(e)=> modal_change(e)} 
-                                value={data.category} 
+                                value={model.category}
                                 required
                             >
                                 <option disabled value="">Select Category</option>
@@ -93,6 +98,31 @@ function ModelFormModal(props) {
                                     </option>
                                 })}
                             </Form.Select>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        < Form.Group className='mb-3'>
+                            <Form.Label>Status</Form.Label>
+                            <Form.Select 
+                                name='category' 
+                                onChange={(e)=> modal_change(e)} 
+                                value={model.status}
+                            >
+                                <option disabled value="">Select status</option>
+                                <option value="1">active</option>
+                                <option value="0">down</option>
+                                <option value="2">under development</option>
+                            </Form.Select>
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Remarks</Form.Label>
+                            <Form.Control 
+                                type='text' 
+                                name='name' 
+                                onChange={(e)=> modal_change(e)} 
+                                value={model.name}
+                                required
+                            />
                         </Form.Group>
                     </Col>
                 </Row>

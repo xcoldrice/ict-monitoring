@@ -1,5 +1,7 @@
-import React, { createContext, useEffect, useReducer } from 'react';
+import axios from 'axios';
+import React, { createContext, useEffect, useReducer, useState } from 'react';
 import { ACTIONS } from './AppContext';
+import { useToasts } from 'react-toast-notifications';
 
 export const CacheModelContext = createContext();
 
@@ -12,38 +14,61 @@ const reducer = (models, action) => {
         case ACTIONS.MODEL_ADD:
             models = [...models, payload];
             return models;
-            
             break
+        case ACTIONS.MODEL_UPDATE:
+
+            let index = models.findIndex((model)=> model.id == payload.id);
+
+            models[index] = payload;
+            
+            return models;
         default:
             break;
     }
 
 }
 
-
-
 export const CacheModelProvider = (props) => {
+    let {addToast} = useToasts();
+
     let [models, dispatch] = useReducer(reducer, []);
-    useEffect(()=>{
-        let sample_data = [
-            {
-                'name':'test1',
-                'category':'api',
-                'status':1,
-                'data': {}
-            },
-            {
-                'name':'test2',
-                'category':'database',
-                'status':1,
-                'data': {}
-            }
-        ];
 
-        dispatch({type:ACTIONS.MODEL_LOAD_ALL, payload:sample_data});
-    },[]);
+    const getModels = async () => {
+        await axios({method:'GET', url:'/models'}).then(response => {
+            dispatch({type:ACTIONS.MODEL_LOAD_ALL, payload:response.data})
+            addToast('Models loaded!',{autoDismiss:true,appearance:'success'});
+        })
+        .catch(error => {
+            addToast('Error loading Models!',{autoDismiss:true,appearance:'error'})
 
-    return (<CacheModelContext.Provider value={{models,dispatch}}>
+        });
+    }
+
+    useEffect(()=> getModels(), []);
+
+    useEffect(() => {
+        try {
+            window.ict_tool_echo.listen('AddNewModel', event => {
+                let message = 'Added New Model!';
+                let action = ACTIONS.MODEL_ADD;
+                if(event.data.type == 'update') {
+                    message = 'Model Updated!';
+                    action =ACTIONS.MODEL_UPDATE;
+                }
+                dispatch({type: action, payload: event.data.data});
+                addToast(message, {autoDismiss:true,appearance:'success'});
+            })
+
+        } catch (error) {
+        }
+        return () => {
+            window.ict_tool_echo.stopListening('AddNewModel');
+
+        }
+    });
+
+
+    return (<CacheModelContext.Provider value={{models}}>
         {props.children}
     </CacheModelContext.Provider>);
 

@@ -59,7 +59,7 @@ class RadarController extends Controller
                             'status'   => $return->status,
                             'remarks'  => $return->remarks,
                             'name'     => $inputs['name'],
-                            'category' =>$inputs['category']
+                            'category' => $inputs['category']
                         ];
 
             event(new \App\Events\UpdateRadarStatus($response));
