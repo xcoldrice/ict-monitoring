@@ -45,7 +45,7 @@ class CacheModelController extends Controller
      */
     public function store(Request $request)
     {
-        // try {
+        try {
             $inputs = $request->all();
             $response = [
                 'success' => true,
@@ -73,9 +73,9 @@ class CacheModelController extends Controller
 
             return response()->json($response);
 
-        // } catch (\Throwable $th) {
-        //     return response()->json(['success' => false]);
-        // }
+        } catch (\Throwable $th) {
+            return response()->json(['success' => false]);
+        }
 
     }
 

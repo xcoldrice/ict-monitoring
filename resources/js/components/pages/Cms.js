@@ -74,7 +74,14 @@ function Cms() {
                                 variant='primary' 
                                 type='button' 
                                 size='sm' 
-                                onClick={()=>open_modal({...model, edit:false})}
+                                onClick={()=>open_modal({
+                                    ...model, 
+                                    edit:false,
+                                    status:{
+                                        status:2,
+                                        remarks:"",
+                                    }
+                                })}
                             >
                                 Add Model
                             </Button>
