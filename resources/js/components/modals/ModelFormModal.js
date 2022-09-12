@@ -8,8 +8,6 @@ function ModelFormModal(props) {
 
     let { showModal, setShowModal, model, setModel} = props;
 
-
-
     let categories = [
         'api',
         'data',
@@ -22,7 +20,15 @@ function ModelFormModal(props) {
 
     const close_modal = () => {
         setShowModal(false);
-        setModel(pre => ({...pre, id:null, name:'' ,category:'', status:2, remarks:""}));
+        setModel(pre => ({
+            ...pre, 
+            id:null, 
+            name:'',
+            category:'', 
+            status:2, 
+            remarks:"", 
+            edit:false
+        }));
     }
 
     const modal_change =(e) => {
@@ -70,7 +76,7 @@ function ModelFormModal(props) {
         <Modal.Body>
             <Form noValidate onSubmit={(e)=>handle_save(e)}>
                 <Row>
-                    <Col >
+                    <Col xl="12">
                         <Form.Group className="mb-3">
                             <Form.Label>Model Name</Form.Label>
                             <Form.Control 
@@ -82,7 +88,7 @@ function ModelFormModal(props) {
                             />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col xl="12">
                         < Form.Group className='mb-3'>
                             <Form.Label>Category</Form.Label>
                             <Form.Select 
@@ -100,31 +106,32 @@ function ModelFormModal(props) {
                             </Form.Select>
                         </Form.Group>
                     </Col>
-                    <Col>
-                        < Form.Group className='mb-3'>
-                            <Form.Label>Status</Form.Label>
-                            <Form.Select 
-                                name='category' 
-                                onChange={(e)=> modal_change(e)} 
-                                value={model.status}
-                            >
-                                <option disabled value="">Select status</option>
-                                <option value="1">active</option>
-                                <option value="0">down</option>
-                                <option value="2">under development</option>
-                            </Form.Select>
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Remarks</Form.Label>
-                            <Form.Control 
-                                type='text' 
-                                name='name' 
-                                onChange={(e)=> modal_change(e)} 
-                                value={model.name}
-                                required
-                            />
-                        </Form.Group>
-                    </Col>
+                    {model.edit && 
+                        <Col xl="12">
+                            < Form.Group className='mb-3'>
+                                <Form.Label>Status</Form.Label>
+                                <Form.Select 
+                                    name='status' 
+                                    onChange={(e)=> modal_change(e)} 
+                                    value={model.status}
+                                >
+                                    <option disabled value="">Select status</option>
+                                    <option value="1">active</option>
+                                    <option value="0">down</option>
+                                    <option value="2">under development</option>
+                                </Form.Select>
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Remarks</Form.Label>
+                                <Form.Control 
+                                    as='textarea' 
+                                    name='remarks' 
+                                    onChange={(e)=> modal_change(e)} 
+                                    value={model.remarks}
+                                />
+                            </Form.Group>
+                        </Col>
+                    }
                 </Row>
                 <Button type='submit' variant='primary'>Save</Button>
             </Form>

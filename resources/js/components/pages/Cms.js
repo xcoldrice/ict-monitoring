@@ -10,14 +10,13 @@ function Cms() {
 
     let [showModal, setShowModal] = useState(false);
 
-    let [type, setType] = useState('create');
-
     let [model, setModel] = useState({
         id: "",
         name: '',
         category: '',
         status: 2,
-        remarks: ""
+        remarks: "",
+        edit:false
     });
 
     const open_modal = (data) => {
@@ -75,7 +74,7 @@ function Cms() {
                                 variant='primary' 
                                 type='button' 
                                 size='sm' 
-                                onClick={()=>setShowModal(true)}
+                                onClick={()=>open_modal({...model, edit:false})}
                             >
                                 Add Model
                             </Button>
@@ -89,7 +88,7 @@ function Cms() {
                         return <tr key={index}>
                             <td>
                                 <a href='#' className='text-decoration-none text-reset px-2' 
-                                    onClick={() => open_modal(model)}
+                                    onClick={() => open_modal({...model, edit:true})}
                                 >
                                     <i className="bi bi-pencil-square"></i>
                                 </a>
