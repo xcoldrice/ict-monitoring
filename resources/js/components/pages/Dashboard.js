@@ -8,10 +8,10 @@ function Dashboard() {
 
     return (        
             <Row>
-                <Col sm md lg xl xxl>
+                <Col sm md lg xl xxl="7">
                     <Radars/>
                 </Col>
-                <Col sm md lg xl xxl>
+                <Col sm md lg xl xxl="5">
                     <WeatherStations/>
                 </Col>
             </Row>
