@@ -88,7 +88,8 @@ export const AppProvider = (props) => {
     useEffect(()=>{
         try {
             window.ict_tool_echo.listen('TriggerReload', () => {
-                document.location.reload(true);
+                window.location.href = window.location.href.replace(/#.*$/, '');
+                // document.location.reload(true);
             })
         } catch (error) {
             
