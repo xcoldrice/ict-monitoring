@@ -27,7 +27,7 @@ function WeatherStations() {
                 <h4>
                     <Badge bg="light" text="success">AWS & ARG Data</Badge>
                 </h4>
-                <Table striped bordered hover responsive size='sm'>
+                <Table bordered responsive size='sm'>
                     <thead>
                         <tr>
                             <th className='text-center'>aws</th>

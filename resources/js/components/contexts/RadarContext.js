@@ -32,26 +32,44 @@ const reducer = (radars,action) => {
             let index = tmp.findIndex((t)=>(t.name == name && t.category == category));
             if(tmp[index].status == status) {
                 tmp[index].remarks = remarks?? '';
-
                 return tmp;
             }
-            
+
+
+
             let tmpRemoved = tmp.splice(index,1)[0];
                 tmpRemoved.status = status;
                 tmpRemoved.remarks = remarks?? '';
-            let lastIndexOfActive = tmp.map(r=>r.status).lastIndexOf(1);
 
-            let lastStatusIndex = tmp.map(r => r.status).lastIndexOf(status);
-                lastStatusIndex = lastStatusIndex + 1;
-                
-            if(status == 1) {
-                lastStatusIndex = lastStatusIndex - 1;
+            let lastStatusIndex = tmp.map(r => {
+                if(r.category != 'mosaic') {
+                    return r.status;
+                }    
+            }).lastIndexOf(status);
+            
+            let mosaicIndex = tmp.findIndex(r => r.category == 'mosaic');
+
+            if(lastStatusIndex < 0) {
+                if(status == 1) {
+                    tmp.unshift(tmpRemoved);
+                    return tmp;
+                }
+
+                if(status == 3 && mosaicIndex > 0) {
+                    lastStatusIndex =  mosaicIndex - 1;
+                }
+
+                if(status == 0) {
+                    lastStatusIndex = mosaicIndex;
+                }
+
+                if(status == 2) {
+                    lastStatusIndex = tmp.length;
+                }
             }
 
-            if(lastStatusIndex == 0) {
-                lastStatusIndex = lastIndexOfActive + 1; 
-            }
-
+            lastStatusIndex = lastStatusIndex + 1;
+            console.log(lastStatusIndex);
             tmp.splice(lastStatusIndex,0,tmpRemoved);
 
             return tmp;

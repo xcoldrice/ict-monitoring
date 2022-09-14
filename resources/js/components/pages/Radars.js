@@ -46,6 +46,9 @@ function Radars() {
     }
 
     const render_fields = data => {
+
+        if(data.length == 0) return;
+
         return <>
             {recipients.map(recipient => {
                 let values = data[recipient]?? [];
@@ -61,7 +64,7 @@ function Radars() {
 
         if(status == 0) {
             return <>
-                <td className='text-capitalize' style={{wordBreak:'break-all'}} 
+                <td style={{wordBreak:'break-all'}} 
                         colSpan={recipients.length}> 
                     <div style={{display:"flex", alignItems:"center"}}>
                         <div>
@@ -76,7 +79,7 @@ function Radars() {
         }
         if(status == 2) {
             return <>
-                <td className='text-capitalize' colSpan={recipients.length}>
+                <td colSpan={recipients.length}>
                     <Badge bg="info" text='light'>UNDER DEVELOPMENT</Badge>
                 </td>
             </>
@@ -93,22 +96,23 @@ function Radars() {
                             onClick={()=>show_modal(radar)}>
                         <i className="bi bi-pencil-square"></i>
                     </a>
-                if(radar.status == 3) {
-                    return <React.Fragment key={index}>
+
+                return <React.Fragment key={index}>
+                    <tr>
+                        <td style={{verticalAlign:"middle"}} rowSpan={radar.status == 3? 2:1}>
+                            <div className='px-2' style={{whiteSpace:"nowrap"}}>
+                                {window.user_name != 'Guest' && name != 'mosaic'? updateBtn:''}
+                                <span className='text-capitalize' style={{fontWeight:"bold", opacity:.75}}>
+                                    {`${name} ${category}`}
+                                </span> 
+                            </div>
+                        </td>
+                        {check_status(radar)}
+                    </tr>
+                    {radar.status == 3 && 
                         <tr>
-                            <td style={{verticalAlign:"middle"}} rowSpan={2}>
-                                <div className='px-2' style={{whiteSpace:"nowrap"}}>
-                                    {window.user_name != 'Guest' && name != 'mosaic'? updateBtn:''}
-                                    <span className='text-capitalize' style={{fontWeight:"bold", opacity:.75}}>
-                                        {`${name} ${category}`}
-                                    </span> 
-                                </div>
-                            </td>
-                            {check_status(radar)}
-                        </tr>
-                        <tr>
-                            <td className='text-capitalize' style={{wordBreak:'break-all'}}
-                                colSpan={recipients.length}>
+                            <td style={{wordBreak:'break-all'}}
+                                    colSpan={recipients.length}>
                                 <div style={{display:"flex", alignItems:"center"}}>
                                     <div>
                                         <Badge bg='warning' text='dark' style={{marginRight:"5px"}}>REPORT</Badge> 
@@ -119,21 +123,9 @@ function Radars() {
                                 </div>
                             </td>
                         </tr>
-                    </React.Fragment>
+                    }
 
-                }
-
-                return <tr key={index}>
-                    <td style={{verticalAlign:"middle"}}>
-                        <div className='px-2' style={{whiteSpace:"nowrap"}}>
-                            {window.user_name != 'Guest' && name != 'mosaic'? updateBtn:''}
-                            <span className='text-capitalize' style={{fontWeight:"bold", opacity:.75}}>
-                                {`${name} ${category}`}
-                            </span> 
-                        </div>
-                    </td>
-                    {check_status(radar)}
-                </tr>
+                </React.Fragment>
             })}
         </>
     }
@@ -151,7 +143,7 @@ function Radars() {
                         setRadar={setSelectRadar}
                         dispatch={dispatch} action={ACTIONS.RADAR_STATUS_UPDATE}
                     />
-                    <Table striped bordered hover responsive size='sm'>
+                    <Table bordered responsive size='sm'>
                         <thead>{render_headers()}</thead>
                         <tbody>{render_radars()}</tbody>
                     </Table>
