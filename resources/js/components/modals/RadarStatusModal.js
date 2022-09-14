@@ -81,6 +81,10 @@ function RadarStatusModal(props) {
                                     variant = 'secondary';
                                 }
 
+                                if(status == 'Report') {
+                                    variant = 'warning'
+                                }
+
                                 return <>
                                     <tr key={index}>
                                         <td style={{width:'10%'}}>
