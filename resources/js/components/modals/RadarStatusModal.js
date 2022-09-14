@@ -112,6 +112,7 @@ function RadarStatusModal(props) {
                         <option value="0">down</option>
                         <option value="1">active</option>
                         <option value="2">under development</option>
+                        <option value="3">report</option>
                     </Form.Select>
                 </Form.Group>
                 < Form.Group className='mb-3'>

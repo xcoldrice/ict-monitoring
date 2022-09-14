@@ -65,7 +65,7 @@ function Radars() {
                         colSpan={recipients.length}> 
                     <div style={{display:"flex", alignItems:"center"}}>
                         <div>
-                            <Badge bg='none' text='danger'>DOWN</Badge> 
+                            <Badge bg='danger' text='light' style={{marginRight:"5px"}}>DOWN</Badge> 
                         </div>
                         <div>
                             {remarks?? ''}
@@ -77,10 +77,27 @@ function Radars() {
         if(status == 2) {
             return <>
                 <td className='text-capitalize' colSpan={recipients.length}>
-                    <Badge bg="none" text='secondary'>UNDER DEVELOPMENT</Badge>
+                    <Badge bg="info" text='light'>UNDER DEVELOPMENT</Badge>
                 </td>
             </>
         }
+
+        if(status == 3) {
+            return <>
+                <td className='text-capitalize' style={{wordBreak:'break-all'}}
+                        colSpan={recipients.length}>
+                    <div style={{display:"flex", alignItems:"center"}}>
+                        <div>
+                            <Badge bg='warning' text='dark' style={{marginRight:"5px"}}>REPORT</Badge> 
+                        </div>
+                        <div>
+                            {remarks?? ''}
+                        </div>
+                    </div>
+                </td>
+            </>
+        }
+
         
         return render_fields(data);
     }

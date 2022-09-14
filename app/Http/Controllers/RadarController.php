@@ -104,11 +104,16 @@ class RadarController extends Controller
             return $radar['status'] == 2 && $radar['name'] != 'mosaic'; 
         });
 
+        $report = array_filter($radars,function($radar){ 
+            return $radar['status'] == 3 && $radar['name'] != 'mosaic'; 
+        });
+
+
         $mosaic = array_filter($radars,function($radar){
             return $radar['name'] == 'mosaic';
         });
 
-        return array_merge($active,$mosaic,$down,$underDevelopment);
+        return array_merge($active, $report,$mosaic,$down,$underDevelopment);
     }
 
 
@@ -125,6 +130,11 @@ class RadarController extends Controller
                 $date = date('m-d-Y h:i a', strtotime($stat['created_at']));
 
                 if($stat['status'] == 2) $text = 'Under Development';
+
+                if($stat['status'] == 3) { 
+                    $text = 'Report';
+                    $remarks = $stat['remarks'] == null? '': $stat['remarks'];
+                }
                 if($stat['status'] == 0) { 
                     $text = 'Down';
                     $remarks = $stat['remarks'] == null? '': $stat['remarks'];
