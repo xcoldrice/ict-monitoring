@@ -24,14 +24,9 @@ const reducer = (radars,action) => {
                 data.type == type
             ));
                 
-            if(x == -1) {
-                radars[index].data[recipient].push(payload)
-
-                return radars;
-            }
-
-            radars[index].data[recipient][x] = payload;
-
+            x == -1 ? radars[index].data[recipient].push(payload)
+                :radars[index].data[recipient][x] = payload;
+            
             return radars;
 
         case ACTIONS.RADAR_STATUS_UPDATE:
