@@ -41,7 +41,7 @@ function Radars() {
 
     const render_fields = data => {
 
-        if(data.length == 0) return;
+        if(Object.keys(data).length == 0) return;
 
         return <>
             {recipients.map(recipient => {
