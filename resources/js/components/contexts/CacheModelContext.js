@@ -1,29 +1,26 @@
 import axios from 'axios';
-import React, { createContext, useEffect, useReducer, useState } from 'react';
-import { ACTIONS } from './AppContext';
-import { useToasts } from 'react-toast-notifications';
+import React,{createContext,useEffect,useReducer} from 'react';
+import {ACTIONS} from './AppContext';
+import {useToasts} from 'react-toast-notifications';
 
 export const CacheModelContext = createContext();
 
 const reducer = (models, action) => {
     let payload = action.payload;
+
     switch (action.type) {
         case ACTIONS.MODEL_LOAD_ALL:
             return payload;
-            break;
         case ACTIONS.MODEL_ADD:
             models = [...models, payload];
             return models;
-            break
         case ACTIONS.MODEL_UPDATE:
-
             let index = models.findIndex((model)=> model.id == payload.id);
-
             models[index] = payload;
-            
+
             return models;
         default:
-            break;
+            return models;
     }
 
 }
@@ -34,12 +31,22 @@ export const CacheModelProvider = (props) => {
     let [models, dispatch] = useReducer(reducer, []);
 
     const getModels = async () => {
-        await axios({method:'GET', url:'/models'}).then(response => {
-            dispatch({type:ACTIONS.MODEL_LOAD_ALL, payload:response.data})
-            addToast('Models loaded!',{autoDismiss:true,appearance:'success'});
+        await axios({method:'GET',url:'/models'}).then(response => {
+            dispatch({
+                type:ACTIONS.MODEL_LOAD_ALL, 
+                payload:response.data
+            });
+
+            addToast('Models loaded!',{
+                autoDismiss:true,
+                appearance:'success'
+            });
         })
         .catch(error => {
-            addToast('Error loading Models!',{autoDismiss:true,appearance:'error'})
+            addToast('Error loading Models!',{
+                autoDismiss:true,
+                appearance:'error'
+            });
 
         });
     }
@@ -57,8 +64,15 @@ export const CacheModelProvider = (props) => {
                     action = ACTIONS.MODEL_UPDATE;
                 }
 
-                dispatch({type: action, payload: event.data.data});
-                addToast(message, {autoDismiss:true,appearance:'success'});
+                dispatch({
+                    type:action, 
+                    payload: event.data.data
+                });
+
+                addToast(message,{
+                    autoDismiss:true,
+                    appearance:'success'
+                });
             })
 
         } catch (error) {
