@@ -6,6 +6,7 @@
                         'aparri',
                         'virac',
                         'guiuan',
+                        'baguio'
                     ]
                 ],
                 'eec' => [
