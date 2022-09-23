@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
-import { Badge,  OverlayTrigger, Popover } from 'react-bootstrap';
-import { AppContext } from './../contexts/AppContext';
+import { Badge, OverlayTrigger, Popover } from 'react-bootstrap';
+import {AppContext} from './../contexts/AppContext';
 import Moment from 'react-moment';
 
 function Icon(props) {
@@ -23,21 +23,16 @@ function Icon(props) {
         let diff = ((new Date(UNIXNOW).getTime()) - (new Date(time).getTime())),
             offset = interval + threshold;
     
-        if(typeof time == 'object') 
-            return 'light';
+        if(typeof time == 'object') return 'light';
     
-        if(diff > ((60 * 60 * 1000) + offset)) 
-            return 'danger';
+        if(diff > ((60 * 60 * 1000) + offset)) return 'danger';
     
-        if(diff > offset) 
-            return 'warning';
+        if(diff > offset) return 'warning';
     
         return 'success';
-
     }
 
     const render_popover = () => {
-
         return <Popover style={{maxWidth:'768px'}}>
                 <Popover.Body>
                     {tooltip} <br/>
@@ -47,18 +42,16 @@ function Icon(props) {
             </Popover>
     }
 
-    return <>
-        <OverlayTrigger placement="auto" overlay={render_popover()}>
-            <Badge 
-                style={{...style, margin:"0px 2px"}}
-                className={className}
-                bg={badge_color()} 
-                text={textColor}
-            >
-                {children}
-            </Badge>
-        </OverlayTrigger>
-    </> 
+    return <OverlayTrigger placement="auto" overlay={render_popover()}>
+        <Badge 
+            style={{...style, margin:"0px 2px"}}
+            className={className}
+            bg={badge_color()} 
+            text={textColor}
+        >
+            {children}
+        </Badge>
+    </OverlayTrigger>
 }
 
 export default Icon;

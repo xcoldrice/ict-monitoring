@@ -1,13 +1,19 @@
 import axios from 'axios';
 import React,{useState} from 'react';
-import {Modal,Button, Form, Badge, Table} from 'react-bootstrap';
+import {Modal, Button, Form, Badge, Table} from 'react-bootstrap';
 import {useToasts} from 'react-toast-notifications';
 import Moment from 'react-moment';
 function RadarStatusModal(props) {
 
     const {addToast} = useToasts();
 
-    let {radar:{name, category, status, remarks}, setShow, setRadar, show} = props;
+    let {
+        radar:{name, category, status, remarks}, 
+        setShow, 
+        setRadar, 
+        show
+    } = props;
+
     let [histories,setHistories] = useState([]);
     let [modalState, setModalState] = useState('update');
 
@@ -27,10 +33,17 @@ function RadarStatusModal(props) {
 
         await axios({method:'POST', url:'/radars',data}).then( response => {
                 if(response.data.success) return;        
-                addToast('Error Updating Radar Status!',{autoDismiss:true,appearance:'error'});
+                addToast('Error Updating Radar Status!',{
+                    autoDismiss:true,
+                    appearance:'error'
+                });
               }).catch( error => {
-                addToast('Error Updating Radar Status!',{autoDismiss:true,appearance:'error'});
+                addToast('Error Updating Radar Status!',{
+                    autoDismiss:true,
+                    appearance:'error'
+                });
               });
+
               close_modal() 
     }
 
@@ -70,34 +83,33 @@ function RadarStatusModal(props) {
                         </thead>
                         <tbody>
                             {histories.map((history,index)=> {
-                            let {status,remarks,date} = history,
-                                variant = 'success';
+                                let {status, remarks, date} = history,
+                                    variant = 'success';
 
-                                if(status == 'Down') {
-                                    variant = 'danger';
-                                }
+                                    if(status == 'Down') variant = 'danger';
 
-                                if(status == 'Under Development') {
-                                    variant = 'secondary';
-                                }
+                                    if(status == 'Under Development') {
+                                        variant = 'secondary';
+                                    }
 
-                                if(status == 'Report') {
-                                    variant = 'warning'
-                                }
+                                    if(status == 'Report') variant = 'warning';
 
-                                return <>
-                                    <tr key={index}>
-                                        <td style={{width:'10%'}}>
-                                            <Badge bg={variant}>{status}</Badge>
-                                        </td>
-                                        <td style={{width:'60%', wordBreak:'break-all'}}>
-                                            {remarks}
-                                        </td>
-                                        <td style={{width:'30%'}}>
-                                            <Moment date={new Date(date)} format="MMMM DD, YYYY h:mm A"/>
-                                        </td>
-                                    </tr>
-                                </>
+                                    return <>
+                                        <tr key={index}>
+                                            <td style={{width:'10%'}}>
+                                                <Badge bg={variant}>{status}</Badge>
+                                            </td>
+                                            <td style={{width:'60%', wordBreak:'break-all'}}>
+                                                {remarks}
+                                            </td>
+                                            <td style={{width:'30%'}}>
+                                                <Moment 
+                                                    date={new Date(date)} 
+                                                    format="MMMM DD, YYYY h:mm A"
+                                                />
+                                            </td>
+                                        </tr>
+                                    </>
                             })}
                         </tbody>
                     </Table>
@@ -109,7 +121,9 @@ function RadarStatusModal(props) {
                     <Form.Label className='d-flex justify-content-between'>Select Status 
                         <small>
                             <a href="#" className='pull-right' 
-                                onClick={()=>{setModalState('history'); get_status_history()}}>View Status History</a>
+                                onClick={()=>{setModalState('history'); get_status_history()}}>
+                                    View Status History
+                            </a>
                         </small>
                     </Form.Label>
                     <Form.Select defaultValue={status} onChange={(e)=>radar_change(e)}>
@@ -129,36 +143,30 @@ function RadarStatusModal(props) {
 
     const render_footer = () => {
         if(modalState == 'history') {
-            return <>
-                <Button variant="primary" onClick={()=>setModalState('update')}>
-                    Back
-                </Button>
-            </>
+            return <Button variant="primary" onClick={()=>setModalState('update')}>
+                Back
+            </Button>
         }
 
-        return <>
-            <Button variant="primary" onClick={()=>save_status()}>
-                Save Changes
-            </Button>
-        </>
+        return <Button variant="primary" onClick={()=>save_status()}>
+            Save Changes
+        </Button>
     }
 
-    return <>
-            <Modal show={show} onHide={()=>close_modal()} size="lg">
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        update {name} radar status
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>{render_body()}</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={()=>close_modal()}>
-                        Close
-                    </Button>
-                    {render_footer()}
-                </Modal.Footer>
-            </Modal>
-    </>
+    return  <Modal show={show} onHide={()=>close_modal()} size="lg">
+        <Modal.Header closeButton>
+            <Modal.Title>
+                update {name} radar status
+            </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{render_body()}</Modal.Body>
+        <Modal.Footer>
+            <Button variant="secondary" onClick={()=>close_modal()}>
+                Close
+            </Button>
+            {render_footer()}
+        </Modal.Footer>
+    </Modal>
 
 }
 

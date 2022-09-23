@@ -1,6 +1,5 @@
 import React from 'react';
-import { Row,Col, Table } from 'react-bootstrap';
-import Cms from './Cms';
+import {Row, Col} from 'react-bootstrap';
 import Radars from './Radars';
 import WeatherStations from './WeatherStations';
 

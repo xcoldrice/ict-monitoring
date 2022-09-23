@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Row,Col, Table, Badge } from 'react-bootstrap';
+import React, {useContext} from 'react';
+import {Row, Col, Table, Badge} from 'react-bootstrap';
 import Icon from '../layouts/Icon';
 import {WeatherStationContext} from './../contexts/WeatherStationContext';
 
@@ -7,17 +7,18 @@ function WeatherStations() {
 
     let {dataset} = useContext(WeatherStationContext);
 
-    const render_fields = (type) => {
-        return dataset.filter(data => data.category == type)
-                    .map((data, index) => { 
-                    return  <Icon 
-                            style={{width:'43.20px'}}
-                            key={index}
-                            tooltip={`Site: ${data.file}`}
-                            {...data}
-                        >
-                            {data.type}
-                    </Icon>
+    const render_fields = type => {
+        return dataset
+            .filter(data => data.category == type)
+            .map((data, index) => { 
+                return  <Icon 
+                        style={{width:'43.20px'}}
+                        key={index}
+                        tooltip={`Site: ${data.file}`}
+                        {...data}
+                    >
+                    {data.type}
+                </Icon>
         });
     }
 

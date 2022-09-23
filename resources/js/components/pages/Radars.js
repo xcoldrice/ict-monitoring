@@ -1,7 +1,7 @@
-import React,{useContext, useState} from 'react';
-import { Row, Col, Table, Badge,} from 'react-bootstrap';
+import React, {useContext, useState} from 'react';
+import {Row, Col, Table, Badge} from 'react-bootstrap';
 import {RadarContext} from './../contexts/RadarContext';
-import { ACTIONS } from './../contexts/AppContext';
+import {ACTIONS} from './../contexts/AppContext';
 import RadarStatusModal from '../modals/RadarStatusModal';
 import Icon from '../layouts/Icon';
 
@@ -12,36 +12,30 @@ function Radars() {
 
     let [selectRadar,setSelectRadar] = useState({});
 
-    const show_modal = (radar) => {
+    const show_modal = radar => {
         setSelectRadar(radar);
         setShowModal(true);
     }
 
     const render_headers = () => {
-        return <> 
-            <tr>
-                <th className='text-center'>Radar Name</th>
-                {recipients.map(recipient => 
-                    <th key={recipient} className='text-center text-uppercase'>
-                        {recipient}
-                    </th>
-                )}  
-            </tr>
-        </>
+        return  <tr>
+            <th className='text-center'>Radar Name</th>
+            {recipients.map(recipient => 
+                <th key={recipient} 
+                    className='text-center text-uppercase'>
+                    {recipient}
+                </th>
+            )}  
+        </tr>
     }
 
-    const render_data = (array) => {
+    const render_data = array => {
         return array.map((item, index) => {
-            let { file, name, type, recipient, category } = item;
-            let tooltip = `File: ${file}`;
-            
-            return <Icon 
-                    key={index}
-                    tooltip={tooltip}
-                    {...item}
-                >
-                    {type}
-                </Icon>
+            let {file,type} = item;
+
+            return <Icon key={index} tooltip={`File: ${file}`} {...item}>
+                {type}
+            </Icon>
         });
     }
 
@@ -51,15 +45,14 @@ function Radars() {
 
         return <>
             {recipients.map(recipient => {
-                let values = data[recipient]?? [];
                 return <td key={recipient}>
-                    {render_data(values)}
+                    {render_data(data[recipient]?? [])}
                 </td>
             })}
         </>
     }
 
-    const check_status = (radar) => {
+    const check_status = radar => {
         let {status, remarks, data} = radar;
 
         if(status == 0) {
@@ -68,7 +61,13 @@ function Radars() {
                         colSpan={recipients.length}> 
                     <div style={{display:"flex", alignItems:"center"}}>
                         <div>
-                            <Badge bg='danger' text='light' style={{marginRight:"5px"}}>DOWN</Badge> 
+                            <Badge 
+                                bg='danger' 
+                                text='light' 
+                                style={{marginRight:"5px"}}
+                            >
+                                    DOWN
+                            </Badge> 
                         </div>
                         <div>
                             {remarks?? ''}
@@ -77,6 +76,7 @@ function Radars() {
                 </td>
             </>
         }
+
         if(status == 2) {
             return <>
                 <td colSpan={recipients.length}>
@@ -92,17 +92,26 @@ function Radars() {
         return <>
             {radars.map((radar, index)=> {
                 let {name, category} = radar,
-                    updateBtn = <a href='#' className='text-decoration-none text-reset px-2' 
-                            onClick={()=>show_modal(radar)}>
+                    updateBtn = <a href='#' 
+                            className='text-decoration-none text-reset px-2' 
+                            onClick={()=>show_modal(radar)}
+                        >
                         <i className="bi bi-pencil-square"></i>
                     </a>
 
                 return <React.Fragment key={index}>
                     <tr>
-                        <td style={{verticalAlign:"middle"}} rowSpan={radar.status == 3? 2:1}>
+                        <td 
+                            style={{verticalAlign:"middle"}} 
+                            rowSpan={radar.status == 3? 2:1}
+                        >
                             <div className='px-2' style={{whiteSpace:"nowrap"}}>
-                                {window.user_name != 'Guest' && name != 'mosaic'? updateBtn:''}
-                                <span className='text-capitalize' style={{fontWeight:"bold", opacity:.75}}>
+                                {window.user_name != 'Guest' 
+                                    && name != 'mosaic'? updateBtn:''}
+                                <span 
+                                    className='text-capitalize' 
+                                    style={{fontWeight:"bold", opacity:.75}}
+                                >
                                     {`${name} ${category}`}
                                 </span> 
                             </div>
@@ -115,7 +124,13 @@ function Radars() {
                                     colSpan={recipients.length}>
                                 <div style={{display:"flex", alignItems:"center"}}>
                                     <div>
-                                        <Badge bg='warning' text='dark' style={{marginRight:"5px"}}>REPORT</Badge> 
+                                        <Badge 
+                                            bg='warning' 
+                                            text='dark' 
+                                            style={{marginRight:"5px"}}
+                                        >
+                                            REPORT
+                                        </Badge> 
                                     </div>
                                     <div>
                                         {radar.remarks?? ''}
@@ -141,7 +156,8 @@ function Radars() {
                         setShow={setShowModal} 
                         radar={selectRadar} 
                         setRadar={setSelectRadar}
-                        dispatch={dispatch} action={ACTIONS.RADAR_STATUS_UPDATE}
+                        dispatch={dispatch} 
+                        action={ACTIONS.RADAR_STATUS_UPDATE}
                     />
                     <Table bordered responsive size='sm'>
                         <thead>{render_headers()}</thead>

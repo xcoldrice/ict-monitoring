@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Modal, Button, Form, Row, Col} from 'react-bootstrap';
-import { useToasts } from 'react-toast-notifications';
+import React from 'react';
+import {Modal, Button, Form, Row, Col} from 'react-bootstrap';
+import {useToasts} from 'react-toast-notifications';
 import axios from 'axios';
 
 function ModelFormModal(props) {
@@ -23,8 +23,8 @@ function ModelFormModal(props) {
         setModel(pre => ({
             ...pre, 
             id:"", 
-            name:'',
-            category:'', 
+            name:"",
+            category:"", 
             status:2, 
             remarks:"", 
             edit:false
@@ -34,7 +34,10 @@ function ModelFormModal(props) {
     const modal_change =(e) => {
         let key = e.target.name,
             value = e.target.value;
-        setModel((pre)=>({...pre,[key]:value}));
+            
+        setModel((pre)=>(
+            {...pre,[key]:value}
+        ));
     }
 
     const handle_save = async (e) => {
@@ -57,17 +60,23 @@ function ModelFormModal(props) {
         await axios({method:'POST', url:'/models', data})
         .then(response => {
             if(response.data.success) return;        
-            addToast('Error Adding new Model!',{autoDismiss:true,appearance:'error'});
+            addToast('Error Adding new Model!',{
+                autoDismiss:true,
+                appearance:'error'
+            });
         })  
         .catch(error => {
-            addToast('Error Adding new Model!',{autoDismiss:true,appearance:'error'});
+            addToast('Error Adding new Model!',{
+                autoDismiss:true,
+                appearance:'error'
+            });
         });
 
         close_modal();
     }
 
 
-    return (<Modal show={showModal} onHide={()=>{close_modal()}} size="lg">
+    return <Modal show={showModal} onHide={()=>{close_modal()}} size="lg">
         <Modal.Header closeButton>
             <Modal.Title>
                 Add Model
@@ -137,7 +146,6 @@ function ModelFormModal(props) {
             </Form>
         </Modal.Body>
     </Modal>
-    )
 }
 
 export default ModelFormModal;

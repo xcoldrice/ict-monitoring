@@ -1,20 +1,13 @@
 import axios from 'axios';
-import React,{createContext,useEffect,useReducer} from 'react';
+import React, {createContext, useEffect, useReducer} from 'react';
 import {ACTIONS} from './AppContext';
 import {useToasts} from 'react-toast-notifications';
 
 export const RadarContext = createContext();
 
 const reducer = (radars,action) => {
-    let payload = action.payload;
-    let {
-        status, 
-        category, 
-        name, 
-        remarks, 
-        type, 
-        recipient
-    } = payload;
+    let payload = action.payload,
+        {status, category, name, remarks, type, recipient} = payload;
 
     switch (action.type) {
         case ACTIONS.RADAR_DATA_UPDATE:
