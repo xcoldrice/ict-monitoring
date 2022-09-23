@@ -26,7 +26,7 @@ class RadarController extends Controller
                 $return = [
                             'name'     => $radar,
                             'category' => $category,
-                            'data'     => \Cache::get($cacheKey) ?? [],
+                            'data'     => \Cache::get($cacheKey) ?? (object) [],
                         ];
                 $tmp[] = array_merge($return,$status);
             }

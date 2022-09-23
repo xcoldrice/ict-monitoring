@@ -7,67 +7,71 @@ export const RadarContext = createContext();
 
 const reducer = (radars,action) => {
     let payload = action.payload,
-        {status, category, name, remarks, type, recipient} = payload;
+        {status, category, name, remarks, type, recipient} = payload,
+        index = radars.findIndex(radar => (
+            radar.name == name && radar.category == category
+        ));
 
     switch (action.type) {
         case ACTIONS.RADAR_DATA_UPDATE:
-            return radars.map(radar => {
-                if(radar.name == name && radar.category == category) {
-                    if(!radar.data[recipient]) radar.data[recipient] = [];
-                    
-                    let index = radar.data[recipient].findIndex(d => (
-                        d.type == type
-                    ));
 
-                    if(index < 0) {
-                        radar.data[recipient].push(payload);
-
-                        return radar;
-                    }
-
-                    radar.data[recipient][index] = payload;
-                }
-
-                return radar;
-            });
-        case ACTIONS.RADAR_STATUS_UPDATE:
-            let tmp = [...radars],
-                index = tmp.findIndex(t => (
-                    t.name == name && t.category == category
-                ));
-
-            if(tmp[index].status == status) {
-                tmp[index].remarks = remarks?? '';
-
-                return tmp;
+            if(!radars[index].data[recipient]) {
+                radars[index].data[recipient] = [payload];
+                return radars;
             }
 
-            let removed = tmp.splice(index,1)[0];
+            let x = radars[index].data[recipient].findIndex(data => (
+                data.type == type
+            ));
+                
+            if(x == -1) {
+                radars[index].data[recipient].push(payload)
+
+                return radars;
+            }
+
+            radars[index].data[recipient][x] = payload;
+
+            return radars;
+
+        case ACTIONS.RADAR_STATUS_UPDATE:
+
+            if(radars[index].status == status) {
+                radars[index].remarks = remarks?? "";
+
+                return radars;
+            }
+
+            let removed = radars.splice(index,1)[0];
                 removed.status = status;
                 removed.remarks = remarks?? '';
 
-            let statusIndex = tmp.map(r => {
-                if(r.category != 'mosaic') return r.status;
+            let statIndex = radars.map(radar => {
+                if(radar.category != 'mosaic') return radar.status;
             }).lastIndexOf(status);
-            
-            let mosIndex = tmp.findIndex(r => r.category == 'mosaic');
 
-            if(statusIndex < 0) {
+            let mosIndex = radars.findIndex(radar => radar.category == 'mosaic');
+
+            if(statIndex < 0) {
                 if(status == 1) {
-                    tmp.unshift(removed);
-                    return tmp;
+                    radars.unshift(removed);
+
+                    return radars;
                 }
 
-                if(status == 3 && mosIndex > 0) statusIndex =  mosIndex - 1;
+                if(status == 3 && mosIndex > 0) statIndex =  mosIndex - 1;
 
-                if(status == 0) statusIndex = mosIndex;
+                if(status == 0) statIndex = mosIndex;
 
-                if(status == 2) statusIndex = tmp.length;
+                if(status == 2) statIndex = radars.length;
             }
-            statusIndex = statusIndex + 1;
-            tmp.splice(statusIndex,0,removed);
 
-            return tmp;
+            statIndex = statIndex + 1;
+
+            radars.splice(statIndex, 0, removed);
+
+            return radars;
+
         case ACTIONS.RADAR_LOAD_ALL:
             return payload;
         default:

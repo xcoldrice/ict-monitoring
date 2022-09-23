@@ -5,31 +5,23 @@ import {useToasts} from 'react-toast-notifications';
 export const WeatherStationContext = createContext();
 
 const reducer = (dataset, action) => {
-    let {
-        payload, 
-        type
-    } = action;
+    let {payload, type} = action,
+        index = dataset.findIndex(({type}) => type == payload.type);
 
     switch(type) {
         case ACTIONS.WEATHER_STATION_LOAD_ALL:
             return payload;
         case ACTIONS.UPDATE_STATION_DATA:
-            let temp = [...dataset],
-                index = temp.findIndex(data => (
-                    data.type == payload.type
-                ));
-
             if(index < 0) {
-                temp.push(payload);
-                return temp;
-            }
+                dataset.push(payload);
+                return dataset;
+            } 
 
-            temp[index].time = payload.time; 
+            dataset[index].time = payload.time;
 
-            return temp;
+            return dataset;
         default:
             return dataset;
-            break;
     }
 
 }

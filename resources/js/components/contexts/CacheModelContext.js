@@ -12,8 +12,7 @@ const reducer = (models, action) => {
         case ACTIONS.MODEL_LOAD_ALL:
             return payload;
         case ACTIONS.MODEL_ADD:
-            models = [...models, payload];
-            return models;
+            return [...models, payload];
         case ACTIONS.MODEL_UPDATE:
             let index = models.findIndex((model)=> model.id == payload.id);
             models[index] = payload;
