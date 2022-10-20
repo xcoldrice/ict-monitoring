@@ -26,7 +26,7 @@ Route::resource('/radars', \App\Http\Controllers\RadarController::class);
 Route::get('/radar/{name}/{category}/{limit?}', [\App\Http\Controllers\RadarController::class,'logs']);
 
 Route::resource('/weather-stations', \App\Http\Controllers\WeatherStationController::class);
-Route::resource('/models', \App\Http\Controllers\CacheModelController::class);
+// Route::resource('/models', \App\Http\Controllers\CacheModelController::class);
 
 
 Auth::routes();

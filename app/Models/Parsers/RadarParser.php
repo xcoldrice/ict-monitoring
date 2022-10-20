@@ -49,7 +49,6 @@ class RadarParser extends Model
 			];
 
 			event(new \App\Events\PublishRadar($this->dataToCache));
-
 			self::cacheData();
 
 		}

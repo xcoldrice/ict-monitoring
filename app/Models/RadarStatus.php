@@ -11,7 +11,8 @@ class RadarStatus extends Model
 
     protected $fillable = [
                             'status',
-                            'remarks'
+                            'remarks',
+                            'posted_by',
     ];
 
 }

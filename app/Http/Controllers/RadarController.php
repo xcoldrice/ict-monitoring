@@ -41,6 +41,7 @@ class RadarController extends Controller
     {
         try {
             $inputs = $request->all();
+            $inputs['posted_by'] = auth()->user()->name;
             $inputs['status'] = (int) $inputs['status'];
 
             $data = [
@@ -55,15 +56,16 @@ class RadarController extends Controller
             $return = $radar->status()->orderBy('created_at','desc')->first();
 
             $response = [
-                            'success'  => true,
-                            'status'   => $return->status,
-                            'remarks'  => $return->remarks,
-                            'name'     => $inputs['name'],
-                            'category' => $inputs['category']
+                            'success'     => true,
+                            'status'      => $return->status,
+                            'remarks'     => $return->remarks,
+                            'name'        => $inputs['name'],
+                            'posted_by'   => $inputs['posted_by'],
+                            'category'    => $inputs['category'],
+                            'date_posted' => $return->created_at
                         ];
 
             event(new \App\Events\UpdateRadarStatus($response));
-
             return response()->json($response);
 
         } catch (\Throwable $th) {
@@ -82,7 +84,14 @@ class RadarController extends Controller
             $status = $radar->status()->orderBy('created_at','desc')->first();
             if($status) {
                 $remarks = $status->remarks == null? '' : $status->remarks;
-                return [ 'status' => $status->status, 'remarks' => $remarks];
+                $posted_by = $status->posted_by == null? '' : $status->posted_by;
+
+                return [ 
+                    'status'      => $status->status, 
+                    'remarks'     => $remarks,
+                    'posted_by'   => $posted_by,
+                    'date_posted' => $status->created_at
+                ];
             } 
         }
 
@@ -126,7 +135,8 @@ class RadarController extends Controller
 
                 $text = 'Active';
                 $remarks = '';
-                
+                $posted_by = $stat['posted_by'] == null? '': $stat['posted_by'];
+
                 $date = date('m-d-Y h:i a', strtotime($stat['created_at']));
 
                 if($stat['status'] == 2) $text = 'Under Development';
@@ -139,11 +149,13 @@ class RadarController extends Controller
                     $text = 'Down';
                     $remarks = $stat['remarks'] == null? '': $stat['remarks'];
                 }
-            
+                
+
                 return [
-                        'date'    => $date,
-                        'status'  => $text,
-                        'remarks' => $remarks,
+                    'date'      => $date,
+                    'status'    => $text,
+                    'remarks'   => $remarks,
+                    'posted_by' => $posted_by,
                 ];
 
             },$status);

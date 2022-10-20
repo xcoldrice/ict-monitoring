@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Row, Col, Container} from 'react-bootstrap';
-import {AppProvider} from './contexts/AppContext';
-import Menu from './layouts/Menu';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import React from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import ReactDOM from "react-dom";
+import { AppProvider } from "./contexts/AppContext";
+import Menu from "./layouts/Menu";
 
 function App() {
     return (
@@ -11,7 +11,7 @@ function App() {
             <AppProvider>
                 <Row>
                     <Col>
-                        <Menu/>
+                        <Menu />
                     </Col>
                 </Row>
             </AppProvider>
@@ -21,6 +21,6 @@ function App() {
 
 export default App;
 
-if (document.getElementById('root')) {
-    ReactDOM.render(<App />, document.getElementById('root'));
+if (document.getElementById("root")) {
+    ReactDOM.render(<App />, document.getElementById("root"));
 }

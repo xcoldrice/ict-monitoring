@@ -69,7 +69,7 @@ class CacheModelController extends Controller
             });
 
             event(new \App\Events\AddNewModel($response));
-
+            
 
             return response()->json($response);
 
