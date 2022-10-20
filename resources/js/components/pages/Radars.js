@@ -70,7 +70,7 @@ function Radars() {
 
         return (
             <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                     <div>
                         <Badge
                             bg={bg}
