@@ -82,6 +82,7 @@ function RadarStatusModal(props) {
                             <tr>
                                 <th>Status</th>
                                 <th>Remarks</th>
+                                <th>Posted By</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
@@ -114,6 +115,7 @@ function RadarStatusModal(props) {
                                             >
                                                 {remarks}
                                             </td>
+                                            <td>{history.posted_by}</td>
                                             <td style={{ width: "30%" }}>
                                                 <Moment
                                                     date={new Date(date)}
