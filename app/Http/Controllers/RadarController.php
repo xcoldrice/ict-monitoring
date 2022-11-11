@@ -33,7 +33,6 @@ class RadarController extends Controller
         }
         
         $tmp = self::sortByStatus($tmp);
-
         return response()->json($tmp);
     }
 

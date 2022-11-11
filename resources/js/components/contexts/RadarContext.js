@@ -23,18 +23,19 @@ const reducer = (radars, action) => {
 
     switch (action.type) {
         case ACTIONS.RADAR_DATA_UPDATE:
-            if (!radars[index].data[recipient]) {
-                radars[index].data[recipient] = [payload];
-                return radars;
+            if (radars.length) {
+                if (!radars[index].data[recipient]) {
+                    radars[index].data[recipient] = [payload];
+                    return radars;
+                }
+
+                let x = radars[index].data[recipient].findIndex(
+                    (data) => data.type == type
+                );
+                x == -1
+                    ? radars[index].data[recipient].push(payload)
+                    : (radars[index].data[recipient][x] = payload);
             }
-
-            let x = radars[index].data[recipient].findIndex(
-                (data) => data.type == type
-            );
-            x == -1
-                ? radars[index].data[recipient].push(payload)
-                : (radars[index].data[recipient][x] = payload);
-
             return radars;
 
         case ACTIONS.RADAR_STATUS_UPDATE:
