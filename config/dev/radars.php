@@ -27,14 +27,14 @@
                                     'daet',
                                     'subic',
                                     'hinatuan',
-
                                 ]
                         ],
                 'vaisala' => [
                             'radars' => [
                                     'quezon',
                                     'zamboanga',
-                                    'basco'
+                                    'basco',
+                                    'busuanga'
                             ]
 
                         ],

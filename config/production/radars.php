@@ -33,7 +33,8 @@
                             'radars' => [
                                     'quezon',
                                     'zamboanga',
-                                    'basco'
+                                    'basco',
+                                    'busuanga'
                             ]
 
                         ],
