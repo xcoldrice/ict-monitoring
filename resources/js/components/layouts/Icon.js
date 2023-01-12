@@ -17,15 +17,18 @@ function Icon(props) {
     if (typeof time === "number") {
         dataTime = <Moment date={time} format="[Date:] MMMM DD, YYYY h:mm A" />;
         textColor = "light";
-        let diffMin = moment().diff(time + offset, "minutes");
-        if (diffMin > 0 && diffMin < 60) {
-            timeDiff = `${diffMin} minutes late.`;
+        let diffSec = moment().diff(time + offset, "seconds");
+        if (diffSec > 0 && diffSec < 60) {
+            timeDiff = `${diffSec} seconds late.`;
         }
-        if (diffMin > 60 && diffMin < 1440) {
-            timeDiff = `${Math.floor(diffMin / 60)} hours late.`;
+        if (diffSec >= 60 && diffSec < 3600) {
+            timeDiff = `${Math.floor(diffSec / 60)} minutes late.`;
         }
-        if (diffMin > 1440) {
-            timeDiff = `${Math.floor(diffMin / 1440)} days late.`;
+        if (diffSec >= 3600 && diffSec < 86400) {
+            timeDiff = `${Math.floor(diffSec / 3600)} hours late.`;
+        }
+        if (diffSec > 86400) {
+            timeDiff = `${Math.floor(diffSec / 86400)} days late.`;
         }
     }
     const badge_color = () => {
