@@ -19,6 +19,6 @@
     <script>
         window.user_name = "{{ $userName }}";
     </script>  
-    <script src="{{asset('/js/app.js')}}"></script>
+    <script src="{{asset('/js/app.js?t=') . time()}}"></script>
 </body>
 </html>
