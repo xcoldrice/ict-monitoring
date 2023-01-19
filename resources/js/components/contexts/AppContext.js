@@ -46,7 +46,7 @@ export const AppProvider = (props) => {
         },
         mosaic: {
             interval: fifteen_min,
-            threshold: ten_min,
+            threshold: fifteen_min,
         },
         aws: {
             interval: ten_min,
