@@ -30,19 +30,19 @@ export const AppProvider = (props) => {
     const OFFSETS = {
         eec: {
             interval: ten_min,
-            threshold: five_min,
+            threshold: ten_min,
         },
         jrc: {
             interval: fifteen_min,
-            threshold: five_min,
+            threshold: 0,
         },
         selex: {
             interval: ten_min,
-            threshold: five_min,
+            threshold: ten_min,
         },
         vaisala: {
             interval: ten_min,
-            threshold: five_min,
+            threshold: ten_min,
         },
         mosaic: {
             interval: fifteen_min,
@@ -50,11 +50,11 @@ export const AppProvider = (props) => {
         },
         aws: {
             interval: ten_min,
-            threshold: ten_min,
+            threshold: 0,
         },
         arg: {
             interval: ten_min,
-            threshold: ten_min,
+            threshold: 0,
         },
         default: {
             interval: ten_min,

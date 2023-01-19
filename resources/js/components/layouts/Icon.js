@@ -8,11 +8,11 @@ function Icon(props) {
     let { children, tooltip, time, class: className, category, style } = props,
         { UNIXNOW, OFFSETS } = useContext(AppContext),
         { interval, threshold } = OFFSETS[category] ?? OFFSETS.default,
-        offset = interval,
+        offset = interval + threshold,
         dataTime = "No Data.",
         timeDiff = "",
         textColor = "secondary",
-        fileInterval = `Interval: ${offset / 1000 / 60} minutes.`;
+        fileInterval = `Interval: ${interval / 1000 / 60} minutes.`;
 
     if (typeof time === "number") {
         dataTime = <Moment date={time} format="[Date:] MMMM DD, YYYY h:mm A" />;
@@ -50,6 +50,7 @@ function Icon(props) {
                     {tooltip} <br />
                     {dataTime} <br />
                     {fileInterval} <br />
+                    {`Threshold: ${threshold / 1000 / 60} minutes`} <br />
                     {timeDiff}
                 </Popover.Body>
             </Popover>
