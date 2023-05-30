@@ -58,6 +58,8 @@ class RadarTransfer extends Model
 
 					if($code == 'ILO') $radar = 'Iloilo';
 					if($code == 'BOH') $radar = 'Bohol';
+					if($code == 'MAC') $radar = 'Mactan';
+                    
 				}else{
 					if(!isset($srv[$value->Host]))
 						continue;
