@@ -67,7 +67,9 @@ class RadarParser extends Model
 			return;
 		}
 
-		if($this->type == "cappi" || $this->type == "cmax" || $this->category == 'jrc') {
+
+
+		if($this->type == "cappi" || $this->type == "cmax" || $this->category == 'jrc' || $this->type == 'hybrid') {
 			$date_offset = 0;
 		}
 
@@ -103,7 +105,10 @@ class RadarParser extends Model
         if($this->type == 'cmax') {
             $date_string = substr($date_string,1,12);
         }
+
+
 		$dateandtime = date_create_from_format($date_format,substr($date_string,0,12))->format(DATE_ATOM);
+        
 		$this->unix  = (strtotime($dateandtime) + $date_offset);
 	}
 
