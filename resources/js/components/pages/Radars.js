@@ -32,12 +32,13 @@ function Radars() {
     const render_data = (array) => {
         return array.map((item, index) => {
             let { file, type } = item;
-
-            return (
-                <Icon key={index} tooltip={`File: ${file}`} {...item}>
-                    {type}
-                </Icon>
-            );
+            if(type != 'netcdf') {
+                return (
+                    <Icon key={index} tooltip={`File: ${file}`} {...item}>
+                        {type}
+                    </Icon>
+                );
+            }
         });
     };
 
