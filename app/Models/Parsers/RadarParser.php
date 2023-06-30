@@ -33,6 +33,10 @@ class RadarParser extends Model
     }
     
     public function process() {
+        if($this->file == 'QuezonPalawan.20230630062658.PPI.0050.h5') {
+            return;
+        }
+
 		if($this->file != "" && $this->category) {
 			$this->getTimeFromFile();
 

@@ -32,7 +32,7 @@ function Radars() {
     const render_data = (array) => {
         return array.map((item, index) => {
             let { file, type } = item;
-            if(type != 'netcdf' || file != 'QuezonPalawan.20230630062658.PPI.0050.h5') {
+            if(type != 'netcdf') {
                 return (
                     <Icon key={index} tooltip={`File: ${file}`} {...item}>
                         {type}
