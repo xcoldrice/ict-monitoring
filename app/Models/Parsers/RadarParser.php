@@ -4,6 +4,7 @@ namespace App\Models\Parsers;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class RadarParser extends Model
 {
@@ -33,7 +34,7 @@ class RadarParser extends Model
     }
     
     public function process() {
-        if($this->file == 'QuezonPalawan.20230630062658.PPI.0050.h5') {
+        if(Str::contains($this->file, "QuezonPalawan")) {
             return;
         }
 
