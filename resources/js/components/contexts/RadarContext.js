@@ -39,7 +39,7 @@ const reducer = (radars, action) => {
             return radars;
 
         case ACTIONS.RADAR_STATUS_UPDATE:
-            if (radars[index].status == status) {
+            if (radars[index]?.status == status) {
                 radars[index].remarks = remarks ?? "";
                 return radars;
             }
