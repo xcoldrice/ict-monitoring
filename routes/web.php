@@ -26,6 +26,8 @@ Route::resource('/radars', \App\Http\Controllers\RadarController::class);
 Route::get('/radar/{name}/{category}/{limit?}', [\App\Http\Controllers\RadarController::class,'logs']);
 
 Route::resource('/weather-stations', \App\Http\Controllers\WeatherStationController::class);
+Route::resource('/temperatures', \App\Http\Controllers\TemperatureController::class);
+
 // Route::resource('/models', \App\Http\Controllers\CacheModelController::class);
 
 

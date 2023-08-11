@@ -5,6 +5,7 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import Cms from "../pages/Cms";
 import Dashboard from "../pages/Dashboard";
 import Radars from "../pages/Radars";
+import Temperatures from "../pages/Temperatures";
 import WeatherStations from "../pages/WeatherStations";
 
 function Menu() {
@@ -49,6 +50,9 @@ function Menu() {
                             <Nav.Link as={Link} to="/react/aws">
                                 Weather Stations
                             </Nav.Link>
+                            <Nav.Link as={Link} to="/react/temperatures">
+                                Temperatures
+                            </Nav.Link>
                         </Nav>
                         <Navbar.Text>
                             <Moment
@@ -83,6 +87,8 @@ function Menu() {
                 <Route exact path="/" element={<Dashboard />} />
                 <Route exact path="/react/radar" element={<Radars />} />
                 <Route exact path="/react/aws" element={<WeatherStations />} />
+                <Route exact path="/react/temperatures" element={<Temperatures />} />
+
             </Routes>
         </BrowserRouter>
     );

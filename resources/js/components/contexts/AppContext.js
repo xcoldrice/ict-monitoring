@@ -3,6 +3,7 @@ import Pusher from "pusher-js";
 import React, { createContext, useEffect, useState } from "react";
 import { ToastProvider } from "react-toast-notifications";
 import { RadarProvider } from "./RadarContext";
+import { TemperatureProvider } from "./TemperatureContext";
 import { WeatherStationProvider } from "./WeatherStationContext";
 
 export const AppContext = createContext();
@@ -98,7 +99,9 @@ export const AppProvider = (props) => {
             <AppContext.Provider value={{ UNIXNOW, OFFSETS }}>
                 <RadarProvider>
                     <WeatherStationProvider>
-                        {props.children}
+                        <TemperatureProvider>
+                            {props.children}
+                        </TemperatureProvider>
                     </WeatherStationProvider>
                 </RadarProvider>
             </AppContext.Provider>
