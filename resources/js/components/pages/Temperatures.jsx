@@ -8,11 +8,11 @@ function Temperatures(props) {
 
     function temperatureColor(temperature) { 
         if(temperature >= 20 && temperature <= 24 ) {
-            return 'orange';
+            return '#ffc107';
         }
 
         if(temperature > 24) {
-            return 'red';
+            return '#dc3545';
         }
 
         return 'lightblue';
@@ -20,11 +20,11 @@ function Temperatures(props) {
 
     function humidityColor(humidity) {
         if(humidity > 50 && humidity < 60) {
-            return 'orange';
+            return '#ffc107';
         }
 
-        if(humidity => 60) {
-            return 'red';
+        if(humidity >= 60) {
+            return '#dc3545';
         }
 
         return 'lightblue';
@@ -62,7 +62,7 @@ function Temperatures(props) {
                                     className='text-center' 
                                     style={{
                                         backgroundColor: temperatureColor(temp?.temperature ?? 0), 
-                                        color:temperatureColor(temp?.temperature ?? 0) == 'red'? 'white':'black',
+                                        color: temp?.temperature > 24? 'white':'black',
                                         fontWeight:'bold'
                                     }}
                                 >
@@ -71,7 +71,7 @@ function Temperatures(props) {
                                 <td 
                                     className='text-center' 
                                     style={{backgroundColor: humidityColor(temp?.humidity?? 0),
-                                        color:humidityColor(temp?.humidity?? 0) == 'red'? 'white':'black', 
+                                        color:temp?.humidity >= 60? 'white':'black', 
                                         fontWeight:'bold'
                                     }}
                                 >
@@ -80,7 +80,7 @@ function Temperatures(props) {
                                 <td 
                                     className='text-center' 
                                     style={{
-                                        backgroundColor: (moment().diff(temp.datetime) > (60 * 60 * 1000)) ? 'red' :'lightblue', 
+                                        backgroundColor: (moment().diff(temp.datetime) > (60 * 60 * 1000)) ? '#dc3545' :'lightblue', 
                                         color: (moment().diff(temp.datetime) > (60 * 60 * 1000)) ? 'white' :'black',
                                         fontWeight:'bold'}}
                                 >
