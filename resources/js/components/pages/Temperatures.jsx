@@ -5,7 +5,33 @@ import Moment from 'react-moment';
 import { TemperatureContext } from '../contexts/TemperatureContext';
 function Temperatures(props) {
     let { temperatures } = useContext(TemperatureContext);
-    
+
+    function temperatureColor(temperature) { 
+        if(temperature => 20 && temperature <= 24 ) {
+            return 'orange';
+        }
+
+        if(temperature > 24) {
+            return 'red';
+        }
+
+        return 'lightblue';
+    }
+
+    function humidityColor(humidity) {
+        if(humidity > 50 && humidity < 60) {
+            return 'orange';
+        }
+
+        if(humidity => 60) {
+            return 'red';
+        }
+
+        return 'lightblue';
+
+    }
+
+
     return <>
         <Row>
             <Col>
@@ -26,10 +52,38 @@ function Temperatures(props) {
                     <tbody>
                         {temperatures.map((temp, i) => {
                             return <tr key={i}>
-                                <td className='text-center' style={{fontWeight:'bold'}}>{temp.room}</td>
-                                <td className='text-center' style={{backgroundColor: temp?.temperature > 24? 'red':'lightblue', fontWeight:'bold'}}>{temp.temperature?? ""} &deg; C</td>
-                                <td className='text-center' style={{backgroundColor: temp?.humidity > 80? 'red':'lightblue', fontWeight:'bold'}}>{temp.humidity?? ""} %</td>
-                                <td className='text-center' style={{backgroundColor: (moment().diff(temp.datetime) > (60 * 60 * 1000)) ? 'pink' :'lightblue', fontWeight:'bold'}}>
+                                <td 
+                                    className='text-center' 
+                                    style={{fontWeight:'bold'}}
+                                >
+                                    {temp.room}
+                                </td>
+                                <td 
+                                    className='text-center' 
+                                    style={{
+                                        backgroundColor: temperatureColor(temp?.temperature ?? 0), 
+                                        color:temperatureColor(temp?.temperature ?? 0) == 'red'? 'white':'black',
+                                        fontWeight:'bold'
+                                    }}
+                                >
+                                    {temp.temperature?? ""} &deg; C
+                                </td>
+                                <td 
+                                    className='text-center' 
+                                    style={{backgroundColor: humidityColor(temp?.humidity?? 0),
+                                        color:humidityColor(temp?.humidity?? 0) == 'red'? 'white':'black', 
+                                        fontWeight:'bold'
+                                    }}
+                                >
+                                    {temp.humidity?? ""} %
+                                </td>
+                                <td 
+                                    className='text-center' 
+                                    style={{
+                                        backgroundColor: (moment().diff(temp.datetime) > (60 * 60 * 1000)) ? 'red' :'lightblue', 
+                                        color: (moment().diff(temp.datetime) > (60 * 60 * 1000)) ? 'white' :'black',
+                                        fontWeight:'bold'}}
+                                >
                                     <Moment format='LLL'>{temp.datetime}</Moment>
                                 </td>
                             </tr>
