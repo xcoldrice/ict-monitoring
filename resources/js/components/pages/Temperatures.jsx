@@ -7,7 +7,7 @@ function Temperatures(props) {
     let { temperatures } = useContext(TemperatureContext);
 
     function temperatureColor(temperature) { 
-        if(temperature => 20 && temperature <= 24 ) {
+        if(temperature >= 20 && temperature <= 24 ) {
             return 'orange';
         }
 
