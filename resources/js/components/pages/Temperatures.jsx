@@ -58,7 +58,10 @@ function Temperatures(props) {
                                 >
                                     {temp.room}
                                 </td>
-                                <td 
+                                <td >
+                                    <Badge bg='info'>UNDER MAINTENANCE</Badge>
+                                </td>
+                                {/* <td 
                                     className='text-center' 
                                     style={{
                                         backgroundColor: temperatureColor(temp?.temperature ?? 0), 
@@ -85,7 +88,7 @@ function Temperatures(props) {
                                         fontWeight:'bold'}}
                                 >
                                     <Moment format='LLL'>{temp.datetime}</Moment>
-                                </td>
+                                </td> */}
                             </tr>
                         })}
                     </tbody>
