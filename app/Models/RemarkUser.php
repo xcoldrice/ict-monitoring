@@ -5,14 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RadarStatus extends Model
+class RemarkUser extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-            'radar_id',
-            'user_id',
-            'status',
-            'description',
+        "remark_id",
+        "user_id",
+        "action",
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
 }

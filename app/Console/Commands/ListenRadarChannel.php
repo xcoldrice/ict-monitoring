@@ -38,8 +38,11 @@ class ListenRadarChannel extends Command
     public function handle()
     {
         while (1) {
+
             (new \App\Models\Parsers\RadarTransfer())->process();
+
             sleep(5);
+            
         }
     }
 }

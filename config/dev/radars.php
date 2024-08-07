@@ -40,7 +40,8 @@
                         ],
                 'mosaic' => [
                     'radars' => [
-                        'mosaic'
+                        'mosaic',
+                        
                     ]
                 ]
     ];

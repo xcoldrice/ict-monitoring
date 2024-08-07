@@ -10,12 +10,11 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TriggerReload implements ShouldBroadcast
+class CreateRadarRemark implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    
-    public $data;
 
+    public $data;
     /**
      * Create a new event instance.
      *
@@ -37,6 +36,6 @@ class TriggerReload implements ShouldBroadcast
     {
 
         return new Channel('ict-tool-channel');
-        
+
     }
 }

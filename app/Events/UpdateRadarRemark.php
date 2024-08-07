@@ -10,10 +10,10 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TriggerReload implements ShouldBroadcast
+class UpdateRadarRemark implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    
+
     public $data;
 
     /**
@@ -35,8 +35,8 @@ class TriggerReload implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-
-        return new Channel('ict-tool-channel');
         
+        return new Channel('ict-tool-channel');
+
     }
 }

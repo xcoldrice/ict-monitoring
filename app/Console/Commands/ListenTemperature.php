@@ -38,8 +38,11 @@ class ListenTemperature extends Command
     public function handle()
     {
         Redis::psubscribe(['TEMP'],function($message,$channel){
+
             var_dump($message);
+
             (new \App\Models\Parsers\TemperatureParser(json_decode($message)))->process();
+            
         });
     }
 }

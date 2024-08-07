@@ -22,8 +22,9 @@ class UpdateRadarStatus implements ShouldBroadcast
      */
     public function __construct($data)
     {
+
         $this->data = $data;
-        //
+
     }
 
     /**
@@ -33,6 +34,8 @@ class UpdateRadarStatus implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+
         return new Channel('ict-tool-channel');
+        
     }
 }

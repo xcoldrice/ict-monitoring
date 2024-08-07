@@ -39,8 +39,11 @@ class ListenWeatherStation extends Command
     public function handle()
     {
         Redis::psubscribe(['WEATHER-STATION'],function($message,$channel){
+            
             var_dump($message);
+
             (new \App\Models\Parsers\WeatherStationParser(json_decode($message)))->process();
+
         });
     }
 }

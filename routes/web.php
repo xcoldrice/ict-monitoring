@@ -23,6 +23,7 @@ Route::group(['prefix'=>'/react'],function(){
 
 
 Route::resource('/radars', \App\Http\Controllers\RadarController::class);
+Route::resource('/remarks', \App\Http\Controllers\RemarkController::class);
 Route::get('/radar/{name}/{category}/{limit?}', [\App\Http\Controllers\RadarController::class,'logs']);
 
 Route::resource('/weather-stations', \App\Http\Controllers\WeatherStationController::class);

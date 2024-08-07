@@ -40,8 +40,11 @@ class ListenRadar extends Command
     public function handle()
     {
         Redis::psubscribe(['RADAR'],function($message,$channel){
+
             var_dump($message);
+
             (new \App\Models\Parsers\RadarParser(json_decode($message)))->process();
+            
         });
     }
 }

@@ -4,73 +4,66 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Radar;
-use App\Models\RadarStatus;
+use App\Models\Status;
 
 class RadarController extends Controller
 {
     
     public function index()
     {
-        $env = \App::Environment();
+        $radars = Radar::all();
 
-        $radarConfig = config($env.'.radars');
-        $tmp = [];
-        if($radarConfig == null) return response()->json($tmp);
+        $radars = self::sortByStatus($radars);
 
-        foreach($radarConfig as $category => $radars) {
-
-            foreach($radars['radars'] as $radar) {
-
-                $cacheKey = $radar.'-'. $category;
-                $status = self::getRadarStatus($radar,$category);
-                $return = [
-                            'name'     => $radar,
-                            'category' => $category,
-                            'data'     => \Cache::get($cacheKey) ?? (object) [],
-                        ];
-                $tmp[] = array_merge($return,$status);
-            }
-        }
-        
-        $tmp = self::sortByStatus($tmp);
-        return response()->json($tmp);
+        return response()->json($radars);
     }
 
     public function store(Request $request)
     {
+        $userId = auth()->user()->id;
+
         try {
-            $inputs = $request->all();
-            $inputs['posted_by'] = auth()->user()->name;
-            $inputs['status'] = (int) $inputs['status'];
 
-            $data = [
-                        'name' => $inputs['name'], 
-                        'category' => $inputs['category']
-                    ];
+            $latestStatus = Status::where("radar_id", $request->radar_id)
+                ->orderBy("created_at", "desc")->first();
 
-            $radar = Radar::updateOrCreate($data,$data);
+            $latestStatus->load(["radar", "user"]);
 
-            $radar->status()->create($inputs);
-
-            $return = $radar->status()->orderBy('created_at','desc')->first();
 
             $response = [
-                            'success'     => true,
-                            'status'      => $return->status,
-                            'remarks'     => $return->remarks,
-                            'name'        => $inputs['name'],
-                            'posted_by'   => $inputs['posted_by'],
-                            'category'    => $inputs['category'],
-                            'date_posted' => $return->created_at
-                        ];
+                "name"        => $latestStatus->radar->name,
+                "category"    => $latestStatus->radar->category,
+                "status"      => $request->status,
+                "description" => $request->description == "null" ? NULL : $request->description,
+            ];
+
+            if($latestStatus->status != $response["status"] || $latestStatus->description != $response["description"]) {
+                
+                $status = Status::create(array_merge([
+                    "radar_id"    => $request->radar_id,
+                    "user_id"     => $userId,
+                ], $response));
+
+                $status->load("user");
+
+                $response["status"]      = $status->status;
+                $response["description"] = $status->description;
+                $response["created_at"]  = $status->created_at;
+                $response["user"]        = $status->user;
+            }
+
+            $response["created_at"]  = $latestStatus->created_at;
+            $response["user"]        = $latestStatus->user == NULL ? (object)[ 'name' => "admin"] : $latestStatus->user;
+            $response["success"]     = true;
 
             event(new \App\Events\UpdateRadarStatus($response));
+
             return response()->json($response);
 
         } catch (\Throwable $th) {
 
-            return response()->json(['success'=>false]);
-
+            return response()->json(['success' => false]);
+            
         }
     }
 
@@ -98,30 +91,44 @@ class RadarController extends Controller
 
     }
 
-    private function sortByStatus($radars) {
+    private function sortByStatus($collection) {
+        $merged = collect();
+
+        $merged = $merged->merge(
+            $collection->filter(function($col) {
+                
+                return $col->status->status == "active" && $col->name != "mosaic";
+
+            })->values()
+        );
         
-        $active = array_filter($radars,function($radar) { 
-            return $radar['status'] == 1 && $radar['name'] != 'mosaic';
-        });
+        $merged = $merged->merge(
+            $collection->filter(function($col) {
 
-        $down = array_filter($radars,function($radar){ 
-            return $radar['status'] == 0 && $radar['name'] != 'mosaic'; 
-        });
+                return $col->name == "mosaic" && $col->category == "mosaic";
 
-        $underDevelopment = array_filter($radars,function($radar){ 
-            return $radar['status'] == 2 && $radar['name'] != 'mosaic'; 
-        });
+            })->values()
+        );
 
-        $report = array_filter($radars,function($radar){ 
-            return $radar['status'] == 3 && $radar['name'] != 'mosaic'; 
-        });
+        $merged = $merged->merge( 
+            $collection->filter(function($col) {
+
+                return $col->status->status == "down" && $col->name != "mosaic";
+
+            })->values()
+        );
+
+        $merged = $merged->merge(
+            $collection->filter(function($col) {
+
+                return $col->status->status == "under_development" && $col->name != "mosaic";
+
+            })->values()
+        );
 
 
-        $mosaic = array_filter($radars,function($radar){
-            return $radar['name'] == 'mosaic';
-        });
 
-        return array_merge($active, $report,$mosaic,$down,$underDevelopment);
+        return $merged;
     }
 
 

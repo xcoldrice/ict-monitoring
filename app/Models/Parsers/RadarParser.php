@@ -108,7 +108,9 @@ class RadarParser extends Model
 		}
 
         if($this->type == 'cmax') {
-            $date_string = substr($date_string,1,12);
+            $date_string = substr($date_string,0,12);
+
+            // $date_string = substr($date_string,1,12);
         }
 
 

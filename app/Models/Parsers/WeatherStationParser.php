@@ -9,16 +9,16 @@ class WeatherStationParser extends Model
 {
     use HasFactory;
 
+    public $siteId;
+    public $siteName;
     public $type;
-    public $file;
-    public $station;
     public $time;
 
     public function __construct($message) {
-        $this->type    = $message->station_id;
-        $this->file    = $message->location;
-        $this->station = $message->type;
-        $this->time    = $message->unix * 1000;
+        $this->siteId    = $message->station_id;
+        $this->siteName  = $message->location;
+        $this->type      = $message->type;
+        $this->time      = $message->unix * 1000;
     }
     
     public function process() {
@@ -28,22 +28,24 @@ class WeatherStationParser extends Model
     private function publish () {
 
         $this->toPublish = [
-                        'category' => $this->station,  
-                        'file'     => $this->file,  
-                        'type'     => $this->type,  
-                        'time'     => $this->time,  
-                        'class'    => $this->station.'-'.$this->type,
+            'siteId'   => $this->siteId,  
+            'siteName' => $this->siteName,  
+            'type'     => $this->type,  
+            'time'     => $this->time,  
+            'class'    => $this->type . "-" .$this->siteId,
         ];
 
-        if($this->type != "0") {
+        if($this->siteId != "0") {
             self::cacheEachSite();
             event(new \App\Events\PublishWeatherStation($this->toPublish));
         }
     }
 
     private function cacheEachSite() {
-        $cachekey = $this->station .'-'. $this->type;
+        $cachekey = $this->type .'-'. $this->siteId;
+
         \Cache::forever($cachekey,$this->toPublish);
+
     }
 
 

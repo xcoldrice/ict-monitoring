@@ -22,7 +22,9 @@ class PublishTemperature implements ShouldBroadcast
      */
     public function __construct($data)
     {
+
         $this->data = $data;
+        
     }
 
     /**
@@ -32,6 +34,8 @@ class PublishTemperature implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+
         return new Channel('ict-tool-channel');
+
     }
 }
