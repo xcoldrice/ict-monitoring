@@ -186,7 +186,6 @@ export const RadarProvider = (props) => {
 
             });
             window.ict_tool_echo.listen("UpdateRadarStatus", (event) => {
-                console.log(event);
                 dispatch({ type: "update radar status", payload: event.data });
 
                 addToast("Radar Status Updated!", { autoDismiss: true, appearance: "success" });
@@ -195,7 +194,6 @@ export const RadarProvider = (props) => {
 
             window.ict_tool_echo.listen("CreateRadarRemark", (event) => {
                 dispatch({ type: "create radar remarks", payload: event.data });
-                console.log(event);
 
                 addToast("Added New Radar Remark!", { autoDismiss: true, appearance: "success" });
 
@@ -203,7 +201,6 @@ export const RadarProvider = (props) => {
 
             window.ict_tool_echo.listen("UpdateRadarRemark", (event) => {
                 dispatch({ type: "update radar remarks", payload: event.data });
-                console.log(event);
 
                 addToast("Updated Radar Remark!", { autoDismiss: true, appearance: "success" });
 
