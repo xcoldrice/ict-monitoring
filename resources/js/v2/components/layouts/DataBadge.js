@@ -21,11 +21,7 @@ function DataBadge({text, tooltip, time, interval, threshold}) {
 
         if (d > minute && d < hour) 
             return "warning";
-
-        if(d < -(interval * 60)) {
-            return "primary";
-        }
-
+        
         return "success";
 
     }
