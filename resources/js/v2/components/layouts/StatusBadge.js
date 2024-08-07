@@ -54,7 +54,7 @@ function StatusBadge(props) {
                     {status_}
                 </Button>
             </OverlayTrigger>
-            {window.user_name != "Guest" && <>
+            {window.user_name != "Guest" && radar_name != "mosaic" && <>
                 <OverlayTrigger 
                     placement='top' 
                     overlay={
