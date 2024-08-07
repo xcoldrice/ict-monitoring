@@ -36,6 +36,15 @@ export const AppProvider = (props) => {
         }
     }, [unixNow]);
 
+    useEffect(() => {
+        try {
+            window.ict_tool_echo.listen("TriggerReload", () => {
+                window.location.href = window.location.href.replace(/#.*$/, "");
+                // document.location.reload(true);
+            });
+        } catch (error) {}
+    });
+
     return <>
         <AppContext.Provider value={{ unixNow }}>
             <RadarProvider>
