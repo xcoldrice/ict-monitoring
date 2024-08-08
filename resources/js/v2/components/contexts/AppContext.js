@@ -16,12 +16,12 @@ export const AppProvider = (props) => {
             key: process.env.MIX_PUSHER_APP_KEY,
             cluster: process.env.MIX_PUSHER_APP_CLUSTER,
             forceTLS: false,
+            disableStats: true,
             wsHost: window.location.hostname,
             wsPort: 6001,
-            wssHost: window.location.hostname,
-            wssPort: 6001,
-            disableStats: true,
-            enabledTransports: ["ws", "wss"],
+            // wssHost: window.location.hostname,
+            // wssPort: 6001,
+            // enabledTransports: ["ws", "wss"],
         });
         window.ict_tool_echo = echo.channel("ict-tool-channel");
     }, []);
