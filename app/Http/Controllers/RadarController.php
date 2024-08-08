@@ -56,7 +56,7 @@ class RadarController extends Controller
             $response["user"]        = $latestStatus->user == NULL ? (object)[ 'name' => "admin"] : $latestStatus->user;
             $response["success"]     = true;
 
-            // event(new \App\Events\UpdateRadarStatus($response));
+            event(new \App\Events\UpdateRadarStatus($response));
 
             return response()->json($response);
 
