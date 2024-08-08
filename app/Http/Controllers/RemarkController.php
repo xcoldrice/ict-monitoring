@@ -64,7 +64,7 @@ class RemarkController extends Controller
                 ],
             ];
             
-            event(new \App\Events\CreateRadarRemark($response));
+            // event(new \App\Events\CreateRadarRemark($response));
 
             return response()->json($response);
 

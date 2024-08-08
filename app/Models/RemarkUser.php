@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class RemarkUser extends Model
 {
-    use HasFactory;
+    use HasFactory, HasObserver;
 
     protected $fillable = [
         "remark_id",

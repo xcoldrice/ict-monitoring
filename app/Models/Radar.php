@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Status;
+use App\Traits\HasObserver;
 
 class Radar extends Model
 {
-    use HasFactory;
+    use HasFactory, HasObserver;
 
     protected $fillable = [
         'name',
