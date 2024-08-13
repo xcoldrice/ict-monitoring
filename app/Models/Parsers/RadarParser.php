@@ -79,7 +79,7 @@ class RadarParser extends Model
 		}
 
         if($this->type == "cmax" || $this->type == "hybrid") {
-            $date_offset = 28800 * 3;
+            $date_offset = 43200;
         }
 
 
