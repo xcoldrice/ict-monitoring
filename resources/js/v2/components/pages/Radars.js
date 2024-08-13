@@ -166,7 +166,7 @@ function Radars() {
                                             </td>
                                         </React.Fragment>)}
                                         <td 
-                                            className={radar.name == "mosaic" ? "" : "text-center"}
+                                            className={(window.user_name == "Guest") ? "text-center" : ""}
                                             style={{ verticalAlign: "middle" }}
                                         >
                                             <StatusBadge 
