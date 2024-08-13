@@ -74,11 +74,16 @@ class RadarParser extends Model
 
 
 
-		if($this->type == "cappi" || $this->category == 'jrc') {
+		if($this->type == "cappi"  || $this->category == 'jrc') {
 			$date_offset = 0;
 		}
 
-		if($this->type != "cappi" && $this->type != "cmax") {
+        if($this->type == "cmax" || $this->type == "hybrid") {
+            $date_offset = 28800 * 3;
+        }
+
+
+		if($this->type != "cappi" && $this->type != "cmax" && $this->type != "hybrid") {
 			if($this->category == 'jrc') {
 				$date_string = substr($date_string,17,12);
 			}elseif($this->category == 'eec') {
@@ -107,7 +112,7 @@ class RadarParser extends Model
 			}
 		}
 
-        if($this->type == 'cmax') {
+        if($this->type == 'cmax' || $this->type == "hybrid") {
             $date_string = substr($date_string,0,12);
 
             // $date_string = substr($date_string,1,12);
