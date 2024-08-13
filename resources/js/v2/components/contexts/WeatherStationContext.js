@@ -67,7 +67,7 @@ export const WeatherStationProvider = (props) => {
 
     let [weatherStations, dispatch] = useReducer(reducer, []);
 
-    let prsds = [ 'NLPRSD', 'NCRPRSD', 'SLPRSD', 'VISPRSD', 'MINPRSD' ];
+    let prsds = [ 'NL', 'NCR', 'SL', 'VIS', 'MIN' ];
     
     const { addToast } = useToasts();
 

@@ -66,6 +66,18 @@ function DataBadge({text, tooltip, time, interval, threshold}) {
         </Popover.Body>
     </Popover>
 
+    if(text == "cappi") {
+        text = "cpp";
+    }
+
+    if(text == "hybrid") {
+        text = "hbd";
+    }
+
+    if(text == "cmax") {
+        text = "cmx";
+    }
+
     return <React.Fragment>
         <OverlayTrigger placement='auto' overlay={popover}>
             <Badge style={{ margin:"0px 2px" }} bg={get_badge_color(diff)} text={get_text_color(diff)}>

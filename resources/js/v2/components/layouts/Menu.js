@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Form, Nav, NavDropdown, Navbar } from 'react-bootstrap';
+import { Col, Container, Form, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
 import Moment from 'react-moment';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import Dashboard from '../pages/Dashboard';
@@ -41,9 +41,33 @@ function Menu() {
             </Container>
             <Container fluid className='pt-2'>
                 <Routes>
-                    <Route exact path="/" element={<Dashboard />} />
-                    <Route exact path="/react/radar" element={<Radars />} />
-                    <Route exact path="/react/aws" element={<WeatherStations />} />
+                    <Route 
+                        exact 
+                        path="/" 
+                        element={<Dashboard />} 
+                    />
+                    <Route 
+                        exact 
+                        path="/react/radar" 
+                        element={
+                            <Row>
+                                <Col xl xxl={{ offset:2, span:8 }}>
+                                    <Radars />
+                                </Col>
+                            </Row>
+                        } 
+                    />
+                    <Route 
+                        exact 
+                        path="/react/aws" 
+                        element={
+                            <Row>
+                                <Col xl xxl={{ offset:2, span:8 }}>
+                                    <WeatherStations />
+                                </Col>
+                            </Row>
+                        } 
+                    />
                     {/* <Route exact path="/react/temperatures" element={<Temperatures />} /> */}
                 </Routes>
             </Container>

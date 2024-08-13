@@ -69,7 +69,7 @@ function WeatherStations() {
                             <Col className='d-flex flex-row justify-content-end'>
                                 {['updated', 'late', 'no_data'].map((stat) => <React.Fragment key={stat}>
                                     <Form.Check
-                                        label={`${stat} (${(weatherStations.filter((ws) => ws.status == stat).length)})`}
+                                        label={`${stat.replace("_", " ").toUpperCase()} (${(weatherStations.filter((ws) => ws.status == stat).length)})`}
                                         name={stat}
                                         checked={status[stat]}
                                         onChange={handleClick}
@@ -83,11 +83,11 @@ function WeatherStations() {
                 <Table bordered size='sm' className='mb-0'>
                     <thead>
                         <tr>
-                            <th style={{ width:"8%" }}>PRSD</th>
-                            <th style={{ width:"46%" }}>
+                            <th style={{ width:"4%"}} className='text-center'>PRSD</th>
+                            <th style={{ width:"48%" }} className='text-center'>
                                 AWS ({weatherStations.filter((ws) => ws.type == "aws").length})
                             </th>
-                            <th style={{ width:"46%" }}>
+                            <th style={{ width:"48%" }} className='text-center'>
                                 ARG ({weatherStations.filter((ws) => ws.type == "arg").length})
                             </th>
                         </tr>
@@ -104,15 +104,23 @@ function WeatherStations() {
                             : <>
                                 {prsds.map((prsd, index) => <React.Fragment key={index}>
                                     <tr>
-                                        <td className='text-uppercase' style={{ verticalAlign:"middle" }}>
+                                        <td 
+                                            className='text-uppercase text-center' 
+                                            style={{ verticalAlign:"middle", fontWeight:"bold" }}
+                                        >
                                             {prsd}
                                         </td>
-                                        <td>{render_data(aws, prsd)}</td>
-                                        <td>{render_data(args, prsd)}</td>
+                                        <td>{render_data(aws, `${prsd}PRSD`)}</td>
+                                        <td>{render_data(args, `${prsd}PRSD`)}</td>
                                     </tr>
                                 </React.Fragment>)}
                                 <tr>
-                                    <td>????PRSD</td>
+                                    <td 
+                                        className='text-uppercase text-center' 
+                                        style={{ verticalAlign:"middle", fontWeight:"bold" }}
+                                    >
+                                        ????
+                                    </td>
                                     <td>{render_data(aws)}</td>
                                     <td>{render_data(args)}</td>
                                 </tr>

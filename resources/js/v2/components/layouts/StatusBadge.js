@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import { Badge, Button, ButtonGroup, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Badge, Button, OverlayTrigger, Popover } from 'react-bootstrap';
 
 function StatusBadge(props) {
 
@@ -42,44 +42,21 @@ function StatusBadge(props) {
     </Popover>
 
     return <>
-        <ButtonGroup style={{ ...btnStyle, margin:"0px 2px" }}>
-            <OverlayTrigger placement='top' overlay={popover}>
-                <Button 
-                    as={Badge}
-                    size="sm"
-                    text="light"
-                    style={btnStyle} 
-                    bg={status_ == "active" ? "success":status_ == "down" ? "danger":"info"}
-                >
-                    {status_ == "active" && <i className="bi bi-check"></i>}
-                    {status_ == "under_development" && <i className="bi bi-gear-fill"></i>}
-                    {status_ == "down" && <i className="bi bi-x"></i>}
-                </Button>
-            </OverlayTrigger>
-            {window.user_name != "Guest" && radar_name != "mosaic" && <>
-                <OverlayTrigger 
-                    placement='top' 
-                    overlay={
-                        <Popover>
-                            <Popover.Body>
-                                Update Status
-                            </Popover.Body>
-                        </Popover>
-                }>
-                    <Button 
-                        style={btnStyle} 
-                        bg='info' 
-                        text="secondary"
-                        size='sm' 
-                        as={Badge}
-                        onClick={e => handle_status_click()}
-                    >                                
-                        <i className="bi bi-pencil"></i>
-                    </Button>
-                </OverlayTrigger>
-            </>}
-        </ButtonGroup>
-
+        <OverlayTrigger placement='top' overlay={popover}>
+            <Button 
+                pill
+                as={Badge}
+                size="sm"
+                text="light"
+                style={btnStyle} 
+                bg={status_ == "active" ? "success":status_ == "down" ? "danger":"info"}
+                onClick={e => handle_status_click()}
+            >
+                {status_ == "active" && <i className="bi bi-check"></i>}
+                {status_ == "under_development" && <i className="bi bi-gear-fill"></i>}
+                {status_ == "down" && <i className="bi bi-x"></i>}
+            </Button>
+        </OverlayTrigger>
     </>
 }
 

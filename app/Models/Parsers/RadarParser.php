@@ -74,7 +74,7 @@ class RadarParser extends Model
 
 
 
-		if($this->type == "cappi" || $this->type == "cmax" || $this->category == 'jrc' || $this->type == 'hybrid') {
+		if($this->type == "cappi" || $this->category == 'jrc') {
 			$date_offset = 0;
 		}
 
