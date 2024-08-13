@@ -51,7 +51,9 @@ function StatusBadge(props) {
                     style={btnStyle} 
                     bg={status_ == "active" ? "success":status_ == "down" ? "danger":"info"}
                 >
-                    {status_}
+                    {status_ == "active" && <i className="bi bi-check"></i>}
+                    {status_ == "under_development" && <i className="bi bi-gear-fill"></i>}
+                    {status_ == "down" && <i className="bi bi-x"></i>}
                 </Button>
             </OverlayTrigger>
             {window.user_name != "Guest" && radar_name != "mosaic" && <>

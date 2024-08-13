@@ -131,19 +131,20 @@ function Radars() {
                 <Table bordered size='sm' className='mb-0' responsive>
                     <thead>
                         <tr>
-                            <th style={{ width:"8%" }}>Radar</th>
-                            <th style={{ width:"5%" }}>Type</th>
+                            <th>Radar</th>
+                            <th>Type</th>
                             {recipients.map((recipient, index) => <React.Fragment key={index}>
-                                <th style={{ width: recipient == "api" ? "14%" : "12%" }}>{recipient.toUpperCase()}</th>
+                                <th>{recipient.toUpperCase()}</th>
                             </React.Fragment>)}
-                            <th style={{ width: "37%" }}>REMARKS</th>
+                            <th>STATUS</th>
+                            <th style={{ width: "40%" }}>REMARKS</th>
                         </tr>
                     </thead>
                     <tbody>
                         {radars.length == 0 && (status.active || status.down || status.under_development)
                             ? <>
                                 <tr>
-                                    <td colSpan={7} className='text-center'>
+                                    <td colSpan={8} className='text-center'>
                                         <Spinner animation="border" role="status" size='sm'>
                                             <span className="visually-hidden">Loading...</span>
                                         </Spinner>
@@ -160,16 +161,21 @@ function Radars() {
                                             {radar.category}
                                         </td>
                                         {recipients.map((recipient, index) => <React.Fragment key={index}>
-                                            <td>
+                                            <td style={{verticalAlign:"middle"}}>
                                                 {render_data(recipient, radar.data)}
                                             </td>
                                         </React.Fragment>)}
-                                        <td>
+                                        <td 
+                                            className={radar.name == "mosaic" ? "" : "text-center"}
+                                            style={{ verticalAlign: "middle" }}
+                                        >
                                             <StatusBadge 
                                                 data={radar} 
                                                 setSelectedRadar={setSelectedRadar} 
                                                 setStatusShow={setStatusShow}
                                             />
+                                        </td>
+                                        <td style={{verticalAlign:"middle"}}>
                                             <Remarks 
                                                 remarks={radar.remarks}
                                                 setSelectedRemark={setSelectedRemark}
@@ -180,7 +186,7 @@ function Radars() {
                                                 <Badge 
                                                     bg="info" 
                                                     text='secondary'
-                                                    style={{ margin:"0px 2px", cursor:"pointer", float:"right"}} 
+                                                    style={{ margin:"0px 2px", cursor:"pointer"}} 
                                                     onClick={e => handle_add_click(radar)}
                                                 >
                                                     +

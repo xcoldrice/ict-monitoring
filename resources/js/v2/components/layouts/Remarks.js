@@ -87,7 +87,7 @@ function Remarks(props) {
                                 as={Badge}
                                 onClick={e => handle_delete_remark(remark)}
                             >                                
-                                <i className="bi bi-x"></i>
+                                <i class="bi bi-trash2-fill"></i>
                             </Button>
                         </OverlayTrigger>
                     </>}
