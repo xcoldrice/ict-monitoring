@@ -131,8 +131,8 @@ function Radars() {
                 <Table bordered size='sm' className='mb-0' responsive>
                     <thead>
                         <tr>
-                            <th className='text-center' style={{ width:"7%" }}>RADAR</th>
-                            <th className='text-center' style={{ width:"6%" }}>TYPE</th>
+                            <th className='text-center' style={{ width:"10%" }}>RADAR</th>
+                            <th className='text-center' style={{ width:"3%" }}>TYPE</th>
                             {recipients.map((recipient, index) => <React.Fragment key={index}>
                                 <th className='text-center' style={{ width:"13%" }}>{recipient.toUpperCase()}</th>
                             </React.Fragment>)}
