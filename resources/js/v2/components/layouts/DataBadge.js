@@ -78,6 +78,14 @@ function DataBadge({text, tooltip, time, interval, threshold}) {
         text = "cmx";
     }
 
+    if(text == "rawz") {
+        text = "rwz"
+    }
+
+    if(text == "rawv") {
+        text = "rwv"
+    }
+
     return <React.Fragment>
         <OverlayTrigger placement='auto' overlay={popover}>
             <Badge style={{ margin:"0px 2px" }} bg={get_badge_color(diff)} text={get_text_color(diff)}>

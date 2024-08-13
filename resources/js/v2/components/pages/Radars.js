@@ -134,10 +134,10 @@ function Radars() {
                             <th className='text-center' style={{ width:"10%" }}>RADAR</th>
                             <th className='text-center' style={{ width:"3%" }}>TYPE</th>
                             {recipients.map((recipient, index) => <React.Fragment key={index}>
-                                <th className='text-center' style={{ width:"13%" }}>{recipient.toUpperCase()}</th>
+                                <th className='text-center' style={{ width:recipient == "api" ? "14%":"13%" }}>{recipient.toUpperCase()}</th>
                             </React.Fragment>)}
                             <th className='text-center' style={{ width: "5%" }}>STATUS</th>
-                            <th className='text-center' style={{ width: "30%" }}>REMARKS</th>
+                            <th className='text-center' style={{ width: "29%" }}>REMARKS</th>
                         </tr>
                     </thead>
                     <tbody>
