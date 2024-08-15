@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React from 'react';
+import React, { useRef } from 'react';
 import { Badge, Button, OverlayTrigger, Popover } from 'react-bootstrap';
 
 function StatusBadge(props) {
@@ -11,7 +11,8 @@ function StatusBadge(props) {
     let status_ = status?.status ?? "under_development";
 
     let btnStyle = { border:"0", cursor:"pointer"};
-
+    
+    const statusRef = useRef();
 
     const handle_status_click = () => {
 
@@ -24,6 +25,8 @@ function StatusBadge(props) {
         setSelectedRadar(data);
 
         setStatusShow(true);
+
+        statusRef.current.blur();
 
     }
 
@@ -51,6 +54,7 @@ function StatusBadge(props) {
                 style={btnStyle} 
                 bg={status_ == "active" ? "success":status_ == "down" ? "danger":"info"}
                 onClick={e => handle_status_click()}
+                ref={statusRef}
             >
                 {status_ == "active" && <i className="bi bi-check"></i>}
                 {status_ == "under_development" && <i className="bi bi-gear-fill"></i>}

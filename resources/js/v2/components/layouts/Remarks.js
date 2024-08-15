@@ -1,16 +1,24 @@
 import moment from 'moment';
-import React from 'react';
+import React, { useRef } from 'react';
 import { Badge, Button, ButtonGroup, OverlayTrigger, Popover } from 'react-bootstrap';
 
 function Remarks(props) {
 
-    const handle_remark_click = (remark) => {
+    const editRef = useRef();
+    const deleteRef = useRef();
+
+    const handle_edit_click = (remark) => {
 
         props.setShow(true);
+
         props.setSelectedRemark(remark);
+
+        editRef.current.blur();
     }
 
     const handle_delete_remark = async (remark) => {
+        deleteRef.current.blur();
+
         if(confirm("Are you sure you want to delete this remark?")) {
                 
             let data = new FormData();
@@ -31,6 +39,7 @@ function Remarks(props) {
                     
                 });
         }
+        
     }
     
     return <> 
@@ -70,7 +79,8 @@ function Remarks(props) {
                                 text="secondary"
                                 size='sm' 
                                 as={Badge}
-                                onClick={e => handle_remark_click(remark)}
+                                onClick={e => handle_edit_click(remark)}
+                                ref={editRef}
                             >                                
                                 <i className="bi bi-pencil"></i>
                             </Button>
@@ -86,6 +96,7 @@ function Remarks(props) {
                                 size='sm' 
                                 as={Badge}
                                 onClick={e => handle_delete_remark(remark)}
+                                ref={deleteRef}
                             >                                
                                 <i class="bi bi-trash2-fill"></i>
                             </Button>
