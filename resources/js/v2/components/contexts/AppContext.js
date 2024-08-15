@@ -3,6 +3,7 @@ import moment from "moment";
 import Pusher from "pusher-js";
 import React, { createContext, useEffect, useState } from 'react';
 import { RadarProvider } from "./RadarContext";
+import { TemperatureProvider } from "./TemperatureContext";
 import { WeatherStationProvider } from "./WeatherStationContext";
 
 export const AppContext = createContext();
@@ -49,7 +50,9 @@ export const AppProvider = (props) => {
         <AppContext.Provider value={{ unixNow }}>
             <RadarProvider>
                 <WeatherStationProvider>
-                    {props.children}
+                    <TemperatureProvider>
+                        {props.children}
+                    </TemperatureProvider>
                 </WeatherStationProvider>
             </RadarProvider>
         </AppContext.Provider>

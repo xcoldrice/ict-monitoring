@@ -4,6 +4,7 @@ import Moment from 'react-moment';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import Dashboard from '../pages/Dashboard';
 import Radars from '../pages/Radars';
+import Temperatures from '../pages/Temperatures';
 import WeatherStations from '../pages/WeatherStations';
 
 function Menu() {
@@ -68,7 +69,17 @@ function Menu() {
                             </Row>
                         } 
                     />
-                    {/* <Route exact path="/react/temperatures" element={<Temperatures />} /> */}
+                    <Route 
+                        exact 
+                        path="/react/temperatures" 
+                        element={
+                            <Row>
+                                <Col xl xxl={{ offset:2, span:8 }}>
+                                    <Temperatures />
+                                </Col>
+                            </Row>
+                        } 
+                    />
                 </Routes>
             </Container>
 

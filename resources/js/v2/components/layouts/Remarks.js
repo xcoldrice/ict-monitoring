@@ -39,7 +39,7 @@ function Remarks(props) {
                     
                 });
         }
-        
+
     }
     
     return <> 
@@ -98,7 +98,7 @@ function Remarks(props) {
                                 onClick={e => handle_delete_remark(remark)}
                                 ref={deleteRef}
                             >                                
-                                <i class="bi bi-trash2-fill"></i>
+                                <i className="bi bi-trash2-fill"></i>
                             </Button>
                         </OverlayTrigger>
                     </>}
