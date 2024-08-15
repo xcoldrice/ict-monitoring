@@ -133,8 +133,10 @@ class RemarkController extends Controller
                             "name" => $status->user->name,
                         ]
                     ],
-                    ...$inputs,
                 ];
+
+                $response = array_merge($response, $inputs);
+
             }else{
                 $status = $remark->status()->create([
                     "user_id" => auth()->user()->id,

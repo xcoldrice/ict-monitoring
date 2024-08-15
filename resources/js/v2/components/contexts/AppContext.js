@@ -19,9 +19,9 @@ export const AppProvider = (props) => {
             disableStats: true,
             wsHost: window.location.hostname,
             wsPort: 6001,
-            // wssHost: window.location.hostname,
-            // wssPort: 6001,
-            // enabledTransports: ["ws", "wss"],
+            wssHost: window.location.hostname,
+            wssPort: 6001,
+            enabledTransports: ["ws", "wss"],
         });
         window.ict_tool_echo = echo.channel("ict-tool-channel");
     }, []);
