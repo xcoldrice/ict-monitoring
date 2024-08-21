@@ -9,7 +9,7 @@ const reducer = (temperatures, action) => {
         case "load all temperatures":
             return action.payload;
         case "update temperature":
-            let ix = temperatures(t => t.room == action.payload.room);
+            let ix = temperatures.findIndex(t => t.room == action.payload.room);
             temperatures[ix] = action.payload;
             return temperatures;
         default:
