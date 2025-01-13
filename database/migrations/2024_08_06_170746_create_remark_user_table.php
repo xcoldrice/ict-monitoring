@@ -29,6 +29,6 @@ class CreateRemarkUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('remark_user');
+        Schema::dropIfExists('remark_users');
     }
 }
