@@ -36,7 +36,7 @@ class RadarController extends Controller
                 "description" => $request->description == "null" ? NULL : $request->description,
             ];
             
-            if($latestStatus->status != $response["status"] || $latestStatus->description != $response["description"]) {
+            if($latestStatus->status != $response["status"] || $latestStatus->description != $response["description"] || !$latestStatus) {
                 
                 $status = Status::create(array_merge([
                     "radar_id"    => $request->radar_id,
