@@ -71,6 +71,12 @@ const reducer = (radars, action) => {
                     return radars;
                 }
 
+                if(payload.status == "warning") {
+
+                    statIndex = mosIndex - 1;
+                    
+                }
+
                 if (payload.status == "down") {
 
                     statIndex = mosIndex;
