@@ -18,7 +18,6 @@ let mosaicTypes = ['cmax','cappi', 'hybrid']
 
 
 function Radars() {
-
     let { recipients, radars, offsets } = useContext(RadarContext); 
 
     const [status, setStatus] = useState(JSON.parse(localStorage.getItem("radar_status")) ?? defaultStatus);
@@ -32,13 +31,15 @@ function Radars() {
     const [selectedRemark, setSelectedRemark] = useState({});
 
     let filteredRadars = radars.filter(({ status : st}) =>
-        (st.status == "active" && status.active) || (st.status == "down" && status.down) || (st.status == "under_development" && status.under_development)
+        (st.status == "active" && status.active) || (st.status == "warning" && status.warning) || (st.status == "down" && status.down) || (st.status == "under_development" && status.under_development)
     );
     const handle_click = (event) => {
 
         setStatus((pre) => ({ ...pre, [event.target.name] : event.target.checked }));
 
     }
+
+    let ellipsisStyle = { overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" };
 
     const handle_add_click = (radar) => {
 
@@ -58,9 +59,11 @@ function Radars() {
 
         if(array.length == 0) {
             return <>
-                <Placeholder bg='light' style={{ cursor:"default" }}>{types.map((c) => <React.Fragment key={c}>
-                        <Placeholder as={Badge} bg="secondary" style={{ cursor:"default" }}>+</Placeholder>{" "}
-                    </React.Fragment>)}
+                <Placeholder bg='light' style={{ cursor:"default" }}>
+                        {(recipient == 'api' ? [0, 1, 2] : [0, 1]).map((c) => <React.Fragment key={c}>
+                                <Placeholder as={Badge} bg="secondary" style={{ cursor:"default" }}>+</Placeholder>{" "}
+                            </React.Fragment>
+                        )}
                 </Placeholder>
             </>
         }
@@ -115,7 +118,7 @@ function Radars() {
                     <Container>
                         <Row>
                             <Col className='d-flex flex-row justify-content-end'>
-                                {['active', 'down', 'under_development'].map((stat, index) => <React.Fragment key={stat}>
+                                {['active','warning', 'down', 'under_development'].map((stat, index) => <React.Fragment key={stat}>
                                     <Form.Check
                                         label={`${stat.replace("_", " ").toUpperCase()} (${radars.filter((radar) => radar.status.status == stat).length})`}
                                         checked={status[stat]}
@@ -131,20 +134,33 @@ function Radars() {
                 <Table bordered size='sm' className='mb-0' responsive>
                     <thead>
                         <tr>
-                            <th className='text-center' style={{ width:"10%" }}>RADAR</th>
+                            <th className='text-center' rowSpan={2} style={{ verticalAlign:"middle" }}>STATION</th>
+                            <th className='text-center' rowSpan={2} style={{ verticalAlign:"middle" }}>TYPE</th>
+                            <th className='text-center' colSpan={3}>STATUS</th>
+                            <th className='text-center' colSpan={4}>DATA</th>
+                            <th className='text-center' rowSpan={2} style={{ verticalAlign:"middle" }}> OTHER REMARKS</th>
+                            {/* <th className='text-center' style={{ width:"10%" }}>RADAR</th>
                             <th className='text-center' style={{ width:"3%" }}>TYPE</th>
                             {recipients.map((recipient, index) => <React.Fragment key={index}>
                                 <th className='text-center' style={{ width:recipient == "api" ? "14%":"13%" }}>{recipient.toUpperCase()}</th>
                             </React.Fragment>)}
                             <th className='text-center' style={{ width: "5%" }}>STATUS</th>
-                            <th className='text-center' style={{ width: "29%" }}>REMARKS</th>
+                            <th className='text-center' style={{ width: "29%" }}>REMARKS</th> */}
+                        </tr>
+                        <tr>
+                            <th className='text-center' style={{ maxWidth:"60px", ...ellipsisStyle}}>RADAR</th>
+                            <th className='text-center' style={{ maxWidth:"60px", ...ellipsisStyle}}>NETWORK</th>
+                            <th className='text-center' style={{ maxWidth:"60px", ...ellipsisStyle}}>WORKSTATION</th>
+                            {recipients.map((recipient, index) => <React.Fragment key={index}>
+                                <th className='text-center'>{recipient.toUpperCase()}</th>
+                            </React.Fragment>)}
                         </tr>
                     </thead>
                     <tbody>
                         {radars.length == 0 && (status.active || status.down || status.under_development)
                             ? <>
                                 <tr>
-                                    <td colSpan={8} className='text-center'>
+                                    <td colSpan={10} className='text-center'>
                                         <Spinner animation="border" role="status" size='sm'>
                                             <span className="visually-hidden">Loading...</span>
                                         </Spinner>
@@ -166,21 +182,29 @@ function Radars() {
                                         >
                                             {radar.category}
                                         </td>
+                                        <StatusBadge 
+                                            data={radar} 
+                                            type="radar"
+                                            setSelectedRadar={setSelectedRadar} 
+                                            setStatusShow={setStatusShow}
+                                        />
+                                        <StatusBadge 
+                                            data={radar} 
+                                            type="network"
+                                            setSelectedRadar={setSelectedRadar} 
+                                            setStatusShow={setStatusShow}
+                                        />
+                                        <StatusBadge 
+                                            data={radar} 
+                                            type="work_station"
+                                            setSelectedRadar={setSelectedRadar} 
+                                            setStatusShow={setStatusShow}
+                                        />
                                         {recipients.map((recipient, index) => <React.Fragment key={index}>
                                             <td style={{verticalAlign:"middle"}}>
                                                 {render_data(recipient, radar.data)}
                                             </td>
                                         </React.Fragment>)}
-                                        <td 
-                                            className="text-center"
-                                            style={{ verticalAlign: "middle" }}
-                                        >
-                                            <StatusBadge 
-                                                data={radar} 
-                                                setSelectedRadar={setSelectedRadar} 
-                                                setStatusShow={setStatusShow}
-                                            />
-                                        </td>
                                         <td style={{verticalAlign:"middle"}}>
                                             <Remarks 
                                                 remarks={radar.remarks}

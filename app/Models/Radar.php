@@ -17,6 +17,8 @@ class Radar extends Model
 
     protected $appends = [
         'status',
+        'network',
+        'work_station',
         'data',
         'remarks',
 
@@ -30,11 +32,48 @@ class Radar extends Model
 
     }
 
-    public function getStatusAttribute() {
+    private function defaultStatus($id, $type) {
+        return (object) [
+            "radar_id" => $id,
+            "user_id" => null,
+            "type" => $type,
+            "status" => "under_development",
+            "description" => "",
+            "user" => null
+        ];
+    }
 
-        $status =  Status::with("user")->where('radar_id', $this->id)->orderBy("created_at", "desc")->first();
+    public function getStatusAttribute() {
+        $type = "radar";
+        $status =  Status::with("user")
+            ->where([['radar_id', $this->id], ['type', $type]])
+            ->orderBy("created_at", "desc")
+            ->first();
         
-        return $status;
+        return $status ?? $this->defaultStatus($this->id, $type);
+
+    }
+
+    public function getNetworkAttribute() {
+        $type = "network";
+
+        $status =  Status::with("user")
+            ->where([['radar_id', $this->id], ['type', $type]])
+            ->orderBy("created_at", "desc")
+            ->first();
+
+        return $status ?? $this->defaultStatus($this->id, $type);
+    }
+
+    public function getWorkStationAttribute() {
+        $type = "work_station";
+
+        $status =  Status::with("user")
+            ->where([['radar_id', $this->id], ['type', $type]])
+            ->orderBy("created_at", "desc")
+            ->first();
+        
+            return $status ?? $this->defaultStatus($this->id, $type);
     }
 
     public function getRemarksAttribute() {

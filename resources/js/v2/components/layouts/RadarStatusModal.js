@@ -8,7 +8,8 @@ function RadarStatusModal(props) {
 
     let {selectedRadar, setSelectedRadar, show, setShow} = props;
 
-
+    let selectedType = selectedRadar.type == "radar" ? 'status' : selectedRadar.type;
+    console.log(selectedType)
     const handle_click = async (event) => {
 
         event.preventDefault();
@@ -18,8 +19,9 @@ function RadarStatusModal(props) {
         data.append("radar_id", selectedRadar.id);
         data.append("name", selectedRadar.name);
         data.append("category", selectedRadar.category);
-        data.append("status", selectedRadar.status.status);
-        data.append("description", selectedRadar.status.description);
+        data.append("type", selectedRadar.type);
+        data.append("status", selectedRadar[selectedType].status);
+        data.append("description", selectedRadar[selectedType].description);
 
         await axios({ method: "POST", url: "/radars", data })
             .then((response) => {
@@ -41,7 +43,9 @@ function RadarStatusModal(props) {
     return <>
         <Modal show={show} onHide={e => setShow(false)}>
             <Modal.Header closeButton>
-                <Modal.Title>update {selectedRadar.name} {selectedRadar.category} status</Modal.Title>
+                <Modal.Title>
+                    {(`update ${selectedRadar.name} ${selectedRadar.category} ${selectedRadar.type} status`).toUpperCase()}
+                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Row>
@@ -50,16 +54,16 @@ function RadarStatusModal(props) {
                         <Form.Label>Status</Form.Label>
                         <Form.Select 
                             className='form-select'
-                            value={selectedRadar.status?.status ?? "active"}
+                            value={selectedRadar[selectedType]?.status ?? "active"}
                             onChange={(e) => setSelectedRadar(pre => ({
                                 ...pre,
-                                status:{
-                                    ...pre.status,
+                                [selectedType]:{
+                                    ...pre[selectedType],
                                     status:e.target.value
                                 }
                             }))}
                         >
-                            {["active", "down", "under_development"].map((st) => 
+                            {["active", "warning", "down", "under_development"].map((st) => 
                                 <option key={st} value={st}>{st}</option>)
                             }
                         </Form.Select>
@@ -72,11 +76,11 @@ function RadarStatusModal(props) {
                             <textarea 
                                 rows={3}
                                 className='form-control' 
-                                value={selectedRadar.status?.description ?? ""}
+                                value={selectedRadar[selectedType]?.description ?? ""}
                                 onChange={e => setSelectedRadar(pre => ({
                                     ...pre,
-                                    status:{
-                                        ...pre.status,
+                                    [selectedType]:{
+                                        ...pre[selectedType],
                                         description:e.target.value
                                     }
                                 }))}

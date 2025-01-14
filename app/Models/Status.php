@@ -12,6 +12,7 @@ class Status extends Model
     protected $fillable = [
         'radar_id',
         'user_id',
+        'type',
         'status',
         'description'
     ];

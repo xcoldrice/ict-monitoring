@@ -1,16 +1,17 @@
 import moment from 'moment';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Badge, Button, OverlayTrigger, Popover } from 'react-bootstrap';
 
 function StatusBadge(props) {
+    const [hovered, setHovered] = useState(false);
 
     let { data, setSelectedRadar, setStatusShow } = props;
-
+    
     let { status, name:radar_name} = data;
-
+        status = props.type == "radar" ? status : data[props.type];
     let status_ = status?.status ?? "under_development";
-
-    let btnStyle = { border:"0", cursor:"pointer"};
+    
+    let btnStyle = { cursor:"pointer"};
     
     const statusRef = useRef();
 
@@ -21,7 +22,9 @@ function StatusBadge(props) {
             return;
 
         }
-
+        console.log(data);
+        data.type = props.type;
+        
         setSelectedRadar(data);
 
         setStatusShow(true);
@@ -44,9 +47,31 @@ function StatusBadge(props) {
         </Popover.Body>
     </Popover>
 
+    let tdColor = {
+        "active" : "#198754",
+        "warning" : "#ffc107",
+        "down" : "#dc3545",
+        "under_development" : "#0dcaf0",
+    };
+
+
     return <>
-        <OverlayTrigger placement='top' overlay={popover}>
-            <Button 
+        <OverlayTrigger placement='auto' overlay={popover}>
+            
+            <td 
+                style={{ 
+                    background: radar_name == "mosaic" ? "aqua" : tdColor[status_],
+                    opacity: hovered ? .75 : 1,
+                    ...btnStyle
+                }}
+                onClick={e => handle_status_click()}
+                onMouseEnter={e => setHovered(true)}
+                onMouseLeave={e => setHovered(false)}
+                ref={statusRef}
+            >
+                    
+            </td>
+            {/* <Button 
                 pill
                 as={Badge}
                 size="sm"
@@ -59,7 +84,7 @@ function StatusBadge(props) {
                 {status_ == "active" && <i className="bi bi-check"></i>}
                 {status_ == "under_development" && <i className="bi bi-gear-fill"></i>}
                 {status_ == "down" && <i className="bi bi-x"></i>}
-            </Button>
+            </Button> */}
         </OverlayTrigger>
     </>
 }

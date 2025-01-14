@@ -11,9 +11,7 @@ class RadarController extends Controller
     
     public function index()
     {
-        $radars = Radar::all();
-
-        $radars = self::sortByStatus($radars);
+        $radars = self::sortByStatus(Radar::all());
 
         return response()->json($radars);
     }
@@ -33,10 +31,11 @@ class RadarController extends Controller
             $response = [
                 "name"        => $latestStatus->radar->name,
                 "category"    => $latestStatus->radar->category,
+                "type"        => $request->type,
                 "status"      => $request->status,
                 "description" => $request->description == "null" ? NULL : $request->description,
             ];
-
+            
             if($latestStatus->status != $response["status"] || $latestStatus->description != $response["description"]) {
                 
                 $status = Status::create(array_merge([
@@ -45,7 +44,8 @@ class RadarController extends Controller
                 ], $response));
 
                 $status->load("user");
-
+                $response["radar_id"]    = $request->radar_id;
+                $response["type"]        = $request->type;
                 $response["status"]      = $status->status;
                 $response["description"] = $status->description;
                 $response["created_at"]  = $status->created_at;
@@ -102,6 +102,14 @@ class RadarController extends Controller
             })->values()
         );
         
+        $merged = $merged->merge( 
+            $collection->filter(function($col) {
+
+                return $col->status->status == "warning" && $col->name != "mosaic";
+
+            })->values()
+        );
+
         $merged = $merged->merge(
             $collection->filter(function($col) {
 
