@@ -29,8 +29,8 @@ class RadarController extends Controller
 
 
             $response = [
-                "name"        => $latestStatus->radar->name,
-                "category"    => $latestStatus->radar->category,
+                "name"        => $request->name,
+                "category"    => $request->category,
                 "type"        => $request->type,
                 "status"      => $request->status,
                 "description" => $request->description == "null" ? NULL : $request->description,
