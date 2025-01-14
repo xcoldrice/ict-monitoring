@@ -25,7 +25,9 @@ class RadarController extends Controller
             $latestStatus = Status::where([["radar_id", $request->radar_id], ["type", $request->type]])
                 ->orderBy("created_at", "desc")->first();
 
-            $latestStatus->load(["radar", "user"]);
+            if($latestStatus) {
+                $latestStatus->load(["radar", "user"]);
+            }
 
 
             $response = [
@@ -36,7 +38,7 @@ class RadarController extends Controller
                 "description" => $request->description == "null" ? NULL : $request->description,
             ];
             
-            if($latestStatus->status != $response["status"] || $latestStatus->description != $response["description"] || !$latestStatus) {
+            if(!$latestStatus || $latestStatus->status != $response["status"] || $latestStatus->description != $response["description"]) {
                 
                 $status = Status::create(array_merge([
                     "radar_id"    => $request->radar_id,
