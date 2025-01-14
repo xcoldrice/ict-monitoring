@@ -27,8 +27,9 @@ class RadarController extends Controller
 
             if($latestStatus) {
                 $latestStatus->load(["radar", "user"]);
+                $response["created_at"]  = $latestStatus->created_at;
+                $response["user"]        = $latestStatus->user == NULL ? (object)[ 'name' => "admin"] : $latestStatus->user;
             }
-
 
             $response = [
                 "name"        => $request->name,
@@ -46,6 +47,7 @@ class RadarController extends Controller
                 ], $response));
 
                 $status->load("user");
+
                 $response["radar_id"]    = $request->radar_id;
                 $response["type"]        = $request->type;
                 $response["status"]      = $status->status;
@@ -54,8 +56,6 @@ class RadarController extends Controller
                 $response["user"]        = $status->user;
             }
 
-            $response["created_at"]  = $latestStatus->created_at;
-            $response["user"]        = $latestStatus->user == NULL ? (object)[ 'name' => "admin"] : $latestStatus->user;
             $response["success"]     = true;
 
             event(new \App\Events\UpdateRadarStatus($response));
