@@ -19,10 +19,10 @@ class RadarController extends Controller
     public function store(Request $request)
     {
         $userId = auth()->user()->id;
-
+        
         try {
 
-            $latestStatus = Status::where("radar_id", $request->radar_id)
+            $latestStatus = Status::where([["radar_id", $request->radar_id], ["type", $request->type]])
                 ->orderBy("created_at", "desc")->first();
 
             $latestStatus->load(["radar", "user"]);
