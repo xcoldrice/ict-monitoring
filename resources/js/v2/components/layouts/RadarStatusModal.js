@@ -9,7 +9,7 @@ function RadarStatusModal(props) {
     let {selectedRadar, setSelectedRadar, show, setShow} = props;
 
     let selectedType = selectedRadar.type == "radar" ? 'status' : selectedRadar.type;
-    console.log(selectedType)
+    
     const handle_click = async (event) => {
 
         event.preventDefault();

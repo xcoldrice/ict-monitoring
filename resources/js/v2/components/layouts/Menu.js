@@ -21,7 +21,7 @@ function Menu() {
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="me-auto">
-                                <Nav.Link as={Link} to="/react/radar">Radars</Nav.Link>
+                                <Nav.Link as={Link} to="/react/radars">Radars</Nav.Link>
                                 <Nav.Link as={Link} to="/react/aws">Weather Stations</Nav.Link>
                                 <Nav.Link as={Link} to="/react/temperatures">Room Temperatures</Nav.Link>
                             </Nav>
@@ -49,7 +49,7 @@ function Menu() {
                     />
                     <Route 
                         exact 
-                        path="/react/radar" 
+                        path="/react/radars" 
                         element={
                             <Row>
                                 <Col xl xxl={{ offset:2, span:8 }}>

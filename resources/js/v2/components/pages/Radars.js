@@ -157,7 +157,7 @@ function Radars() {
                         </tr>
                     </thead>
                     <tbody>
-                        {radars.length == 0 && (status.active || status.down || status.under_development)
+                        {radars.length == 0 && (status.active || status.warning || status.down || status.under_development)
                             ? <>
                                 <tr>
                                     <td colSpan={10} className='text-center'>
