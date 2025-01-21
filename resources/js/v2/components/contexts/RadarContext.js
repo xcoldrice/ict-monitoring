@@ -96,22 +96,13 @@ const reducer = (radars, action) => {
             radars.splice(statIndex, 0, removed);
 
             return radars;
-
-        case "update network status":
+        case "update other status":
             return radars.map((radar) => {
                 if(radar.id == payload.radar_id) {
-                    radar.network.status = payload.status;
-                    radar.network.description = payload.description;
+                    radar[payload.type].status = payload.status;
+                    radar[payload.type].description = payload.description;
                 }
-                return radar;
-            });
 
-        case "update work_station status":
-            return radars.map((radar) => {
-                if(radar.id == payload.radar_id) {
-                    radar.work_station.status = payload.status;
-                    radar.work_station.description = payload.description;
-                }
                 return radar;
             });
         case "create radar remarks":
@@ -210,10 +201,9 @@ export const RadarProvider = (props) => {
 
             });
             window.ict_tool_echo.listen("UpdateRadarStatus", (event) => {
+                dispatch({ type: `update ${(event.data.type == 'radar' ? 'radar' : 'other')} status`, payload: event.data });
 
-                dispatch({ type: `update ${event.data.type} status`, payload: event.data });
-
-                addToast("Radar Status Updated!", { autoDismiss: true, appearance: "success" });
+                addToast(`${event.data.type.replace("_", " ").toUpperCase()} Status Updated!`, { autoDismiss: true, appearance: "success" });
 
             });
 

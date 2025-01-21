@@ -3,6 +3,7 @@ import { Col, Container, Form, Nav, NavDropdown, Navbar, Row } from 'react-boots
 import Moment from 'react-moment';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import Dashboard from '../pages/Dashboard';
+import Radar from '../pages/Radar';
 import Radars from '../pages/Radars';
 import Temperatures from '../pages/Temperatures';
 import WeatherStations from '../pages/WeatherStations';
@@ -57,6 +58,17 @@ function Menu() {
                                 </Col>
                             </Row>
                         } 
+                    />
+                    <Route
+                        exact
+                        path='/react/radars/:name'
+                        element={
+                            <Row>
+                                <Col xl xxl={{ offset:2, span:8 }}>
+                                    <Radar/>
+                                </Col>
+                            </Row>
+                        }
                     />
                     <Route 
                         exact 

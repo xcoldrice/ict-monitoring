@@ -49,9 +49,6 @@ class RadarController extends Controller
                 $status->load("user");
 
                 $response["radar_id"]    = $request->radar_id;
-                $response["type"]        = $request->type;
-                $response["status"]      = $status->status;
-                $response["description"] = $status->description;
                 $response["created_at"]  = $status->created_at;
                 $response["user"]        = $status->user;
             }
