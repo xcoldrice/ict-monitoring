@@ -13,6 +13,8 @@ class RemarkUser extends Model
         "remark_id",
         "user_id",
         "action",
+        "before",
+        "after"
     ];
 
     public function user() {

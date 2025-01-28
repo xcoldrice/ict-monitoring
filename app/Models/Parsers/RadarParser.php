@@ -54,6 +54,12 @@ class RadarParser extends Model
 			];
 
 			event(new \App\Events\PublishRadar($this->dataToCache));
+
+            if($this->location == "dic" && !in_array($this->type, ['netcdf', 'img', 'kml'])) {
+                var_dump($this->type, date("F j, Y g:i a", $this->unix));
+                // var_dump($this->dataToCache);
+            }
+
 			self::cacheData();
 
 		}

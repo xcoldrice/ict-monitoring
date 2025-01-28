@@ -21,7 +21,6 @@ class Radar extends Model
         'work_station',
         'data',
         'remarks',
-
     ];
 
     public function getDataAttribute() {
@@ -34,46 +33,41 @@ class Radar extends Model
 
     private function defaultStatus($id, $type) {
         return (object) [
-            "radar_id" => $id,
-            "user_id" => null,
-            "type" => $type,
-            "status" => "under_development",
+            "radar_id"    => $id,
+            "user_id"     => null,
+            "type"        => $type,
+            "status"      => "under_development",
             "description" => "",
-            "user" => null
+            "user"        => null
         ];
     }
 
-    public function getStatusAttribute() {
-        $type = "radar";
-        $status =  Status::with("user")
-            ->where([['radar_id', $this->id], ['type', $type]])
+    private function getStatus($type) {
+        $status = Status::with("user")
+            ->where([["radar_id", $this->id], ["type", $type]])
             ->orderBy("created_at", "desc")
             ->first();
-        
+
         return $status ?? $this->defaultStatus($this->id, $type);
+        
+    }
+
+    public function getStatusAttribute() {
+
+        return $this->getStatus("radar");
 
     }
 
     public function getNetworkAttribute() {
-        $type = "network";
 
-        $status =  Status::with("user")
-            ->where([['radar_id', $this->id], ['type', $type]])
-            ->orderBy("created_at", "desc")
-            ->first();
+        return $this->getStatus("network");
 
-        return $status ?? $this->defaultStatus($this->id, $type);
     }
 
     public function getWorkStationAttribute() {
-        $type = "work_station";
 
-        $status =  Status::with("user")
-            ->where([['radar_id', $this->id], ['type', $type]])
-            ->orderBy("created_at", "desc")
-            ->first();
-        
-            return $status ?? $this->defaultStatus($this->id, $type);
+        return $this->getStatus("work_station");
+
     }
 
     public function getRemarksAttribute() {

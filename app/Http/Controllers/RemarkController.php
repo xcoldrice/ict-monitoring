@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Remark;
 use Illuminate\Http\Request;
+use DB;
 
 class RemarkController extends Controller
 {
@@ -35,18 +36,22 @@ class RemarkController extends Controller
     public function store(Request $request)
     {
         try {
-            $inputs = [];
-            $inputs['radar_id'] = $request->radar_id;
-            $inputs["title"] = $request->title ?? "remark";
-            $inputs["description"] = $request->description == "null" ? NULL : $request->description;
-            $inputs["priority_level"] = $request->priority_level;
-    
-            $remark = Remark::create($inputs);
-    
-            $status = $remark->status()->create([
-                "user_id" => auth()->user()->id,
-                "action"  => "create",
-            ]);
+            $inputs = [
+                "radar_id"       => $request->radar_id,
+                "title"          => $request->title ?? "remark",
+                "description"    => $request->description == "null" ? NULL : $request->description,
+                "priority_level" => $request->priority_level
+            ];
+
+            DB::transaction(function () use (&$status, &$remark, $inputs) {
+                $remark = Remark::create($inputs);
+
+                $status = $remark->status()->create([
+                    "user_id" => auth()->user()->id,
+                    "action"  => "create",
+                    "after"   => json_encode($inputs),
+                ]);
+            });
 
             $response = [
                 "success"        => true,
@@ -56,7 +61,7 @@ class RemarkController extends Controller
                 "description"    => $remark->description,
                 "priority_level" => $remark->priority_level,
                 "latest_status"  => [
-                    "action" => "create",
+                    "action"     => "create",
                     "created_at" => $status->created_at,
                     "user"       => [
                         "name" => $status->user->name,
@@ -108,20 +113,45 @@ class RemarkController extends Controller
     {
         try {
             $remark = Remark::find($id);
+
             if($request->type == "update") {
-                $inputs                   = [];
-                $inputs["title"]          = $request->title;
-                $inputs['description']    = $request->description == "null" ? NULL : $request->description; 
-                $inputs["priority_level"] = $request->priority_level;
-                $inputs["type"]           = $request->type;
-    
-                $remark->update($inputs);
-    
-                $status = $remark->status()->create([
-                    "user_id" => auth()->user()->id,
-                    "action"  => $inputs["type"],
-                ]);
-    
+                
+                $inputs = [
+                    "title"          => $request->title,
+                    "description"    => $request->description == "null" ? NULL : $request->description,
+                    "priority_level" => $request->priority_level,
+                    "type"           => $request->type
+                ];
+
+                DB::transaction(function () use (&$status, &$remark, $inputs) {
+                    $before = [];
+                    $after = [];
+                    
+                    if($remark->title != $inputs["title"]) {
+                        $before["title"] = $remark->title;
+                        $after["title"] = $inputs["title"];
+                    }
+
+                    if($remark->description != $inputs["description"]) {
+                        $before["description"] = $remark->description;
+                        $after["description"] = $inputs["description"];
+                    }
+
+                    if($remark->priority_level != $inputs["priority_level"]) {
+                        $before["priority_level"] = $remark->priority_level;
+                        $after["priority_level"] = $inputs["priority_level"];
+                    }
+
+                    $remark->update($inputs);
+                    
+                    $status = $remark->status()->create([
+                        "user_id" => auth()->user()->id,
+                        "action"  => $inputs["type"],
+                        "before"  => json_encode($before),
+                        "after"   => json_encode($after),
+                    ]);
+                });
+
                 $response = [
                     "success"       => true,
                     "id"            => $remark->id,
@@ -140,14 +170,14 @@ class RemarkController extends Controller
             }else{
                 $status = $remark->status()->create([
                     "user_id" => auth()->user()->id,
-                    "action" => $request->type,
+                    "action"  => $request->type,
                 ]);
 
                 $response = [
-                    "success" => true,
+                    "success"   => true,
                     "remark_id" => $remark->id,
-                    "radar_id" => $remark->radar_id,
-                    "type" => $status->action,
+                    "radar_id"  => $remark->radar_id,
+                    "type"      => $status->action,
                 ];
             }
 

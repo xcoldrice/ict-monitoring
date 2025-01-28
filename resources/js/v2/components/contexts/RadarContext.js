@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { createContext, useEffect, useReducer } from 'react';
+import { useParams } from 'react-router-dom';
 import { useToasts } from "react-toast-notifications";
-
 export const RadarContext = createContext();
 
 const reducer = (radars, action) => {
@@ -182,7 +182,7 @@ export const RadarProvider = (props) => {
                 dispatch({ type: "load all", payload: response.data });
 
                 addToast("Radars loaded!", { autoDismiss: true, appearance: "success" });
-
+                
             })
             .catch(() => {
 
@@ -190,6 +190,7 @@ export const RadarProvider = (props) => {
 
             });
     }
+
 
     useEffect(() => getRadars(), []);
 
