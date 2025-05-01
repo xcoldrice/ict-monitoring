@@ -131,6 +131,12 @@ class RadarParser extends Model
 	}
 
 	private function getRadarCategory() {
+        $filenameLength = strlen($this->file);
+
+        if($this->radar == "baguio" && ($filenameLength == 17 || $filenameLength == 23)) {
+            $this->category = "selex";
+        }
+
 		if(!$this->category) {
 			foreach($this->config as $key => $value) {
 				if(in_array($this->radar,$value['radars'])) {
