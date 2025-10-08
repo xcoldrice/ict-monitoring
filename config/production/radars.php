@@ -9,6 +9,7 @@
                         'baguio',
                         'laoang',
                         'masbate',
+                        'echague',
                     ]
                 ],
                 'eec' => [

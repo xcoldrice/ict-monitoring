@@ -9,6 +9,12 @@
                         'baguio',
                         'laoang',
                         'masbate',
+                        'echague',
+                        'panay',
+                        'kabankalan',
+                        'esperanza',
+                        'kabacan',
+                        'panabo',
                     ]
                 ],
                 'eec' => [
